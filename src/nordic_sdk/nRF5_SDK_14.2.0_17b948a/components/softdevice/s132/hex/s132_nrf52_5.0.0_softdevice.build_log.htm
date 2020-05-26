@@ -1,0 +1,103 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.17.0.0
+Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Jonathan Fattouh Insight SiP Flex license: MDK-ARM Standard Cortex-M only: 1 user(s) (mdk_cm_std) Operation stops: 30 Jun 2018
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Standard Cortex-M only: 1 user(s)  Version: 5.17
+Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 1 (build 61)
+Assembler:       Armasm.exe V5.06 update 1 (build 61)
+Linker/Locator:  ArmLink.exe V5.06 update 1 (build 61)
+Library Manager: ArmAr.exe V5.06 update 1 (build 61)
+Hex Converter:   FromElf.exe V5.06 update 1 (build 61)
+CPU DLL:         
+Dialog DLL:      
+Target DLL:      Segger\JL2CM3.dll V2.99.16.0
+Dialog DLL:      TCM.DLL V1.14.6.0
+ 
+<h2>Project:</h2>
+C:\Workspace\Software\Projects\BLE_LORA\Embedded\ble_app_proximity\src\isp1708\s132\arm5_no_packs\ble_app_proximity_isp1708_s132.uvprojx
+Project File Date:  05/24/2018
+
+<h2>Output:</h2>
+*** Using Compiler 'V5.06 update 1 (build 61)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
+Build target 'flash_s132_nrf52_5.0.0_softdevice'
+Before Build - User command #1: attrib +R ..\..\..\..\..\..\..\..\SDK\nRF5_SDK_14.2.0_17b948a\components\softdevice\s132\hex\\*
+compiling spi-board.c...
+..\..\..\..\boards\board.h(10): error:  #5: cannot open source input file "nrf_gpio.h": No such file or directory
+  #include "nrf_gpio.h"
+..\..\..\..\boards\spi-board.c: 0 warnings, 1 error
+compiling board.c...
+..\..\..\..\boards\board.h(10): error:  #5: cannot open source input file "nrf_gpio.h": No such file or directory
+  #include "nrf_gpio.h"
+..\..\..\..\boards\board.c: 0 warnings, 1 error
+compiling main.c...
+..\..\..\main.c(58): error:  #5: cannot open source input file "ble_advertising.h": No such file or directory
+  #include "ble_advertising.h"
+..\..\..\main.c: 0 warnings, 1 error
+compiling timer.c...
+..\..\..\system\timer.c(22): error:  #5: cannot open source input file "board.h": No such file or directory
+  #include "board.h"
+..\..\..\system\timer.c: 0 warnings, 1 error
+compiling delay.c...
+..\..\..\system\delay.c(23): error:  #5: cannot open source input file "nrf_delay.h": No such file or directory
+  #include "nrf_delay.h"
+..\..\..\system\delay.c: 0 warnings, 1 error
+compiling sx1276-board.c...
+..\..\..\..\boards\board.h(10): error:  #5: cannot open source input file "nrf_gpio.h": No such file or directory
+  #include "nrf_gpio.h"
+..\..\..\..\boards\sx1276-board.c: 0 warnings, 1 error
+compiling sx1276.c...
+..\..\..\radio\sx1276\sx1276.c(17): error:  #5: cannot open source input file "board.h": No such file or directory
+  #include "board.h"
+..\..\..\radio\sx1276\sx1276.c: 0 warnings, 1 error
+compiling nrf_drv_spi.c...
+..\..\..\..\..\..\..\..\SDK\nRF5_SDK_14.2.0_17b948a\components\drivers_nrf\spi_master\nrf_drv_spi.c(40): error:  #5: cannot open source input file "sdk_common.h": No such file or directory
+  #include "sdk_common.h"
+..\..\..\..\..\..\..\..\SDK\nRF5_SDK_14.2.0_17b948a\components\drivers_nrf\spi_master\nrf_drv_spi.c: 0 warnings, 1 error
+compiling utilities.c...
+..\..\..\..\boards\board.h(10): error:  #5: cannot open source input file "nrf_gpio.h": No such file or directory
+  #include "nrf_gpio.h"
+..\..\..\..\boards\utilities.c: 0 warnings, 1 error
+compiling gpio-board.c...
+..\..\..\..\boards\board.h(10): error:  #5: cannot open source input file "nrf_gpio.h": No such file or directory
+  #include "nrf_gpio.h"
+..\..\..\..\boards\gpio-board.c: 0 warnings, 1 error
+"..\..\..\..\..\..\..\..\SDK\nRF5_SDK_14.2.0_17b948a\components\softdevice\s132\hex\s132_nrf52_5.0.0_softdevice.hex" - 10 Error(s), 0 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.0.1.pack
+                ARM::CMSIS:CORE:5.0.1
+                CMSIS (Cortex Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.0.1
+
+Package Vendor: NordicSemiconductor
+                http://developer.nordicsemi.com/nRF5_SDK/pieces/nRF_DeviceFamilyPack/NordicSemiconductor.nRF_DeviceFamilyPack.8.16.0.pack
+                NordicSemiconductor::Device:Startup:8.16.0
+                Nordic Semiconductor nRF ARM devices Device Family Pack with Nordic License.
+   * Component: Startup Version: 8.16.0
+
+<h2>Collection of Component include folders:</h2>
+  C:\Workspace\Software\Projects\BLE_LORA\Embedded\ble_app_proximity\src\isp1708\s132\arm5_no_packs\RTE
+  C:\Keil_v5\ARM\PACK\NordicSemiconductor\nRF_DeviceFamilyPack\8.16.0\Device\Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.0.1
+
+   * Component: NordicSemiconductor::Device:Startup:8.16.0
+      Source file:   Device\Source\system_nrf52.c
+      Include file:  Device\Include\system_nrf52.h
+      Source file:   Device\Source\arm\arm_startup_nrf52.s
+Target not created.
+Build Time Elapsed:  00:00:00
+</pre>
+</body>
+</html>
