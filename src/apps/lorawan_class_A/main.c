@@ -207,8 +207,6 @@ int main(void)
     err_code = lmh_init(&lora_callbacks);
     APP_ERROR_CHECK(err_code);  
 
-    lmh_duty_cycle_set(0);
-
     // Start Join procedure
     lmh_join(OVER_THE_AIR_ACTIVATION);
     app_timer_start(lora_tx_timer_id, APP_TIMER_TICKS(LORAWAN_APP_TX_DUTYCYCLE), NULL);
