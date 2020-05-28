@@ -21,7 +21,7 @@ For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
 * **lora_rx_temperature**: Receives temperature from lora_tx_temperature and transmits it to a COM port.
 
-The LoRaWan implementation is based on the official LoRaWAN stack (http://stackforce.github.io/LoRaMac-doc/*)
+The LoRaWan implementation is based on the official LoRaWAN stack (http://stackforce.github.io/LoRaMac-doc/)
 All Loramac/Region files are fetched from the StackForce LoRaMac-node master branch (4.4.3 release)
 https://github.com/Lora-net/LoRaMac-node/tree/master
 
@@ -36,7 +36,7 @@ For more information regarding Segger Embedded Studio, please visit https://www.
 
 ## Test
 
-The LoRaWan examples are tested using the LoRa-alliance pre-certification tool LCTT.
+The LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (For European regional parameters).
 
 ## Changelog
 
