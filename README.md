@@ -15,7 +15,7 @@ For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
 * **lorawan_class_C**: Class C end-device example application.
 
-* **ble_lorawan_AT_commands**: Example of of LoRaWan AT commands set.
+* **ble_lorawan_AT_commands**: Example of LoRaWan AT commands set.
 
 * **lora_ping_pong**: Point to point LoRa link example application.
 
