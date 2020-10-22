@@ -40,7 +40,7 @@ For more information regarding Segger Embedded Studio, please visit https://www.
 
 ## Test
 
-For Europeran regional parameters, the LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (https://lora-alliance.org/lorawan-certification-test-tool). 
+For Europeran regional parameters, the LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (https://lora-alliance.org/lorawan-certification-test-tool).
 Tests for US and Asia regional parameters are ongoing. The gateways used with the pre-certification tool are the Semtech Picocell SX1308P868GW and SX1308P915GW.
 
 Additionally, Class A & C basic LoRaWan functionalities (OTAA, uplinks, downlinks) have been tested with the AAEON-ILRA01 gateway (https://www.aaeon.com/en/p/intel-lora-gateway-system-server).
