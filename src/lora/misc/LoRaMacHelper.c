@@ -236,6 +236,13 @@ static void McpsConfirm(McpsConfirm_t *mcpsConfirm)
         NRF_LOG_DEBUG("Uplink counter   : %u",      mcpsConfirm->UpLinkCounter);
         NRF_LOG_DEBUG("Uplink Data rate : DR_%d",   mcpsConfirm->Datarate);
         NRF_LOG_DEBUG("Uplink TX power  : %d",      mcpsConfirm->TxPower );
+
+        MibRequestConfirm_t mibReq;
+	mibReq.Type  = MIB_CHANNELS;
+        if( LoRaMacMibGetRequestConfirm(&mibReq) == LORAMAC_STATUS_OK )
+        {
+            NRF_LOG_DEBUG("Uplink frequency: %lu", mibReq.Param.ChannelList[mcpsConfirm->Channel].Frequency );
+        }
     }
 }
 

@@ -193,6 +193,7 @@ int main(void)
     nrf_drv_clock_lfclk_request(NULL);
     nrf_pwr_mgmt_init();
 
+
     // Enable nRF52 DCDC
     NRF_POWER->DCDCEN = 1;
 
@@ -206,8 +207,6 @@ int main(void)
     // Initialize LoRaWan
     err_code = lmh_init(&lora_callbacks);
     APP_ERROR_CHECK(err_code);  
-
-    lmh_duty_cycle_set(0);
 
     // Start Join procedure
     lmh_join(OVER_THE_AIR_ACTIVATION);

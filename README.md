@@ -15,7 +15,7 @@ For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
 * **lorawan_class_C**: Class C end-device example application.
 
-* **ble_lorawan_AT_commands**: Class C end-device example application.
+* **ble_lorawan_AT_commands**: Example of LoRaWan AT commands set.
 
 * **lora_ping_pong**: Point to point LoRa link example application.
 
@@ -40,7 +40,10 @@ For more information regarding Segger Embedded Studio, please visit https://www.
 
 ## Test
 
-The LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (For European regional parameters).
+For Europeran regional parameters, the LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (https://lora-alliance.org/lorawan-certification-test-tool). 
+Tests for US and Asia regional parameters are ongoing. The gateways used with the pre-certification tool are the Semtech Picocell SX1308P868GW and SX1308P915GW.
+
+Additionally, Class A & C basic LoRaWan functionalities (OTAA, uplinks, downlinks) have been tested with the AAEON-ILRA01 gateway (https://www.aaeon.com/en/p/intel-lora-gateway-system-server).
 
 ## Changelog
 
