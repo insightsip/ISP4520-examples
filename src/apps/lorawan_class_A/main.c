@@ -193,6 +193,7 @@ int main(void)
     nrf_drv_clock_lfclk_request(NULL);
     nrf_pwr_mgmt_init();
 
+
     // Enable nRF52 DCDC
     NRF_POWER->DCDCEN = 1;
 
