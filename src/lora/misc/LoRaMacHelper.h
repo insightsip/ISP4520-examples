@@ -29,7 +29,7 @@
 
 #define LORAWAN_CONFIRMED_MSG_ON 	0               /**< LoRaWAN confirmed messages */
 #define LORAWAN_CERTIF_PORT 		224             /**< LoRaWAN certification port */
-#define LORAWAN_CERTIF_DELAY 		5000             /**< LoRaWAN certification delay */
+#define LORAWAN_CERTIF_DELAY 		5000            /**< LoRaWAN certification delay */
 #define LORAWAN_APP_DATA_MAX_SIZE       242             /**< LoRaWAN User application data buffer size*/
 #define LORAWAN_DEFAULT_DATARATE        DR_0            /**< LoRaWAN Default datarate*/
 #define LORAWAN_DEFAULT_TX_POWER        TX_POWER_0      /**< LoRaWAN Default tx power*/

@@ -246,7 +246,7 @@ static void gap_params_init (void)
     err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
     APP_ERROR_CHECK(err_code);
 
-    err_code = sd_ble_gap_tx_power_set(BLE_TX_POWER_LEVEL);
+    err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, BLE_TX_POWER_LEVEL);
     APP_ERROR_CHECK(err_code);
 	
     err_code = sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
@@ -353,8 +353,7 @@ static void services_init (void)
     ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_REVISION);
     ble_srv_ascii_to_utf8 (&dis_init.hw_rev_str,          (char*)HW_REVISION);
 
-    BLE_GAP_CONN_SEC_MODE_SET_OPEN      (&dis_init.dis_attr_md.read_perm);
-    BLE_GAP_CONN_SEC_MODE_SET_NO_ACCESS	(&dis_init.dis_attr_md.write_perm);
+    dis_init.dis_char_rd_sec = SEC_OPEN;
 
     err_code = ble_dis_init(&dis_init);
     APP_ERROR_CHECK(err_code);
@@ -404,10 +403,10 @@ int main (void)
 		
     // Initialize BLE
     ble_stack_init();
+    advertising_init();
     gap_params_init();
     conn_params_init();
     services_init();
-    advertising_init();
 	
     // Initialize LoRa chip.
     err_code = lora_hardware_init();

@@ -25,8 +25,8 @@ Maintainer: Miguel Luis ( Semtech ), Gregory Cristian ( Semtech ),
 
 #include "LoRaMacCrypto.h"
 #include "utilities.h"
-#include "aes.h"
-#include "cmac.h"
+#include "lora_aes.h"
+#include "lora_cmac.h"
 #include "radio.h"
 
 #define NUM_OF_KEYS      24
