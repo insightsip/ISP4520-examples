@@ -1,8 +1,6 @@
 /******************************************************************************
  * @file    main.c
  * @author  Insight SiP
- * @version V2.4.0
- * @date    28-jan-2020
  * @brief   Rx temperature main file.
  *
  * @attention

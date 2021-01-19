@@ -1,9 +1,7 @@
 /******************************************************************************
  * @file    main.c
  * @author  Insight SiP
- * @version V3.0.0
- * @date    29-april-2020
- * @brief   Tx CW main file.
+ * @brief   TX CW main file.
  *
  * @attention
  *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
