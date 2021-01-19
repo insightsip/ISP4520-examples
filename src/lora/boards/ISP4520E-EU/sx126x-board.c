@@ -22,45 +22,107 @@
 #include "sx126x/sx126x.h"
 #include "sx126x-board.h"
 
-void SX126xIoInit (void)
+#if defined( USE_RADIO_DEBUG )
+/*!
+ * \brief Writes new Tx debug pin state
+ *
+ * \param [IN] state Debug pin state
+ */
+static void SX126xDbgPinTxWrite(uint8_t state);
+
+/*!
+ * \brief Writes new Rx debug pin state
+ *
+ * \param [IN] state Debug pin state
+ */
+static void SX126xDbgPinRxWrite(uint8_t state);
+#endif
+
+/*!
+ * \brief Holds the internal operating mode of the radio
+ */
+static RadioOperatingModes_t OperatingMode;
+
+/*!
+ * Debug GPIO pins objects
+ */
+#if defined( USE_RADIO_DEBUG )
+Gpio_t DbgPinTx;
+Gpio_t DbgPinRx;
+#endif
+
+void SX126xIoInit(void)
 {
     GpioInit(&SX126x.Spi.Nss,	PIN_LORA_NSS,		PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 1);
     GpioInit(&SX126x.BUSY, 	PIN_LORA_BUSY,		PIN_INPUT,  PIN_PUSH_PULL, PIN_NO_PULL, 0);
     GpioInit(&SX126x.DIO1,	PIN_LORA_DIO_1, 	PIN_INPUT,  PIN_PUSH_PULL, PIN_NO_PULL, 0);
 }
 
-void SX126xIoIrqInit (DioIrqHandler dioIrq)
+void SX126xIoIrqInit(DioIrqHandler dioIrq)
 {
     GpioSetInterrupt(&SX126x.DIO1, IRQ_RISING_EDGE, IRQ_HIGH_PRIORITY, dioIrq);
 }
 
-void SX126xIoDeInit (void)
+void SX126xIoDeInit(void)
 {
     GpioInit(&SX126x.Spi.Nss,	PIN_LORA_NSS,		PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0);
     GpioInit(&SX126x.BUSY,	PIN_LORA_BUSY,		PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0);
     GpioInit(&SX126x.DIO1,	PIN_LORA_DIO_1, 	PIN_INPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0);
 }
 
-void SX126xIoDbgInit( void )
+void SX126xIoDbgInit(void)
 {
-#if defined( USE_RADIO_DEBUG )
-    GpioInit( &DbgPinTx, RADIO_DBG_PIN_TX, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
-    GpioInit( &DbgPinRx, RADIO_DBG_PIN_RX, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0 );
+#if defined(USE_RADIO_DEBUG)
+    GpioInit(&DbgPinTx, PIN_RADIO_DBG_TX, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0);
+    GpioInit(&DbgPinRx, PIN_RADIO_DBG_RX, PIN_OUTPUT, PIN_PUSH_PULL, PIN_NO_PULL, 0);
 #endif
 }
 
-void SX126xIoTcxoInit( void )
+void SX126xIoTcxoInit(void)
 {
     CalibrationParams_t calibParam;
 
-    SX126xSetDio3AsTcxoCtrl( TCXO_CTRL_1_8V, SX126xGetBoardTcxoWakeupTime( ) << 6 ); // convert from ms to SX126x time base
+    SX126xSetDio3AsTcxoCtrl(TCXO_CTRL_1_8V, SX126xGetBoardTcxoWakeupTime( ) << 6); // convert from ms to SX126x time base
     calibParam.Value = 0x7F;
-    SX126xCalibrate( calibParam );
+    SX126xCalibrate(calibParam);
 }
 
-uint32_t SX126xGetBoardTcxoWakeupTime( void )
+uint32_t SX126xGetBoardTcxoWakeupTime(void)
 {
     return BOARD_TCXO_WAKEUP_TIME;
+}
+
+void SX126xIoRfSwitchInit(void)
+{
+    SX126xSetDio2AsRfSwitchCtrl(true);
+}
+
+RadioOperatingModes_t SX126xGetOperatingMode(void)
+{
+    return OperatingMode;
+}
+
+void SX126xSetOperatingMode(RadioOperatingModes_t mode)
+{
+    OperatingMode = mode;
+#if defined( USE_RADIO_DEBUG )
+    switch( mode )
+    {
+        case MODE_TX:
+            SX126xDbgPinTxWrite( 1 );
+            SX126xDbgPinRxWrite( 0 );
+            break;
+        case MODE_RX:
+        case MODE_RX_DC:
+            SX126xDbgPinTxWrite( 0 );
+            SX126xDbgPinRxWrite( 1 );
+            break;
+        default:
+            SX126xDbgPinTxWrite( 0 );
+            SX126xDbgPinRxWrite( 0 );
+            break;
+    }
+#endif
 }
 
 void SX126xReset (void)
@@ -90,6 +152,9 @@ void SX126xWakeup (void)
 
     // Wait for chip to be ready.
     SX126xWaitOnBusy();
+
+    // Update operating mode context variable
+    SX126xSetOperatingMode(MODE_STDBY_RC);
 
     CRITICAL_SECTION_END( );
 }
@@ -249,18 +314,6 @@ bool SX126xCheckRfFrequency (uint32_t frequency)
     return true;
 }
 
-#if defined( USE_RADIO_DEBUG )
-void SX126xDbgPinTxWrite( uint8_t state )
-{
-    GpioWrite( &DbgPinTx, state );
-}
-
-void SX126xDbgPinRxWrite( uint8_t state )
-{
-    GpioWrite( &DbgPinRx, state );
-}
-#endif
-
 void SX126xGetStats (uint16_t* nb_pkt_received, uint16_t* nb_pkt_crc_error, uint16_t* nb_pkt_length_error)
 {
     uint8_t buf[6];
@@ -278,3 +331,15 @@ void SX126xResetStats (void)
 
     SX126xWriteCommand(RADIO_RESET_STATS, buf, 6);
 }
+
+#if defined( USE_RADIO_DEBUG )
+static void SX126xDbgPinTxWrite( uint8_t state )
+{
+    GpioWrite( &DbgPinTx, state );
+}
+
+static void SX126xDbgPinRxWrite( uint8_t state )
+{
+    GpioWrite( &DbgPinRx, state );
+}
+#endif
