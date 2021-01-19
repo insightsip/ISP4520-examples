@@ -29,6 +29,26 @@
 #include "sx126x-board.h"
 
 /*!
+ * \brief Internal frequency of the radio
+ */
+#define SX126X_XTAL_FREQ                            32000000UL
+
+/*!
+ * \brief Scaling factor used to perform fixed-point operations
+ */
+#define SX126X_PLL_STEP_SHIFT_AMOUNT                ( 14 )
+
+/*!
+ * \brief PLL step - scaled with SX126X_PLL_STEP_SHIFT_AMOUNT
+ */
+#define SX126X_PLL_STEP_SCALED                      ( SX126X_XTAL_FREQ >> ( 25 - SX126X_PLL_STEP_SHIFT_AMOUNT ) )
+
+/*!
+ * \brief Maximum value for parameter symbNum in \ref SX126xSetLoRaSymbNumTimeout
+ */
+#define SX126X_MAX_LORA_SYMB_NUM_TIMEOUT            248
+
+/*!
  * \brief Radio registers definition
  */
 typedef struct
@@ -36,11 +56,6 @@ typedef struct
     uint16_t      Addr;                             //!< The address of the register
     uint8_t       Value;                            //!< The value of the register
 }RadioRegisters_t;
-
-/*!
- * \brief Holds the internal operating mode of the radio
- */
-static RadioOperatingModes_t OperatingMode;
 
 /*!
  * \brief Stores the current packet type set in the radio
@@ -61,6 +76,15 @@ volatile uint32_t FrequencyError = 0;
  * \brief Hold the status of the Image calibration
  */
 static bool ImageCalibrated = false;
+
+/*!
+ * \brief Get the number of PLL steps for a given frequency in Hertz
+ *
+ * \param [in] freqInHz Frequency in Hertz
+ *
+ * \returns Number of PLL steps
+ */
+static uint32_t SX126xConvertFreqInHzToPllStep( uint32_t freqInHz );
 
 /*
  * SX126x DIO IRQ callback functions prototype
@@ -98,36 +122,10 @@ void SX126xInit( DioIrqHandler dioIrq )
     // Initialize TCXO control
     SX126xIoTcxoInit( );
 
-    SX126xSetDio2AsRfSwitchCtrl( true );
+    // Initialize RF switch control
+    SX126xIoRfSwitchInit( );
+
     SX126xSetOperatingMode( MODE_STDBY_RC );
-}
-
-RadioOperatingModes_t SX126xGetOperatingMode( void )
-{
-    return OperatingMode;
-}
-
-void SX126xSetOperatingMode( RadioOperatingModes_t mode )
-{
-    OperatingMode = mode;
-#if defined( USE_RADIO_DEBUG )
-    switch( mode )
-    {
-        case MODE_TX:
-            SX126xDbgPinTxWrite( 1 );
-            SX126xDbgPinRxWrite( 0 );
-            break;
-        case MODE_RX:
-        case MODE_RX_DC:
-            SX126xDbgPinTxWrite( 0 );
-            SX126xDbgPinRxWrite( 1 );
-            break;
-        default:
-            SX126xDbgPinTxWrite( 0 );
-            SX126xDbgPinRxWrite( 0 );
-            break;
-    }
-#endif
 }
 
 void SX126xCheckDeviceReady( void )
@@ -227,18 +225,27 @@ void SX126xSetWhiteningSeed( uint16_t seed )
 
 uint32_t SX126xGetRandom( void )
 {
-    uint8_t buf[] = { 0, 0, 0, 0 };
+    uint32_t number = 0;
+    uint8_t regAnaLna = 0;
+    uint8_t regAnaMixer = 0;
+
+    regAnaLna = SX126xReadRegister( REG_ANA_LNA );
+    SX126xWriteRegister( REG_ANA_LNA, regAnaLna & ~( 1 << 0 ) );
+
+    regAnaMixer = SX126xReadRegister( REG_ANA_MIXER );
+    SX126xWriteRegister( REG_ANA_MIXER, regAnaMixer & ~( 1 << 7 ) );
 
     // Set radio in continuous reception
-    SX126xSetRx( 0 );
+    SX126xSetRx( 0xFFFFFF ); // Rx Continuous
 
-    DelayMs( 1 );
-
-    SX126xReadRegisters( RANDOM_NUMBER_GENERATORBASEADDR, buf, 4 );
+    SX126xReadRegisters( RANDOM_NUMBER_GENERATORBASEADDR, ( uint8_t* )&number, 4 );
 
     SX126xSetStandby( STDBY_RC );
 
-    return ( buf[0] << 24 ) | ( buf[1] << 16 ) | ( buf[2] << 8 ) | buf[3];
+    SX126xWriteRegister( REG_ANA_LNA, regAnaLna );
+    SX126xWriteRegister( REG_ANA_MIXER, regAnaMixer );
+
+    return number;
 }
 
 void SX126xSetSleep( SleepParams_t sleepConfig )
@@ -332,11 +339,13 @@ void SX126xSetCad( void )
 void SX126xSetTxContinuousWave( void )
 {
     SX126xWriteCommand( RADIO_SET_TXCONTINUOUSWAVE, 0, 0 );
+    SX126xSetOperatingMode( MODE_TX );
 }
 
 void SX126xSetTxInfinitePreamble( void )
 {
     SX126xWriteCommand( RADIO_SET_TXCONTINUOUSPREAMBLE, 0, 0 );
+    SX126xSetOperatingMode( MODE_TX );
 }
 
 void SX126xSetStopRxTimerOnPreambleDetect( bool enable )
@@ -344,9 +353,28 @@ void SX126xSetStopRxTimerOnPreambleDetect( bool enable )
     SX126xWriteCommand( RADIO_SET_STOPRXTIMERONPREAMBLE, ( uint8_t* )&enable, 1 );
 }
 
-void SX126xSetLoRaSymbNumTimeout( uint8_t SymbNum )
+void SX126xSetLoRaSymbNumTimeout( uint8_t symbNum )
 {
-    SX126xWriteCommand( RADIO_SET_LORASYMBTIMEOUT, &SymbNum, 1 );
+    uint8_t mant = ( ( ( symbNum > SX126X_MAX_LORA_SYMB_NUM_TIMEOUT ) ?
+                       SX126X_MAX_LORA_SYMB_NUM_TIMEOUT : 
+                       symbNum ) + 1 ) >> 1;
+    uint8_t exp  = 0;
+    uint8_t reg  = 0;
+
+    while( mant > 31 )
+    {
+        mant = ( mant + 3 ) >> 2;
+        exp++;
+    }
+
+    reg = mant << ( 2 * exp + 1 );
+    SX126xWriteCommand( RADIO_SET_LORASYMBTIMEOUT, &reg, 1 );
+
+    if( symbNum != 0 )
+    {
+        reg = exp + ( mant << 3 );
+        SX126xWriteRegister( REG_LR_SYNCH_TIMEOUT, reg );
+    }
 }
 
 void SX126xSetRegulatorMode( RadioRegulatorMode_t mode )
@@ -458,7 +486,6 @@ void SX126xSetDio3AsTcxoCtrl( RadioTcxoCtrlVoltage_t tcxoVoltage, uint32_t timeo
 void SX126xSetRfFrequency( uint32_t frequency )
 {
     uint8_t buf[4];
-    uint32_t freq = 0;
 
     if( ImageCalibrated == false )
     {
@@ -466,11 +493,12 @@ void SX126xSetRfFrequency( uint32_t frequency )
         ImageCalibrated = true;
     }
 
-    freq = ( uint32_t )( ( double )frequency / ( double )FREQ_STEP );
-    buf[0] = ( uint8_t )( ( freq >> 24 ) & 0xFF );
-    buf[1] = ( uint8_t )( ( freq >> 16 ) & 0xFF );
-    buf[2] = ( uint8_t )( ( freq >> 8 ) & 0xFF );
-    buf[3] = ( uint8_t )( freq & 0xFF );
+    uint32_t freqInPllSteps = SX126xConvertFreqInHzToPllStep( frequency );
+
+    buf[0] = ( uint8_t )( ( freqInPllSteps >> 24 ) & 0xFF );
+    buf[1] = ( uint8_t )( ( freqInPllSteps >> 16 ) & 0xFF );
+    buf[2] = ( uint8_t )( ( freqInPllSteps >> 8 ) & 0xFF );
+    buf[3] = ( uint8_t )( freqInPllSteps & 0xFF );
     SX126xWriteCommand( RADIO_SET_RFFREQUENCY, buf, 4 );
 }
 
@@ -508,7 +536,6 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
         {
             power = -17;
         }
-        SX126xWriteRegister( REG_OCP, 0x18 ); // current max is 80 mA for the whole device
     }
     else // sx1262
     {
@@ -526,7 +553,6 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
         {
             power = -9;
         }
-        SX126xWriteRegister( REG_OCP, 0x38 ); // current max 160mA for the whole device
     }
     buf[0] = power;
     buf[1] = ( uint8_t )rampTime;
@@ -550,13 +576,13 @@ void SX126xSetModulationParams( ModulationParams_t *modulationParams )
     {
     case PACKET_TYPE_GFSK:
         n = 8;
-        tempVal = ( uint32_t )( 32 * ( ( double )XTAL_FREQ / ( double )modulationParams->Params.Gfsk.BitRate ) );
+        tempVal = ( uint32_t )( 32 * SX126X_XTAL_FREQ / modulationParams->Params.Gfsk.BitRate );
         buf[0] = ( tempVal >> 16 ) & 0xFF;
         buf[1] = ( tempVal >> 8 ) & 0xFF;
         buf[2] = tempVal & 0xFF;
         buf[3] = modulationParams->Params.Gfsk.ModulationShaping;
         buf[4] = modulationParams->Params.Gfsk.Bandwidth;
-        tempVal = ( uint32_t )( ( double )modulationParams->Params.Gfsk.Fdev / ( double )FREQ_STEP );
+        tempVal = SX126xConvertFreqInHzToPllStep( modulationParams->Params.Gfsk.Fdev );
         buf[5] = ( tempVal >> 16 ) & 0xFF;
         buf[6] = ( tempVal >> 8 ) & 0xFF;
         buf[7] = ( tempVal& 0xFF );
@@ -765,4 +791,20 @@ void SX126xClearIrqStatus( uint16_t irq )
     buf[0] = ( uint8_t )( ( ( uint16_t )irq >> 8 ) & 0x00FF );
     buf[1] = ( uint8_t )( ( uint16_t )irq & 0x00FF );
     SX126xWriteCommand( RADIO_CLR_IRQSTATUS, buf, 2 );
+}
+
+static uint32_t SX126xConvertFreqInHzToPllStep( uint32_t freqInHz )
+{
+    uint32_t stepsInt;
+    uint32_t stepsFrac;
+
+    // pllSteps = freqInHz / (SX126X_XTAL_FREQ / 2^19 )
+    // Get integer and fractional parts of the frequency computed with a PLL step scaled value
+    stepsInt = freqInHz / SX126X_PLL_STEP_SCALED;
+    stepsFrac = freqInHz - ( stepsInt * SX126X_PLL_STEP_SCALED );
+    
+    // Apply the scaling factor to retrieve a frequency in Hz (+ ceiling)
+    return ( stepsInt << SX126X_PLL_STEP_SHIFT_AMOUNT ) + 
+           ( ( ( stepsFrac << SX126X_PLL_STEP_SHIFT_AMOUNT ) + ( SX126X_PLL_STEP_SCALED >> 1 ) ) /
+             SX126X_PLL_STEP_SCALED );
 }
