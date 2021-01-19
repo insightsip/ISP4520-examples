@@ -1,6 +1,6 @@
 <!DOCTYPE CrossStudio_Project_File>
-<solution Name="ping-pong" target="8" version="2">
-  <project Name="ping-pong-ISP4520A-AS">
+<solution Name="rx-temperature" target="8" version="2">
+  <project Name="rx-temperature-ISP4520A-AS">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -122,6 +122,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
@@ -190,7 +191,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -317,7 +318,7 @@
     Name="Debug"
     c_preprocessor_definitions="DEBUG; DEBUG_NRF"
     gcc_optimization_level="None" />
-  <project Name="ping-pong_ISP4520B-AS">
+  <project Name="rx-temperature_ISP4520B-AS">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -429,6 +430,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip/slip.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Crypto backend mbed TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
@@ -507,7 +509,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -626,7 +628,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
     </folder>
   </project>
-  <project Name="ping-pong_ISP4520E-EU">
+  <project Name="rx-temperature_ISP4520E-EU">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -738,6 +740,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip/slip.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Crypto backend mbed TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
@@ -816,7 +819,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -935,7 +938,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
     </folder>
   </project>
-  <project Name="ping-pong_ISP4520D-EU">
+  <project Name="rx-temperature_ISP4520D-EU">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -1047,6 +1050,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip/slip.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Crypto backend mbed TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
@@ -1125,7 +1129,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -1244,7 +1248,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
     </folder>
   </project>
-  <project Name="ping-pong_ISP4520A-US">
+  <project Name="rx-temperature_ISP4520A-US">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -1356,6 +1360,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip/slip.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Crypto backend mbed TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
@@ -1434,7 +1439,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -1553,7 +1558,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
     </folder>
   </project>
-  <project Name="ping-pong_ISP4520B-US">
+  <project Name="rx-temperature_ISP4520B-US">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
@@ -1665,6 +1670,7 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip/slip.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
     <folder Name="nRF_Crypto backend mbed TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
@@ -1743,7 +1749,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />

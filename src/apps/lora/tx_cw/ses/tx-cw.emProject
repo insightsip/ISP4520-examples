@@ -190,7 +190,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -507,7 +507,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -816,7 +816,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -1125,7 +1125,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -1434,7 +1434,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
@@ -1743,7 +1743,7 @@
     </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
-      <file file_name="../../main.c" />
+      <file file_name="../main.c" />
     </folder>
     <folder Name="nRF_micro-ecc">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
