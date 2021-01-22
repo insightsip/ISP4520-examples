@@ -61,6 +61,14 @@ void lora_hardware_uninit (void)
     SX126xIoDeInit();
 }
 
+void BoardResetMcu(void)
+{
+    CRITICAL_SECTION_BEGIN();
+
+    //Restart system
+    NVIC_SystemReset();
+}
+
 uint32_t BoardGetRandomSeed (void)
 {
     return ((*(uint32_t*)ID1) ^ (*(uint32_t*)ID2));

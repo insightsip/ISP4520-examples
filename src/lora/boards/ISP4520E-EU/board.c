@@ -45,7 +45,7 @@
 #define ID1     (0x10000060)
 #define ID2     (0x10000064)
 
-uint32_t lora_hardware_init (void)
+uint32_t lora_hardware_init(void)
 {
     TimerRtcInit();
 
@@ -55,26 +55,26 @@ uint32_t lora_hardware_init (void)
     return NRF_SUCCESS;
 }
 
-void lora_hardware_uninit (void)
+void lora_hardware_uninit(void)
 {
     SpiDeInit(&SX126x.Spi);
     SX126xIoDeInit();
 }
 
-void BoardResetMcu( void )
+void BoardResetMcu(void)
 {
-    CRITICAL_SECTION_BEGIN( );
+    CRITICAL_SECTION_BEGIN();
 
     //Restart system
-    NVIC_SystemReset( );
+    NVIC_SystemReset();
 }
 
-uint32_t BoardGetRandomSeed (void)
+uint32_t BoardGetRandomSeed(void)
 {
     return ((*(uint32_t*)ID1) ^ (*(uint32_t*)ID2));
 }
 
-void BoardGetUniqueId (uint8_t *id)
+void BoardGetUniqueId(uint8_t *id)
 {
     id[7] = ( (*(uint32_t*)ID1) );
     id[6] = ( (*(uint32_t*)ID1) ) >> 8;
@@ -86,7 +86,7 @@ void BoardGetUniqueId (uint8_t *id)
     id[0] = ( (*(uint32_t*)ID2) ) >> 24;
 }
 
-uint8_t BoardGetBatteryLevel (void)
+uint8_t BoardGetBatteryLevel(void)
 {
     return 0;
 }

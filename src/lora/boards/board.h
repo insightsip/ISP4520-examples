@@ -76,13 +76,16 @@ extern "C"
 
 #define LORA_RESET 	PIN_LORA_RESET
 #define SPI_INSTANCE 	0
-
-//nRF pin configuration
 #define NRF_NUM_GPIO_PINS       32
+
+// External pin configuration
 #define PIN_UART_RTS            5       // UART RTS for AT commands
 #define PIN_UART_TX             6       // UART TX for AT commands
 #define PIN_UART_CTS            7       // UART CTS for AT commands
 #define PIN_UART_RX             8       // UART RX for AT commands
+#define PIN_NVM_ERASE           12      // Non-volatile data erase
+
+// Internal pin configuration
 #define PIN_LORA_DIO_1          11      // LORA DIO_1
 #define PIN_LORA_RESET          19      // LORA RESET
 #define PIN_LORA_SCLK           23      // LORA SPI CLK

@@ -35,17 +35,17 @@
 
 // LoRa
 #include "board.h"
+#include "LmHandler.h"
+#include "LmhpCompliance.h"
+#include "Commissioning.h"
+#include "RegionCommon.h"
+#include "NvmDataMgmt.h"
 
 //logs
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-// LoRaMac
-#include "LmHandler.h"
-#include "LmhpCompliance.h"
-#include "Commissioning.h"
-#include "RegionCommon.h"
 
 #define FIRMWARE_VERSION                        0x01000000 // 1.0.0.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
@@ -69,20 +69,20 @@ typedef enum
 static void OnTxPeriodicityChanged(uint32_t periodicity);
 static void OnTxFrameCtrlChanged(LmHandlerMsgTypes_t isTxConfirmed);
 static void OnPingSlotPeriodicityChanged(uint8_t pingSlotPeriodicity);
-static void OnMacProcessNotify( void );
-static void OnNvmDataChange( LmHandlerNvmContextStates_t state, uint16_t size );
-static void OnNetworkParametersChange( CommissioningParams_t* params );
-static void OnMacMcpsRequest( LoRaMacStatus_t status, McpsReq_t *mcpsReq, TimerTime_t nextTxIn );
-static void OnMacMlmeRequest( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn );
-static void OnJoinRequest( LmHandlerJoinParams_t* params );
-static void OnTxData( LmHandlerTxParams_t* params );
-static void OnRxData( LmHandlerAppData_t* appData, LmHandlerRxParams_t* params );
-static void OnClassChange( DeviceClass_t deviceClass );
-static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params );
-#if( LMH_SYS_TIME_UPDATE_NEW_API == 1 )
-static void OnSysTimeUpdate( bool isSynchronized, int32_t timeCorrection );
+static void OnNetworkParametersChange(CommissioningParams_t* params);
+static void OnNvmDataChange(LmHandlerNvmContextStates_t state, uint16_t size);
+static void OnMacMcpsRequest(LoRaMacStatus_t status, McpsReq_t *mcpsReq, TimerTime_t nextTxIn);
+static void OnMacMlmeRequest(LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn);
+static void OnJoinRequest(LmHandlerJoinParams_t* params);
+static void OnMacProcessNotify(void);
+static void OnTxData(LmHandlerTxParams_t* params);
+static void OnRxData(LmHandlerAppData_t* appData, LmHandlerRxParams_t* params);
+static void OnClassChange(DeviceClass_t deviceClass);
+static void OnBeaconStatusChange(LoRaMacHandlerBeaconParams_t* params);
+#if(LMH_SYS_TIME_UPDATE_NEW_API == 1)
+static void OnSysTimeUpdate(bool isSynchronized, int32_t timeCorrection);
 #else
-static void OnSysTimeUpdate( void );
+static void OnSysTimeUpdate(void);
 #endif
 
 static char strlog1[64];
@@ -447,32 +447,32 @@ static void OnSysTimeUpdate( void )
 /*!
  * Function executed on TxTimer event
  */
-static void OnTxTimerEvent( void* context )
+static void OnTxTimerEvent(void* context)
 {
-    TimerStop( &TxTimer );
+    TimerStop(&TxTimer);
 
     IsTxFramePending = 1;
 
     // Schedule next transmission
-    TimerSetValue( &TxTimer, TxPeriodicity );
-    TimerStart( &TxTimer );
+    TimerSetValue(&TxTimer, TxPeriodicity);
+    TimerStart(&TxTimer );
 }
 
-static void StartTxProcess( LmHandlerTxEvents_t txEvent )
+static void StartTxProcess(LmHandlerTxEvents_t txEvent)
 {
-    switch( txEvent )
+    switch (txEvent)
     {
-    default:
-        // Intentional fall through
-    case LORAMAC_HANDLER_TX_ON_TIMER:
+        default:
+            // Intentional fall through
+        case LORAMAC_HANDLER_TX_ON_TIMER:
         {
             // Schedule 1st packet transmission
-            TimerInit( &TxTimer, OnTxTimerEvent );
-            TimerSetValue( &TxTimer, TxPeriodicity );
-            OnTxTimerEvent( NULL );
+            TimerInit(&TxTimer, OnTxTimerEvent);
+            TimerSetValue(&TxTimer, TxPeriodicity);
+            OnTxTimerEvent(NULL );
         }
         break;
-    case LORAMAC_HANDLER_TX_ON_EVENT:
+        case LORAMAC_HANDLER_TX_ON_EVENT:
         {
         }
         break;
@@ -482,9 +482,9 @@ static void StartTxProcess( LmHandlerTxEvents_t txEvent )
 /*!
  * Prepares the payload of the frame and transmits it.
  */
-static void PrepareTxFrame( void )
+static void PrepareTxFrame(void)
 {
-    if( LmHandlerIsBusy( ) == true )
+    if (LmHandlerIsBusy() == true)
     {
         return;
     }
@@ -502,9 +502,9 @@ static void UplinkProcess(void)
     uint8_t isPending = 0;
     isPending = IsTxFramePending;
     IsTxFramePending = 0;
-    if( isPending == 1 )
+    if (isPending == 1)
     {
-        PrepareTxFrame( );
+        PrepareTxFrame();
     }
 }
 
@@ -559,6 +559,11 @@ int main(void)
 
     // Initialize NVM
     NvmDataMgmtInit();
+    nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
+    if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
+    {
+        NvmDataMgmtFactoryReset();
+    }
   		
     // Initialize LoRa chip.
     err_code = lora_hardware_init();

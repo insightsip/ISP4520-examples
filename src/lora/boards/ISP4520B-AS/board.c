@@ -61,6 +61,14 @@ void lora_hardware_uninit (void)
     SX126xIoDeInit();
 }
 
+void BoardResetMcu(void)
+{
+    CRITICAL_SECTION_BEGIN();
+
+    //Restart system
+    NVIC_SystemReset();
+}
+
 uint32_t BoardGetRandomSeed (void)
 {
     return ((*(uint32_t*)ID1) ^ (*(uint32_t*)ID2));
@@ -90,11 +98,11 @@ char BoardGetRevision(void)
 
 void BoardCriticalSectionBegin(uint32_t *mask)
 {
-    *mask = __get_PRIMASK( );
-    __disable_irq( );
+    //*mask = __get_PRIMASK( );
+    //__disable_irq( );
 }
 
 void BoardCriticalSectionEnd(uint32_t *mask)
 {
-    __set_PRIMASK( *mask );
+    //__set_PRIMASK( *mask );
 }
