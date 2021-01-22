@@ -296,8 +296,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -613,8 +611,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -922,8 +918,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1231,8 +1225,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1540,8 +1532,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1849,8 +1839,6 @@
     <folder Name="LoRa\system">
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/system/soft-se/lora_cmac.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />

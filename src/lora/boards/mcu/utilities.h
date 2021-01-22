@@ -29,6 +29,7 @@ extern "C"
 #endif
 
 #include <stdint.h>
+#include "nordic_common.h"
 
 /*!
  * Generic definition
