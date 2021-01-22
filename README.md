@@ -11,19 +11,19 @@ The module incorporates chips from the leading semiconductor vendors for each te
 
 For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
-* **lorawan_class_A**: Class A end-device example application.
+* **lorawan/class_A**: Class A end-device example application.
 
-* **lorawan_class_C**: Class C end-device example application.
+* **lorawan/class_C**: Class C end-device example application.
 
-* **ble_lorawan_AT_commands**: Example of LoRaWan AT commands set.
+* **lorawan/at_commands**: Example of LoRaWan AT commands set.
 
-* **lora_ping_pong**: Point to point LoRa link example application.
+* **lora/ping_pong**: Point to point LoRa link example application.
 
-* **lora_tx_cw**: Transmits an RF Continuous Wave.
+* **lora/tx_cw**: Transmits an RF Continuous Wave.
 
-* **lora_tx_temperature**: Transmits local temperature using Point to point LoRa link.
+* **lora/tx_temperature**: Transmits local temperature using Point to point LoRa link.
 
-* **lora_rx_temperature**: Receives temperature from lora_tx_temperature and transmits it to a COM port.
+* **lora/rx_temperature**: Receives temperature from lora_tx_temperature and transmits it to a COM port.
 
 The LoRaWan implementation is based on the official LoRaWAN stack (http://stackforce.github.io/LoRaMac-doc/).
 All Loramac/Region files are fetched from the StackForce LoRaMac-node master branch (4.4.3 release)
