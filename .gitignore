@@ -54,3 +54,7 @@ dkms.conf
 # SES 
 *.emSession
 *.jlink
+/src/apps/lorawan/end-device/ses/Output/Debug/Obj/end-device_ISP4520E-EU/*.asm
+*.asm
+/src/apps/lorawan/end-device/ses/Output/Debug/Obj/end-device_ISP4520E-EU/oberon_backend_ecc.asm
+/src/apps/lorawan/end-device/ses/Output/Debug/Obj/end-device_ISP4520E-EU/oberon_backend_ecdh.asm
