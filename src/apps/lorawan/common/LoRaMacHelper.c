@@ -18,8 +18,9 @@
  *****************************************************************************/
  
 #include "LoRaMacHelper.h"
-#include "NvmCtxMgmt.h"
+#include "NvmDataMgmt.h"
 #include "nrf_delay.h"
+
 
 //logs
 #define NRF_LOG_MODULE_NAME lmh
@@ -114,17 +115,11 @@ static char strlog1[64];
 static char strlog2[64];
 static char strlog3[64];
 
-static uint8_t m_device_eui[]       = LORAWAN_DEVICE_EUI;       /**< Mote device IEEE EUI */
-static uint8_t m_join_eui[]         = LORAWAN_JOIN_EUI;         /**< App/Join server IEEE EUI */
-static uint8_t m_nwk_key[]          = LORAWAN_NWK_KEY;          /**< Network root key */
-static uint8_t m_f_nwk_s_int_key[]  = LORAWAN_F_NWK_S_INT_KEY;  /**< Forwarding Network session integrity key */
-static uint8_t m_s_nwk_s_int_key[]  = LORAWAN_S_NWK_S_INT_KEY;  /**< Serving Network session integrity key */
-static uint8_t m_nwk_s_enc_key[]    = LORAWAN_NWK_S_ENC_KEY;    /**< Network session encryption key */
-static uint8_t m_gen_app_key[]      = LORAWAN_GEN_APP_KEY;      /**< Application root key - Used to derive Multicast keys on 1.0.x devices */
-static uint8_t m_app_key[]          = LORAWAN_APP_KEY;          /**< Application root key */
-static uint8_t m_app_s_key[]        = LORAWAN_APP_S_KEY;        /**< Application session key */
-static uint32_t m_device_address    = LORAWAN_DEVICE_ADDRESS;   /**< End-device address */
-static uint32_t m_network_id        = LORAWAN_NETWORK_ID;       /**< Network ID */
+static uint8_t m_device_eui[8];     /**< Mote device IEEE EUI */
+static uint8_t m_join_eui[8];       /**< App/Join server IEEE EUI */
+static uint8_t m_se_pin[4];         /**< App/Join server IEEE EUI */
+static uint32_t m_network_id;       /**< Network ID */
+static uint32_t m_device_address;   /**< End-device address */
 
 static LoRaMacPrimitives_t LoRaMacPrimitives;                   /**< LoRaMAC events variable */
 static LoRaMacCallback_t LoRaMacCallbacks;                      /**< LoRaMAC callback variable */
@@ -187,6 +182,7 @@ static bool compliance_test_tx(void)
 	
     return true;
 }
+
 
 /**@brief Function executed on TxNextPacket Timeout event
  */
@@ -437,19 +433,12 @@ static void McpsIndication(McpsIndication_t *mcpsIndication)
 
                         case 7: // (x)
                         {
-                            if (mcpsIndication->BufferSize == 3)
-                            {
-                                    MlmeReq_t mlmeReq;
-                                    mlmeReq.Type = MLME_TXCW;
-                                    mlmeReq.Req.TxCw.Timeout = (uint16_t)( (mcpsIndication->Buffer[1] << 8) | mcpsIndication->Buffer[2] );
-                                    LoRaMacMlmeRequest(&mlmeReq);
-                            }
-                            else if (mcpsIndication->BufferSize == 7)
+                            if (mcpsIndication->BufferSize == 7)
                             {
                                 MlmeReq_t mlmeReq;
-                                mlmeReq.Type = MLME_TXCW_1;
-                                mlmeReq.Req.TxCw.Timeout = (uint16_t)( (mcpsIndication->Buffer[1] << 8 ) | mcpsIndication->Buffer[2]);
-                                mlmeReq.Req.TxCw.Frequency = (uint32_t)( (mcpsIndication->Buffer[3] << 16) | (mcpsIndication->Buffer[4] << 8) | mcpsIndication->Buffer[5] ) * 100;
+                                mlmeReq.Type = MLME_TXCW;
+                                mlmeReq.Req.TxCw.Timeout = (uint16_t)( mcpsIndication->Buffer[1] | mcpsIndication->Buffer[2] << 8);
+                                mlmeReq.Req.TxCw.Frequency = (uint32_t)( mcpsIndication->Buffer[3] | (mcpsIndication->Buffer[4] << 8) | mcpsIndication->Buffer[5] << 16) * 100;
                                 mlmeReq.Req.TxCw.Power = mcpsIndication->Buffer[6];
                                 LoRaMacMlmeRequest(&mlmeReq);
                             }
@@ -716,7 +705,7 @@ lmh_error_code_t lmh_init (lmh_callback_t *callbacks)
     LoRaMacPrimitives.MacMlmeIndication = MlmeIndication;
     LoRaMacCallbacks.GetBatteryLevel = m_callbacks->BoardGetBatteryLevel;
     LoRaMacCallbacks.GetTemperatureLevel = NULL;
-    LoRaMacCallbacks.NvmContextChange = NvmCtxMgmtEvent;
+    LoRaMacCallbacks.NvmDataChange = NvmDataMgmtEvent;
     LoRaMacCallbacks.MacProcessNotify = NULL;
 
     m_is_classB_switch_pending = false; 
@@ -755,125 +744,77 @@ lmh_error_code_t lmh_init (lmh_callback_t *callbacks)
     }
 
     // Try to restore from NVM and query the mac if possible.
-    if (NvmCtxMgmtRestore() == NVMCTXMGMT_STATUS_SUCCESS)
+    if (NvmDataMgmtRestore() > 0)
     {
         NRF_LOG_INFO("LoRaWan context restored");
     }
     else
     {
+#if(OVER_THE_AIR_ACTIVATION == 0)
+        m_device_address = LORAWAN_DEVICE_ADDRESS;
+        m_network_id = LORAWAN_NETWORK_ID;
+
         // Tell the MAC layer which network server version are we connecting too.
         mibReq.Type = MIB_ABP_LORAWAN_VERSION;
         mibReq.Param.AbpLrWanVersion.Value = ABP_ACTIVATION_LRWAN_VERSION;
-        LoRaMacMibSetRequestConfirm( &mibReq );
-        
-        // For v1.0.x ABP devices
-        mibReq.Type = MIB_GEN_APP_KEY;
-        mibReq.Param.GenAppKey = m_gen_app_key;
         LoRaMacMibSetRequestConfirm(&mibReq);
-
-        // For v1.1.x ABP devices
-        mibReq.Type = MIB_APP_KEY;
-        mibReq.Param.AppKey = m_app_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        // Set network key
-        mibReq.Type = MIB_NWK_KEY;
-        mibReq.Param.NwkKey = m_nwk_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        // Initialize Device EUI if not already defined in Commissioning.h
-        if (( m_device_eui[0] == 0 ) && ( m_device_eui[1] == 0) &&
-           ( m_device_eui[2] == 0 ) && ( m_device_eui[3] == 0 ) &&
-           ( m_device_eui[4] == 0 ) && ( m_device_eui[5] == 0 ) &&
-           ( m_device_eui[6] == 0 ) && ( m_device_eui[7] == 0 ))
-        {
-            m_callbacks->BoardGetUniqueId(m_device_eui);
-        }
-
-        // Set device EUI
-        mibReq.Type = MIB_DEV_EUI;
-        mibReq.Param.DevEui = m_device_eui;
-        LoRaMacMibSetRequestConfirm( &mibReq );
-        sprintf(strlog1, "DevEui=%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X", m_device_eui[0], m_device_eui[1], m_device_eui[2], m_device_eui[3], m_device_eui[4], m_device_eui[5], m_device_eui[6], m_device_eui[7]);
-        NRF_LOG_INFO("%s", (uint32_t)strlog1);
-
-        // Set Join EUI
-        mibReq.Type = MIB_JOIN_EUI;
-        mibReq.Param.JoinEui = m_join_eui;
-        LoRaMacMibSetRequestConfirm( &mibReq );
-        sprintf(strlog2, "JoinEui=%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X", m_join_eui[0], m_join_eui[1], m_join_eui[2], m_join_eui[3], m_join_eui[4], m_join_eui[5], m_join_eui[6], m_join_eui[7]);
-        NRF_LOG_INFO("%s", (uint32_t)strlog2);
-
-#if (OVER_THE_AIR_ACTIVATION != 0)
-        NRF_LOG_INFO("OTAA mode"); 
-
-        sprintf(strlog3, "NwkKey=%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X",                              \
-                        m_nwk_key[0], m_nwk_key[1], m_nwk_key[2], m_nwk_key[3], m_nwk_key[4], m_nwk_key[5], m_nwk_key[6], m_nwk_key[7],     \
-                        m_nwk_key[8], m_nwk_key[9], m_nwk_key[10], m_nwk_key[11], m_nwk_key[12], m_nwk_key[13], m_nwk_key[14], m_nwk_key[15]);	
-        NRF_LOG_INFO ("%s", (uint32_t)strlog3);
-    
-#else
-        // Choose a random device address if not already defined in Commissioning.h
-        if (m_device_address == 0)
-        {
-          // Random seed initialization
-          srand1(BoardGetRandomSeed());
-
-          // Choose a random device address
-          m_device_address = randr(0, 0x01FFFFFF);
-        }
-
-        mibReq.Type = MIB_DEV_ADDR;
-        mibReq.Param.DevAddr = m_device_address;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-        NRF_LOG_INFO("DevAdd=%08X", m_device_address);
 
         mibReq.Type = MIB_NET_ID;
         mibReq.Param.NetID = LORAWAN_NETWORK_ID;
         LoRaMacMibSetRequestConfirm(&mibReq);
 
-        mibReq.Type = MIB_F_NWK_S_INT_KEY;
-        mibReq.Param.FNwkSIntKey = m_f_nwk_s_int_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
+#if(STATIC_DEVICE_ADDRESS != 1)
+        // Random seed initialization
+        srand1(BoardGetRandomSeed());
 
-        mibReq.Type = MIB_S_NWK_S_INT_KEY;
-        mibReq.Param.SNwkSIntKey = m_s_nwk_s_int_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_NWK_S_ENC_KEY;
-        mibReq.Param.NwkSEncKey = m_nwk_s_enc_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_APP_S_KEY;
-        mibReq.Param.AppSKey = m_app_s_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
+        // Choose a random device address
+        m_device_address = randr(0, 0x01FFFFFF);
 #endif
+
+        mibReq.Type = MIB_DEV_ADDR;
+        mibReq.Param.DevAddr = m_device_address;
+        LoRaMacMibSetRequestConfirm( &mibReq );
+#endif // #if( OVER_THE_AIR_ACTIVATION == 0 )
     }
+
+    // Read secure-element DEV_EUI, JOI_EUI and SE_PIN values.
+    mibReq.Type = MIB_DEV_EUI;
+    LoRaMacMibGetRequestConfirm(&mibReq);
+    memcpy1(m_device_eui, mibReq.Param.DevEui, 8);
+    sprintf(strlog1, "DevEui=%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X", m_device_eui[0], m_device_eui[1], m_device_eui[2], m_device_eui[3], m_device_eui[4], m_device_eui[5], m_device_eui[6], m_device_eui[7]);
+    NRF_LOG_INFO("%s", (uint32_t)strlog1);
+
+
+    mibReq.Type = MIB_JOIN_EUI;
+    LoRaMacMibGetRequestConfirm(&mibReq);
+    memcpy1(m_join_eui, mibReq.Param.JoinEui, 8);
+    sprintf(strlog2, "JoinEui=%02X-%02X-%02X-%02X-%02X-%02X-%02X-%02X", m_join_eui[0], m_join_eui[1], m_join_eui[2], m_join_eui[3], m_join_eui[4], m_join_eui[5], m_join_eui[6], m_join_eui[7]);
+    NRF_LOG_INFO("%s", (uint32_t)strlog2);
+
+    mibReq.Type = MIB_SE_PIN;
+    LoRaMacMibGetRequestConfirm(&mibReq);
+    memcpy1(m_se_pin, mibReq.Param.SePin, 4);
+
+    mibReq.Type = MIB_PUBLIC_NETWORK;
+    mibReq.Param.EnablePublicNetwork =  m_param.enable_public_network;
+    LoRaMacMibSetRequestConfirm(&mibReq);
 
     mibReq.Type = MIB_ADR;
     mibReq.Param.AdrEnable = m_param.adr_enable;
-    LoRaMacMibSetRequestConfirm(&mibReq);
-	
+    LoRaMacMibSetRequestConfirm( &mibReq );
+
     mibReq.Type = MIB_CHANNELS_TX_POWER;
     mibReq.Param.ChannelsTxPower = m_param.tx_power;
-    LoRaMacMibSetRequestConfirm(&mibReq);
-
-    mibReq.Type = MIB_PUBLIC_NETWORK;
-    mibReq.Param.EnablePublicNetwork = m_param.enable_public_network;
     LoRaMacMibSetRequestConfirm(&mibReq);
 
     mibReq.Type = MIB_SYSTEM_MAX_RX_ERROR;
     mibReq.Param.SystemMaxRxError = 20;
     LoRaMacMibSetRequestConfirm(&mibReq);
                       
-    mibReq.Type = MIB_DEVICE_CLASS;
-    mibReq.Param.Class= CLASS_A;
-    LoRaMacMibSetRequestConfirm(&mibReq);
-
     mibReq.Type = MIB_ANTENNA_GAIN;
     mibReq.Param.AntennaGain = 0;
     LoRaMacMibSetRequestConfirm(&mibReq);
-	
+
 #if defined( REGION_EU868 ) || defined( REGION_RU864 ) || defined( REGION_CN779 ) || defined( REGION_EU433 )
     m_duty_cycle = true;
     LoRaMacTestSetDutyCycleOn(LORAWAN_DUTYCYCLE_ON);
@@ -888,9 +829,23 @@ lmh_error_code_t lmh_init (lmh_callback_t *callbacks)
 
 void lmh_process(void)
 {
-    Radio.IrqProcess();
+    uint16_t size = 0;
 
+    // Process Radio IRQ
+    if( Radio.IrqProcess != NULL )
+    {
+        Radio.IrqProcess();
+    }
+
+    // Processes the LoRaMac events
     LoRaMacProcess();
+
+    // Store to NVM if required
+    size = NvmDataMgmtStore();
+    if (size > 0)
+    {
+        NRF_LOG_INFO("NVM stores %d bytes of data", size);
+    }
 }
 
 void lmh_device_eui_set(uint8_t *dev_eui)
@@ -913,74 +868,168 @@ void lmh_join_eui_get(uint8_t *join_eui)
     memcpy(join_eui, m_join_eui, sizeof(m_join_eui));
 }
 
-void lmh_nwk_key_set(uint8_t *nwk_key)
+lmh_error_code_t lmh_nwk_key_set(uint8_t *nwk_key)
 {
-    memcpy(m_nwk_key, nwk_key, sizeof(m_nwk_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_NWK_KEY;
+    memcpy(mibReq.Param.NwkKey, nwk_key, sizeof( mibReq.Param.NwkKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_nwk_key_get(uint8_t *nwk_key)
+lmh_error_code_t lmh_nwk_key_get(uint8_t *nwk_key)
 {
-    memcpy(nwk_key, m_nwk_key, sizeof(m_nwk_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_NWK_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(nwk_key, mibReq.Param.NwkKey, sizeof( mibReq.Param.NwkKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key)
+lmh_error_code_t lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key)
 {
-    memcpy(m_f_nwk_s_int_key, f_nwk_s_int_key, sizeof(m_f_nwk_s_int_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_F_NWK_S_INT_KEY;
+    memcpy(mibReq.Param.FNwkSIntKey, f_nwk_s_int_key, sizeof( mibReq.Param.FNwkSIntKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_f_nwk_s_int_key_get(uint8_t *f_nwk_s_int_key)
+lmh_error_code_t lmh_f_nwk_s_int_key_get(uint8_t *f_nwk_s_int_key)
 {
-    memcpy(f_nwk_s_int_key, m_f_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_F_NWK_S_INT_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(f_nwk_s_int_key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key)
+lmh_error_code_t lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key)
 {
-    memcpy(m_s_nwk_s_int_key, s_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_S_NWK_S_INT_KEY;
+    memcpy(mibReq.Param.SNwkSIntKey, s_nwk_s_int_key, sizeof(mibReq.Param.SNwkSIntKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_s_nwk_s_int_key_get(uint8_t *s_nwk_s_int_key)
+lmh_error_code_t lmh_s_nwk_s_int_key_get(uint8_t *s_nwk_s_int_key)
 {
-    memcpy(s_nwk_s_int_key, m_s_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_S_NWK_S_INT_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(s_nwk_s_int_key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key)
+lmh_error_code_t lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key)
 {
-    memcpy(m_nwk_s_enc_key, nwk_s_enc_key, sizeof(m_nwk_s_enc_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_NWK_S_ENC_KEY;
+    memcpy(mibReq.Param.NwkSEncKey, nwk_s_enc_key, sizeof(mibReq.Param.NwkSEncKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_nwk_s_enc_key_get(uint8_t *nwk_s_enc_key)
+lmh_error_code_t lmh_nwk_s_enc_key_get(uint8_t *nwk_s_enc_key)
 {
-    memcpy(nwk_s_enc_key, m_nwk_s_enc_key, sizeof(m_nwk_s_enc_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_NWK_S_ENC_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(nwk_s_enc_key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_gen_app_key_set(uint8_t *gen_app_key)
+lmh_error_code_t lmh_gen_app_key_set(uint8_t *gen_app_key)
 {
-    memcpy(m_gen_app_key, gen_app_key, sizeof(m_gen_app_key));
+    // TODO deprecated?
+    //memcpy(m_gen_app_key, gen_app_key, sizeof(m_gen_app_key));
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_gen_app_key_get(uint8_t *gen_app_key)
+lmh_error_code_t lmh_gen_app_key_get(uint8_t *gen_app_key)
 {
-    memcpy(gen_app_key, m_gen_app_key, sizeof(m_gen_app_key));
+    // TODO deprecated?
+    //memcpy(gen_app_key, m_gen_app_key, sizeof(m_gen_app_key));
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_app_key_set(uint8_t *app_key)
+lmh_error_code_t lmh_app_key_set(uint8_t *app_key)
 {
-    memcpy(m_app_key, app_key, sizeof(m_app_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_APP_KEY;
+    memcpy(mibReq.Param.AppKey, app_key, sizeof(mibReq.Param.AppKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_app_key_get(uint8_t *app_key)
+lmh_error_code_t lmh_app_key_get(uint8_t *app_key)
 {
-    memcpy(app_key, m_app_key, sizeof(m_app_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_APP_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(app_key, mibReq.Param.AppKey, sizeof(mibReq.Param.AppKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_app_s_key_set(uint8_t *app_s_key)
+lmh_error_code_t lmh_app_s_key_set(uint8_t *app_s_key)
 {
-    memcpy(m_app_s_key, app_s_key, sizeof(m_app_s_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_APP_S_KEY;
+    memcpy(mibReq.Param.AppSKey, app_s_key, sizeof(mibReq.Param.AppSKey));
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_app_s_key_get(uint8_t *app_s_key)
+lmh_error_code_t lmh_app_s_key_get(uint8_t *app_s_key)
 {
-    memcpy(app_s_key, m_app_s_key, sizeof(m_app_s_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_APP_S_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(app_s_key, mibReq.Param.AppSKey, sizeof(mibReq.Param.AppSKey));
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_device_address_set (uint32_t device_address)
@@ -1140,42 +1189,13 @@ lmh_error_code_t lmh_join(bool otaa_mode)
     // Starts the join procedure
     if (otaa_mode)  // OTAA
     {
+        mlmeReq.Req.Join.NetworkActivation = ACTIVATION_TYPE_OTAA;
         status = LoRaMacMlmeRequest(&mlmeReq);
         NRF_LOG_INFO("Send OTAA Join Request, status: %s", MacStatusStrings[status]);
         LMH_VERIFY_SUCCESS(status);
     }
     else            // ABP
     {
-        mibReq.Type = MIB_NET_ID;
-        mibReq.Param.NetID = m_network_id;
-        status = LoRaMacMibSetRequestConfirm(&mibReq);
-        LMH_VERIFY_SUCCESS(status);
-
-        mibReq.Type = MIB_NET_ID;
-        mibReq.Param.NetID = LORAWAN_NETWORK_ID;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_DEV_ADDR;
-        mibReq.Param.DevAddr = m_device_address;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_F_NWK_S_INT_KEY;
-        mibReq.Param.FNwkSIntKey = m_f_nwk_s_int_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_S_NWK_S_INT_KEY;
-        mibReq.Param.SNwkSIntKey = m_s_nwk_s_int_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_NWK_S_ENC_KEY;
-        mibReq.Param.NwkSEncKey = m_nwk_s_enc_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_APP_S_KEY;
-        mibReq.Param.AppSKey = m_app_s_key;
-        LoRaMacMibSetRequestConfirm(&mibReq);
-
-        mibReq.Type = MIB_NETWORK_ACTIVATION;
         mibReq.Param.NetworkActivation = ACTIVATION_TYPE_ABP;
         status = LoRaMacMibSetRequestConfirm(&mibReq);
         LMH_VERIFY_SUCCESS(status);
@@ -1245,7 +1265,8 @@ lmh_error_code_t lmh_send(lmh_app_tx_data_t* app_data)
             mcpsReq.Req.Confirmed.fPort = app_data->port;
             mcpsReq.Req.Confirmed.fBufferSize = app_data->buffsize;
             mcpsReq.Req.Confirmed.fBuffer = app_data->buffer;
-            mcpsReq.Req.Confirmed.NbTrials = app_data->nb_trials;
+            //TODO See what's wrong below
+ //           mcpsReq.Req.Confirmed.NbTrials = app_data->nb_trials;
             mcpsReq.Req.Confirmed.Datarate = m_param.tx_data_rate;
         }
     }
@@ -1253,11 +1274,6 @@ lmh_error_code_t lmh_send(lmh_app_tx_data_t* app_data)
     status = LoRaMacMcpsRequest(&mcpsReq);
     NRF_LOG_INFO("Send data request, status: %s", MacStatusStrings[status]);
     LMH_VERIFY_SUCCESS(status);
-
-    if (NvmCtxMgmtStore() == NVMCTXMGMT_STATUS_SUCCESS)
-    {
-        NRF_LOG_INFO("CTXS STORED");
-    }
 
     return LORAMAC_STATUS_OK;
 }  
@@ -1298,6 +1314,19 @@ lmh_error_code_t lmh_ping_slot_req(uint8_t periodicity)
     mlmeReq.Req.PingSlotInfo.PingSlot.Fields.RFU = 0;
 
     status = LoRaMacMlmeRequest(&mlmeReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    // Send an empty message
+    lmh_app_tx_data_t app_data =
+    {
+        .buffer = NULL,
+        .buffsize = 0,
+        .port = 0,
+        .confirmed = LMH_UNCONFIRMED_MSG,
+        .nb_trials = 8,
+    };
+
+    status = lmh_send(&app_data);
     LMH_VERIFY_SUCCESS(status);
 
     return LORAMAC_STATUS_OK;
