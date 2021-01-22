@@ -30,6 +30,24 @@
  *
  * \author    Johannes Bruder ( STACKFORCE )
  */
+
+ /******************************************************************************
+ * @attention
+ *      Modified work 2021 Insight SiP  
+ *
+ *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
+ *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *	OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *	DISCLAIMED. IN NO EVENT SHALL INSIGHT SIP OR CONTRIBUTORS BE
+ *	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *	GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ *	OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *****************************************************************************/
+
 #ifndef __NVMM_H__
 #define __NVMM_H__
 
@@ -40,82 +58,47 @@ extern "C"
 
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 /*!
- * Nvmm Status
- */
-typedef enum eNvmmStatus
-{
-    /*!
-     * No error occurred
-     */
-    NVMM_SUCCESS = 0,
-    /*!
-     * Checksum of the data block does not match.
-     */
-    NVMM_FAIL_CHECKSUM,
-    /*!
-     * Size does not fit
-     */
-    NVMM_ERROR_SIZE,
-    /*!
-     * Null pointer exception
-     */
-    NVMM_ERROR_NPE,
-    /*!
-     * Undefined Error occurred
-     */
-    NVMM_ERROR,
-}NvmmStatus_t;
-
-/*!
- * Nvmm Data Block handle
- */
-typedef struct
-{
-  /*
-   * Unique internal used virtual address for the data block.
-   */
-  uint16_t virtualAddr;
-}NvmmDataBlock_t;
-
-/*!
- * Declares a data block
+ * \brief Initialize Nvm.
  *
- * \param[IN] num Size as number of bytes.
  * \retval           Status of the operation
  */
- NvmmStatus_t NvmmDeclare( NvmmDataBlock_t* dataB, size_t num );
+uint16_t NvmmInit(void);
 
 /*!
- * Reads the data block header and verifies the checksum to determine
- * if it ever has been written or the data is corrupted.
+ * \brief Writes data to given data block.
  *
- * \param[IN] dataB  Pointer to the data block.
- * \param[IN] num    Size as number of bytes.
- * \retval           Status of the operation
- */
-NvmmStatus_t NvmmVerify( NvmmDataBlock_t* dataB, size_t num );
-
-/*!
- *  Writes data to given data block.
- *
- * \param[IN] dataB  Pointer to the data block.
  * \param[IN] src    Pointer to the source of data to be copied.
- * \param[IN] num    Number of bytes to copy.
+ * \param[IN] size   Number of bytes to copy.
+ * \param[IN] id     ID of the record.
+ *
  * \retval           Status of the operation
  */
-NvmmStatus_t NvmmWrite( NvmmDataBlock_t* dataB, void* src, size_t num );
+uint16_t NvmmWrite( uint8_t* src, uint16_t size, uint16_t offset );
 
 /*!
- * Reads from data block to destination pointer.
+ * \brief Reads from data block to destination pointer.
  *
- * \param[IN] dataB  Pointer to the data block.
  * \param[IN] dst    Pointer to the destination array where the content is to be copied.
- * \param[IN] num    Number of bytes to copy.
+ * \param[IN] size   Number of bytes to copy.
+ * \param[IN] id     ID of the record.
+ *
  * \retval           Status of the operation
  */
-NvmmStatus_t NvmmRead( NvmmDataBlock_t* dataB, void* dst, size_t num );
+uint16_t NvmmRead( uint8_t* dest, uint16_t size, uint16_t offset );
+
+/*!
+ * \brief Invalidates the CRC 32 of a data block. The function assumes that the
+ *        crc32 is at the end of the block with 4 bytes.
+ *
+ * \param[IN] size   Length of the block.
+ * \param[IN] id     ID of the record.
+ *
+ * \retval           Status of the operation
+ */
+bool NvmmReset( uint16_t size, uint16_t offset );
 
 #ifdef __cplusplus
 }
