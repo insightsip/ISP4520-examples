@@ -24,7 +24,6 @@
 #include <string.h>
 
 // nRF
-#include "nordic_common.h"
 #include "nrf.h"
 #include "app_error.h"
 #include "app_timer.h"
