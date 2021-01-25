@@ -102,6 +102,10 @@ uint32_t lora_hardware_init(void);
  */
 void lora_hardware_uninit(void);
 
+/**@brief Reset CPU.
+ */
+void BoardResetMcu(void);
+
 /**@brief Returns a pseudo random seed generated using the MCU Unique ID
  *
  * @retval seed Generated pseudo random seed
