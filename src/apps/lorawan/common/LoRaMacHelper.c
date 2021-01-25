@@ -837,7 +837,7 @@ void lmh_process(void)
         Radio.IrqProcess();
     }
 
-    // Processes the LoRaMac events
+    // Process the LoRaMac events
     LoRaMacProcess();
 
     // Store to NVM if required

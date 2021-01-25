@@ -23,7 +23,7 @@
 
 #include <stdint.h>
 
-#define FW_REVISION "3.0.0"
+#define FW_VERSION "3.1.0"
 
 typedef enum 
 {

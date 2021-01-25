@@ -1,8 +1,6 @@
  /******************************************************************************
  * @file    main.c
  * @author  Insight SiP
- * @version V2.4.0
- * @date    28-jan-2020
  * @brief  AT Commands project main file.
  *
  *
@@ -54,7 +52,6 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-#include "loramachelper.h"
 #include "at_manager.h"
 #include "board.h"
 
@@ -83,7 +80,7 @@
 
 // DIS Service
 #define MANUFACTURER_NAME               "Insight SiP"     
-#define HW_REVISION                     "C" // TODO: move this define into a "board" file
+#define HW_REVISION                     "E" // TODO: move this define into a "board" file
 
 // Static vars
 NRF_BLE_GATT_DEF(m_gatt);                                           ///< GATT module instance.
@@ -350,7 +347,7 @@ static void services_init (void)
 
     memset (&dis_init, 0, sizeof(ble_dis_init_t));
     ble_srv_ascii_to_utf8 (&dis_init.manufact_name_str,   (char*)MANUFACTURER_NAME);
-    ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_REVISION);
+    ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_VERSION);
     ble_srv_ascii_to_utf8 (&dis_init.hw_rev_str,          (char*)HW_REVISION);
 
     dis_init.dis_char_rd_sec = SEC_OPEN;
@@ -423,9 +420,6 @@ int main (void)
     // Enter main loop.
     for (;;)
     {   
-        // Process lorawan events
-        lmh_process();
-
         // Process received AT command
         at_manager_execute();
 
