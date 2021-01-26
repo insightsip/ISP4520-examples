@@ -130,7 +130,7 @@ void TimerStart(TimerEvent_t *obj)
 
     if ((obj == NULL) || (TimerExists(obj) == true))
     {
-        CRITICAL_SECTION_END( );
+        CRITICAL_SECTION_END();
         return;
     }
 
@@ -159,7 +159,7 @@ void TimerStart(TimerEvent_t *obj)
             TimerInsertTimer(obj);
         }
     }
-    CRITICAL_SECTION_END( );
+    CRITICAL_SECTION_END();
 
     
 }
