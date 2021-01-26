@@ -126,18 +126,6 @@ uint8_t BoardGetBatteryLevel(void);
  */
 char BoardGetRevision(void);
 
-/**@brief Disable interrupts
- *
- * @remark IRQ nesting is managed
- */
-void BoardDisableIrq(void);
-
-/**@brief Enable interrupts
- *
- * @remark IRQ nesting is managed
- */
-void BoardEnableIrq(void);
-
 #ifdef __cplusplus
 }
 #endif

@@ -45,6 +45,8 @@
 #define ID1     (0x10000060)
 #define ID2     (0x10000064)
 
+static uint8_t __CR_NESTED = 0;  
+
 uint32_t lora_hardware_init(void)
 {
     TimerRtcInit();
@@ -98,11 +100,10 @@ char BoardGetRevision(void)
 
 void BoardCriticalSectionBegin(uint32_t *mask)
 {
-    //*mask = __get_PRIMASK( );
-    //__disable_irq( );
+    app_util_critical_region_enter(&__CR_NESTED);
 }
 
 void BoardCriticalSectionEnd(uint32_t *mask)
 {
-    //__set_PRIMASK( *mask );
+    app_util_critical_region_exit(__CR_NESTED);  
 }
