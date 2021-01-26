@@ -47,6 +47,7 @@
 #include "ble_conn_params.h"
 #include "ble_conn_state.h"
 #include "ble_dis.h"
+#include "nrf_pwr_mgmt.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -347,7 +348,7 @@ static void services_init (void)
 
     memset (&dis_init, 0, sizeof(ble_dis_init_t));
     ble_srv_ascii_to_utf8 (&dis_init.manufact_name_str,   (char*)MANUFACTURER_NAME);
-    ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_VERSION);
+    ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_VERSION_STR);
     ble_srv_ascii_to_utf8 (&dis_init.hw_rev_str,          (char*)HW_REVISION);
 
     dis_init.dis_char_rd_sec = SEC_OPEN;
@@ -366,26 +367,12 @@ static void log_init (void)
     NRF_LOG_DEFAULT_BACKENDS_INIT();
 }
 
-/**@brief Function for the Power manager.
- */
- #define FPU_EXCEPTION_MASK 0x0000009F 
-static void power_manage (void)
-{
-    /* Clear exceptions and PendingIRQ from the FPU unit */
-    __set_FPSCR(__get_FPSCR()  & ~(FPU_EXCEPTION_MASK));      
-    (void) __get_FPSCR();
-    NVIC_ClearPendingIRQ(FPU_IRQn);
-            
-    /* Wait for events */
-    ret_code_t err_code = sd_app_evt_wait();
-    APP_ERROR_CHECK(err_code);
-}
-
 /**@brief Function for application main entry.
  */
 int main (void)
 {
     uint32_t err_code;
+    uint32_t is_mac_processing_pending = 0;
 	
     // Initialize logs.
     log_init();
@@ -394,6 +381,7 @@ int main (void)
     // Initialize clocks
     nrf_drv_clock_init();
     nrf_drv_clock_lfclk_request(NULL);
+    nrf_pwr_mgmt_init();
 	
     // Initialize Scheduler and timer
     timers_init();
@@ -421,15 +409,18 @@ int main (void)
     for (;;)
     {   
         // Process received AT command
-        at_manager_execute();
+        is_mac_processing_pending = at_manager_execute();
 
         // Process scheduler events (user application)
         app_sched_execute();
 
-        // Go to sleep mode
-        if (NRF_LOG_PROCESS() == false)
+        if (!is_mac_processing_pending)
         {
-            power_manage();
+            // Go to sleep mode
+            if (NRF_LOG_PROCESS() == false)
+            {
+                nrf_pwr_mgmt_run();
+            }
         }
     }
 }

@@ -137,8 +137,10 @@ typedef struct
 } at_command_t;
 
 
-static MibRequestConfirm_t mibReq;     
-static volatile uint32_t TxPeriodicity = 0;                                         
+static MibRequestConfirm_t mibReq;   
+static TimerEvent_t TxCertifTimer;                                      /**< Timer to handle the data transmission duty cycle for certification. */  
+static volatile uint32_t TxPeriodicity = 0;    
+static volatile uint8_t IsTxFramePending = 0;                                     
 static volatile uint8_t IsMacProcessPending = 0;       
 static uint8_t TxAppDataBuffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE];       /*< Lora TX data buffer. */
 static LmHandlerAppData_t TxAppData = {0, 0, TxAppDataBuffer};          /*< Lora TX data structure. */
@@ -149,7 +151,9 @@ static int8_t LastSnr = 0;
 static bool m_at_command_ready = false;
 static bool m_lora_ack_received = false;
 static bool m_otaa = false;
-uint8_t m_rx_at_command[128] = {0};
+uint8_t m_rx_buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE+30] = {0};
+uint8_t m_tx_buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE+30] = {0};
+static uint8_t m_echo = 0;
 
 static LmHandlerCallbacks_t LmHandlerCallbacks =
 {
@@ -206,7 +210,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
 {
-    .FwVersion.Value = FW_VERSION,
+    .FwVersion.Value = FW_VERSION_NUM,
     .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
     .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
     .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,
@@ -274,8 +278,8 @@ static void OnJoinRequest(LmHandlerJoinParams_t* params)
 {
     if(params->Status == LORAMAC_HANDLER_SUCCESS)
     {
-        uint8_t text[10] = "+JOINED\r\n";
-        at_hal_transport_tx_pkt_send(text, strlen(text));
+        sprintf(m_tx_buffer, "+JOINED\r\n");
+        at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
     }
 }
 
@@ -285,14 +289,12 @@ static void OnTxData(LmHandlerTxParams_t* params)
 
 static void OnRxData(LmHandlerAppData_t* appData, LmHandlerRxParams_t* params)
 {
-    uint8_t text[LORAWAN_APP_DATA_BUFFER_MAX_SIZE+15];
-
     memcpy(&RxAppData, appData, sizeof(RxAppData));
     LastRssi = params->Rssi;
     LastSnr = params->Snr;
 
-    sprintf(text, "+RXDATA: %u,%s\r\n", RxAppData.Port, RxAppData.Buffer);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "+RXDATA: %u,%s\r\n", RxAppData.Port, RxAppData.Buffer);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 }
 
 static void OnClassChange(DeviceClass_t deviceClass)
@@ -322,6 +324,34 @@ static void OnSysTimeUpdate( void )
 #endif
 
 
+/*!
+ * Function executed on TxTimer event
+ */
+static void OnTxCertifTimerEvent(void* conm_tx_buffer)
+{
+    TimerStop(&TxCertifTimer);
+
+    IsTxFramePending = 1;
+
+    // Schedule next transmission
+    TimerSetValue(&TxCertifTimer, TxPeriodicity);
+    TimerStart(&TxCertifTimer);
+}
+
+static void StartTxCertifProcess(void)
+{
+    // Schedule 1st packet transmission
+    TimerInit(&TxCertifTimer, OnTxCertifTimerEvent);
+    TimerSetValue(&TxCertifTimer, TxPeriodicity);
+    OnTxCertifTimerEvent(NULL);
+}
+
+static void StopTxCertifProcess(void)
+{
+    TimerStop(&TxCertifTimer);
+     IsTxFramePending = 0;
+}
+
 at_error_code_t at_error_not_supported(const uint8_t *param)
 {
     return AT_ERROR_NOT_SUPPORTED;
@@ -330,6 +360,52 @@ at_error_code_t at_error_not_supported(const uint8_t *param)
 at_error_code_t at_reset(const uint8_t *param)
 {
     NVIC_SystemReset();
+
+    return AT_OK;
+}
+
+static at_error_code_t at_echo_set(const uint8_t *param)
+{
+    int echo;
+
+    if (sscanf(param, "%u", &echo) != 1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    echo = (uint8_t)echo;
+
+    if (echo > 1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    m_echo = echo;
+
+    return AT_OK;
+}
+
+at_error_code_t at_echo_read(const uint8_t *param)
+{
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_ECHO, m_echo);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
+
+    return AT_OK;
+}
+
+at_error_code_t at_info_read(const uint8_t *param)
+{
+    // Send module name
+    sprintf(m_tx_buffer, "%s\r\n", MODULE_NAME);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
+
+    // Send device id
+    sprintf(m_tx_buffer, "%X%X\r\n", NRF_FICR->DEVICEID[0], NRF_FICR->DEVICEID[1]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
+
+    // Send firmware version
+    sprintf(m_tx_buffer, "%s\r\n", FW_VERSION_STR);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -349,7 +425,7 @@ at_error_code_t at_appeui_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
-    memcpy1(mibReq.Param.JoinEui, key, 8);
+    memcpy(mibReq.Param.JoinEui, key, 8);
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -362,7 +438,6 @@ at_error_code_t at_appeui_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t key[8];
-    uint8_t text[35];
     
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
@@ -370,20 +445,19 @@ at_error_code_t at_appeui_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.JoinEui, 8);
-    sprintf(text, "+APPEUI: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3],
-                key[4], key[5], key[6], key[7]);
+    memcpy(key, mibReq.Param.JoinEui, 8);
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_APPEUI, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7]);
 
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_appeui_test (const uint8_t *param)
 {
-    uint8_t text[35] = "+APPEUI: hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer, "%s: hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_APPEUI);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -403,7 +477,7 @@ at_error_code_t at_joineui_set (const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
-    memcpy1(mibReq.Param.JoinEui, key, 8);
+    memcpy(mibReq.Param.JoinEui, key, 8);
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -416,7 +490,6 @@ at_error_code_t at_joineui_read (const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t key[8];
-    uint8_t text[35];
     
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
@@ -424,24 +497,22 @@ at_error_code_t at_joineui_read (const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.JoinEui, 8);
-    sprintf(text, "+JOINEUI: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3],
-                key[4], key[5], key[6], key[7]);
+    memcpy(key, mibReq.Param.JoinEui, 8);
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_JOINEUI, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7]);
 
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_joineui_test (const uint8_t *param)
 {
-    uint8_t text[35] = "+JOINEUI: hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_JOINEUI);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
-
 
 at_error_code_t at_nwk_key_set(const uint8_t *param)
 {
@@ -469,7 +540,6 @@ at_error_code_t at_nwk_key_set(const uint8_t *param)
 at_error_code_t at_nwk_key_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[60];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -479,20 +549,19 @@ at_error_code_t at_nwk_key_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
-    sprintf(text, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    memcpy(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_NWKKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_nwk_key_test (const uint8_t *param)
 {
-    uint8_t text[60] = "+NWKKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -523,7 +592,6 @@ at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
 at_error_code_t at_f_nwk_s_int_key_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -533,20 +601,19 @@ at_error_code_t at_f_nwk_s_int_key_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
-    sprintf(text, "+FNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    memcpy(key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_FNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_f_nwk_s_int_key_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+FNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_FNWKSINTKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -577,7 +644,6 @@ at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
 at_error_code_t at_s_nwk_s_int_key_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -587,20 +653,19 @@ at_error_code_t at_s_nwk_s_int_key_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.SNwkSIntKey, sizeof(mibReq.Param.SNwkSIntKey));
-    sprintf(text, "+SNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    memcpy(key, mibReq.Param.SNwkSIntKey, sizeof(mibReq.Param.SNwkSIntKey));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_SNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_s_nwk_s_int_key_test (const uint8_t *param)
 {
-    uint8_t text[70] = "+SNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_SNWKSINTKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -631,7 +696,6 @@ at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
 at_error_code_t at_nwk_s_enc_key_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -641,20 +705,19 @@ at_error_code_t at_nwk_s_enc_key_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
-    sprintf(text, "+NWKSENCKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    memcpy(key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_NWKSENCKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_nwk_s_enc_key_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+NWKSENCKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKSENCKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -685,7 +748,6 @@ at_error_code_t at_appkey_set (const uint8_t *param)
 at_error_code_t at_appkey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[60];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -695,20 +757,19 @@ at_error_code_t at_appkey_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.AppKey, sizeof(mibReq.Param.AppKey));
-    sprintf(text, "+APPKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    memcpy(key, mibReq.Param.AppKey, sizeof(mibReq.Param.AppKey));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_APPKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_appkey_test(const uint8_t *param)
 {
-    uint8_t text[60] = "+APPKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_APPKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -739,7 +800,7 @@ at_error_code_t at_nwkkey_set(const uint8_t *param)
 at_error_code_t at_nwkkey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
+    uint8_t m_tx_buffer[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
   
@@ -749,20 +810,19 @@ at_error_code_t at_nwkkey_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    memcpy1(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
-    sprintf(text, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+    memcpy(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
+    sprintf(m_tx_buffer, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
                 key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
                 key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_nwkkey_test (const uint8_t *param)
 {
-    uint8_t text[70] = "+NWKKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -793,7 +853,6 @@ at_error_code_t at_fnwksintkey_set(const uint8_t *param)
 at_error_code_t at_fnwksintkey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -804,19 +863,18 @@ at_error_code_t at_fnwksintkey_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     memcpy(key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
-    sprintf(text, "+FNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_FNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_fnwksintkey_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+FNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_FNWKSINTKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -847,7 +905,6 @@ at_error_code_t at_snwksintkey_set(const uint8_t *param)
 at_error_code_t at_snwksintkey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -858,19 +915,18 @@ at_error_code_t at_snwksintkey_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     memcpy(key, mibReq.Param.SNwkSIntKey, sizeof(mibReq.Param.SNwkSIntKey));
-    sprintf(text, "+SNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_SNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_snwksintkey_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+SNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_SNWKSINTKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -901,7 +957,6 @@ at_error_code_t at_nwksenckey_set(const uint8_t *param)
 at_error_code_t at_nwksenckey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -912,19 +967,18 @@ at_error_code_t at_nwksenckey_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     memcpy(key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
-    sprintf(text, "+NWKSENCKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_NWKSENCKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_nwksenckey_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+NWKSENCKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKSENCKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -955,7 +1009,6 @@ at_error_code_t at_appskey_set(const uint8_t *param)
 at_error_code_t at_appskey_read(const uint8_t *param)
 {
     uint8_t key[16];
-    uint8_t text[70];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -966,19 +1019,19 @@ at_error_code_t at_appskey_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     memcpy(key, mibReq.Param.AppSKey, sizeof(mibReq.Param.AppSKey));
-    sprintf(text, "+APPSKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_APPSKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
+            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
 
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_appskey_test(const uint8_t *param)
 {
-    uint8_t text[70] = "+APPSKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_APPSKEY);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1015,7 +1068,6 @@ at_error_code_t at_devaddr_read(const uint8_t *param)
 {
     uint8_t devaddr[4];
     uint32_t devaddr1;
-    uint8_t text[24];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -1031,18 +1083,17 @@ at_error_code_t at_devaddr_read(const uint8_t *param)
     devaddr[2] = devaddr1 >> 8;
     devaddr[3] = devaddr1;
 
-    sprintf(text, "+DEVADDR: %02x-%02x-%02x-%02x\r\n", 
-            devaddr[0], devaddr[1], devaddr[2], devaddr[3]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x\r\n", 
+            AT_DEVADDR, devaddr[0], devaddr[1], devaddr[2], devaddr[3]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_devaddr_test(const uint8_t *param)
 {
-    uint8_t text[24] = "+DEVADDR: hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    uint8_t m_tx_buffer[24] = "+DEVADDR: hh-hh-hh-hh\r\n";
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1070,10 +1121,9 @@ at_error_code_t at_deveui_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_deveui_read (const uint8_t *param)
+at_error_code_t at_deveui_read(const uint8_t *param)
 {
     uint8_t key[8];
-    uint8_t text[35];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -1083,19 +1133,17 @@ at_error_code_t at_deveui_read (const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     memcpy(key, mibReq.Param.DevEui, sizeof(mibReq.Param.DevEui));
-    sprintf(text, "+DEVEUI: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            key[0], key[1], key[2], key[3],
-            key[4], key[5], key[6], key[7]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
+            AT_DEVEUI, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_deveui_test (const uint8_t *param)
 {
-    uint8_t text[35] = "+DEVEUI: hh-hh-hh-hh-hh-hh-hh-hh\r\n";
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
+    sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_DEVEUI);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1124,15 +1172,13 @@ at_error_code_t at_netid_set (const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-
     return AT_OK;
 }
 
-at_error_code_t at_netid_read (const uint8_t *param)
+at_error_code_t at_netid_read(const uint8_t *param)
 {
     uint8_t netid[4];
     uint32_t netid1;
-    uint8_t text[24];
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     
@@ -1146,19 +1192,16 @@ at_error_code_t at_netid_read (const uint8_t *param)
     netid[1] = netid1 >> 8;
     netid[2] = netid1;
 
-    sprintf(text, "+NETID: %02x-%02x-%02x\r\n", 
-                    netid[0], netid[1], netid[2]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x\r\n",  AT_NETID, netid[0], netid[1], netid[2]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
-at_error_code_t at_netid_test (const uint8_t *param)
+at_error_code_t at_netid_test(const uint8_t *param)
 {
-    uint8_t text[20] = "+NETID: hh-hh-hh\r\n";
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: hh-hh-hh\r\n", AT_NETID);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1186,22 +1229,19 @@ at_error_code_t at_joinrq_set (const uint8_t *param)
 at_error_code_t at_joinstat_read(const uint8_t *param)
 {
     uint8_t join_status;
-    uint8_t text[15];
 
     join_status = LmHandlerJoinStatus();
 
-    sprintf(text, "+JOINSTAT: %u\r\n", join_status);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_JOINSTAT, join_status);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_rcv_read (const uint8_t *param)
 {
-    uint8_t text[100];
-
-    sprintf(text, "+RCV: %u,%u,%s\r\n", m_lora_ack_received, RxAppData.Port, RxAppData.Buffer);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u,%u,%s\r\n", AT_RCV, m_lora_ack_received, RxAppData.Port, RxAppData.Buffer);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1210,8 +1250,7 @@ at_error_code_t at_send_set (const uint8_t *param)
 {
     LmHandlerErrorStatus_t lm_err_code;
     at_error_code_t at_err_code;
-    uint8_t text[128];
-    uint8_t buffer[128];
+    uint8_t buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE];
     uint8_t buffersize = strlen(param);
     uint8_t *p_data = (uint8_t*)param;
     uint32_t is_confirmed;
@@ -1249,7 +1288,7 @@ at_error_code_t at_send_set (const uint8_t *param)
         buffersize = LORAWAN_APP_DATA_BUFFER_MAX_SIZE;
     }
 
-    memcpy1(TxAppData.Buffer, (uint8_t *)p_data, buffersize);
+    memcpy(TxAppData.Buffer, (uint8_t *)p_data, buffersize);
     TxAppData.BufferSize = buffersize;
     TxAppData.Port = port;
     LmHandlerParams.IsTxConfirmed = is_confirmed;
@@ -1296,7 +1335,6 @@ at_error_code_t at_adr_read (const uint8_t *param)
     LmHandlerErrorStatus_t lm_err_code;
     at_error_code_t at_err_code;
     uint8_t is_adr_enabled;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     LoRaMacStatus_t status;
@@ -1306,10 +1344,8 @@ at_error_code_t at_adr_read (const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     is_adr_enabled = mibReq.Param.AdrEnable;
-
-    // send response
-    sprintf(text, "+ADR: %d\r\n", is_adr_enabled);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %d\r\n", AT_ADR, is_adr_enabled);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1349,23 +1385,19 @@ at_error_code_t at_class_set (const uint8_t *param)
 at_error_code_t at_class_read (const uint8_t *param)
 {
     uint8_t lora_class;
-    uint8_t text[15];
 
-    // run AT command
     lora_class = LmHandlerGetCurrentClass();
 
-    // send response
-    sprintf(text, "+CLASS: %c\r\n", "ABC"[lora_class]);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %c\r\n", AT_CLASS, "ABC"[lora_class]);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_class_test (const uint8_t *param)
 {
-    uint8_t text[15] = "+CLASS: A,B,C\r\n";
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: A,B,C\r\n", AT_CLASS);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1393,23 +1425,19 @@ at_error_code_t at_dr_set (const uint8_t *param)
 at_error_code_t at_dr_read(const uint8_t *param)
 {
     uint8_t dr;
-    uint8_t text[15];
 
-    // run AT command
     dr = LmHandlerGetCurrentDatarate();
 
-    // send response
-    sprintf(text, "+DR: %u\r\n", dr);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_DR, dr);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_dr_test(const uint8_t *param)
 {
-    uint8_t text[25] = "+DR: 0,1,2,3,4,5,6,7\r\n";
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: 0,1,2,3,4,5,6,7\r\n", AT_DR);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1440,7 +1468,6 @@ at_error_code_t at_joindly1_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint32_t delay;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_ACCEPT_DELAY_1;
@@ -1448,8 +1475,8 @@ at_error_code_t at_joindly1_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    sprintf(text, "+JOINDLY1: %u\r\n", delay);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_JOINDLY1, delay);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1480,7 +1507,6 @@ at_error_code_t at_joindly2_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint32_t delay;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_ACCEPT_DELAY_2;
@@ -1488,9 +1514,8 @@ at_error_code_t at_joindly2_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-    // send response
-    sprintf(text, "+JOINDLY2: %u\r\n", delay);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_JOINDLY2, delay);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1526,7 +1551,6 @@ at_error_code_t at_pnet_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t public_mode;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_PUBLIC_NETWORK;
@@ -1535,8 +1559,8 @@ at_error_code_t at_pnet_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     public_mode =  mibReq.Param.EnablePublicNetwork;
-    sprintf(text, "+PNET: %u\r\n", public_mode);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_PNET, public_mode);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1567,7 +1591,6 @@ at_error_code_t at_rxdly1_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint32_t delay;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_RECEIVE_DELAY_1;
@@ -1576,8 +1599,8 @@ at_error_code_t at_rxdly1_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     delay =  mibReq.Param.ReceiveDelay1;
-    sprintf(text, "+RXDLY1: %u\r\n", delay);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_RXDLY1, delay);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1608,7 +1631,6 @@ at_error_code_t at_rxdly2_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint32_t delay;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_RECEIVE_DELAY_2;
@@ -1617,8 +1639,8 @@ at_error_code_t at_rxdly2_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     delay =  mibReq.Param.ReceiveDelay2;
-    sprintf(text, "+RXDLY2: %u\r\n", delay);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_RXDLY2, delay);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1658,7 +1680,6 @@ at_error_code_t at_rxdr2_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t dr;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_RX2_CHANNEL;
@@ -1667,17 +1688,16 @@ at_error_code_t at_rxdr2_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     dr =  mibReq.Param.Rx2Channel.Datarate;
-    sprintf(text, "+RXDR2: %u\r\n", dr);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_RXDR2, dr);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_rxdr2_test(const uint8_t *param)
 {
-    uint8_t text[26] = "+RXDR2: 0,1,2,3,4,5,6,7\r\n";
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: 0,1,2,3,4,5,6,7\r\n", AT_RXDR2);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1712,7 +1732,6 @@ at_error_code_t at_rxfq2_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint32_t freq;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_RX2_CHANNEL;
@@ -1721,8 +1740,8 @@ at_error_code_t at_rxfq2_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     freq =  mibReq.Param.Rx2Channel.Frequency;
-    sprintf(text, "+RXFQ2: %u\r\n", freq);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_RXFQ2, freq);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1758,7 +1777,6 @@ at_error_code_t at_txp_read(const uint8_t *param)
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t txp;
-    uint8_t text[15];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_CHANNELS_TX_POWER;
@@ -1767,17 +1785,16 @@ at_error_code_t at_txp_read(const uint8_t *param)
     AT_VERIFY_SUCCESS(at_err_code);
 
     txp =  mibReq.Param.ChannelsTxPower;
-    sprintf(text, "+TXP: %u\r\n", txp);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_TXP, txp);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_txp_test (const uint8_t *param)
 {
-    uint8_t text[25] = "+TXP: 0,1,2,3,4,5\r\n";
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer,"%s: 0,1,2,3,4,5\r\n", AT_TXP);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1785,63 +1802,27 @@ at_error_code_t at_txp_test (const uint8_t *param)
 at_error_code_t at_batt_read(const uint8_t *param)
 {
     uint8_t batt;
-    uint8_t text[25];
 
-    // run AT command
     batt = BoardGetBatteryLevel();
 
-    // send response
-    sprintf(text, "+BATT: %u\r\n", batt);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_BATT, batt);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_rssi_read(const uint8_t *param)
 {
-    uint8_t text[25];
-
-    sprintf(text, "+RSSI: %d\r\n", LastRssi);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %d\r\n", AT_RSSI, LastRssi);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
 
 at_error_code_t at_snr_read(const uint8_t *param)
 {
-    uint8_t text[25];
-
-    sprintf(text, "+SNR: %d\r\n", LastSnr);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
-at_error_code_t at_hw_read(const uint8_t *param)
-{
-    uint8_t text[25];
-
-    // TODO rework this function
-#if defined(ISP4520_EU)
-    sprintf(text, "+HW: EU-%c\r\n", BoardGetRevision());
-#elif defined(ISP4520_AS) 
-    sprintf(text, "+HW: AS-%c\r\n", BoardGetRevision());
-#elif defined(ISP4520_US)
-    sprintf(text, "+HW: US-%c\r\n", BoardGetRevision());
-#else
-    #error "Please define a ISP4520 configuration"
-#endif 
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
-at_error_code_t at_fw_read(const uint8_t *param)
-{
-    uint8_t text[25];
-
-    sprintf(text, "+FW: %s\r\n", FW_VERSION);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %d\r\n", AT_SNR, LastSnr);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1859,6 +1840,7 @@ at_error_code_t at_dutyc_set(const uint8_t *param)
     {
         return AT_ERROR_PARAM;
     }
+
 #if defined (REGION_EU868)
     LmHandlerParams.DutyCycleEnabled = (duty?  true : false);
     LoRaMacTestSetDutyCycleOn(LmHandlerParams.DutyCycleEnabled);
@@ -1869,31 +1851,14 @@ at_error_code_t at_dutyc_set(const uint8_t *param)
 
 at_error_code_t at_dutyc_read(const uint8_t *param)
 {
-    uint8_t text[25];
     bool duty;
 
     duty = LmHandlerParams.DutyCycleEnabled;
-    sprintf(text, "+DUTYC: %u\r\n", duty? 1 : 0);
-    at_hal_transport_tx_pkt_send(text, strlen(text));
+    sprintf(m_tx_buffer, "%s: %u\r\n", AT_DUTYC, duty? 1 : 0);
+    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
-
-//at_error_code_t at_counter_read (const uint8_t *param)
-//{
-//    uint8_t text[25];
-//    uint8_t up_counter;
-//    uint8_t down_counter;
-//
-//    // run AT command
-//    lmh_counter_get(&up_counter, &down_counter);
-//
-//    // send response
-//    sprintf(text, "+COUNTER: %u, %u\r\n", up_counter, down_counter);
-//    at_hal_transport_tx_pkt_send(text, strlen(text));
-//
-//    return AT_OK;
-//}
 
 at_error_code_t at_channel_set (const uint8_t *param)
 {
@@ -1928,11 +1893,10 @@ at_error_code_t at_channel_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_channel_read (const uint8_t *param)
+at_error_code_t at_channel_read(const uint8_t *param)
 {
     LoRaMacStatus_t status;
     at_error_code_t at_err_code;
-    uint8_t text[40];
     ChannelParams_t channels[16];
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
@@ -1941,17 +1905,66 @@ at_error_code_t at_channel_read (const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
-     memcpy(channels, mibReq.Param.ChannelList, 16*sizeof(ChannelParams_t));
+    memcpy(channels, mibReq.Param.ChannelList, 16*sizeof(ChannelParams_t));
     for (int i=0; i<16; i++)
     {
-        sprintf(text, "+CHANNEL: %u, %u, %u, %u\r\n", i, channels[i].Frequency, channels[i].DrRange.Fields.Min, channels[i].DrRange.Fields.Max);
-        at_hal_transport_tx_pkt_send(text, strlen(text));
+        sprintf(m_tx_buffer, "%s: %u, %u, %u, %u\r\n", AT_CHANNEL, i, channels[i].Frequency, channels[i].DrRange.Fields.Min, channels[i].DrRange.Fields.Max);
+        at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
     }
 
     return AT_OK;
 }
 
+at_error_code_t at_certif_set(const uint8_t *param)
+{
+    uint8_t start;
 
+    if (sscanf(param, "%u", &start) != 1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    if (start >1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    if (start == 1)
+    {
+#if defined (REGION_EU868)
+        LoRaMacTestSetDutyCycleOn(false);
+#endif
+        StartTxCertifProcess();
+    }
+    else
+    {
+#if defined (REGION_EU868)
+        LoRaMacTestSetDutyCycleOn(true);
+#endif
+        StopTxCertifProcess();
+    }
+
+    return AT_OK;
+}
+
+at_error_code_t at_ctxrst_set(const uint8_t *param)
+{
+    uint8_t confirm;
+
+    if (sscanf(param, "%u", &confirm) != 1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    if (confirm!=1)
+    {
+        return AT_ERROR_PARAM;
+    }
+
+    NvmDataMgmtFactoryReset();
+
+    return AT_OK;
+}
 
 
 /**
@@ -1982,7 +1995,7 @@ static void at_conn_hal_transport_event_handle (at_hal_transport_evt_t event)
 
         case AT_HAL_TRANSP_EVT_RX_PKT_RECEIVED:
         {
-            memcpy1(m_rx_at_command, event.evt_params.rx_pkt_received.p_buffer, event.evt_params.rx_pkt_received.num_of_bytes);
+            memcpy(m_rx_buffer, event.evt_params.rx_pkt_received.p_buffer, event.evt_params.rx_pkt_received.num_of_bytes);
             m_at_command_ready = true;
             break;
         }
@@ -2015,8 +2028,8 @@ static void at_conn_hal_transport_event_handle (at_hal_transport_evt_t event)
 
 //        case LHM_EVT_RX_ACK:
 //        {
-//            uint8_t text[10] = "+RXACK\r\n";
-//            at_hal_transport_tx_pkt_send(text, strlen(text));
+//            uint8_t m_tx_buffer[10] = "+RXACK\r\n";
+//            at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
 //            m_lora_ack_received = true;
 //            NRF_LOG_INFO("Ack received");
@@ -2036,6 +2049,8 @@ static void at_conn_hal_transport_event_handle (at_hal_transport_evt_t event)
 static at_command_t at_commands[] =
 {
     AT_COMMAND_DEF (AT_RESET,       at_reset,               at_error_not_supported, at_error_not_supported),
+    AT_COMMAND_DEF (AT_ECHO,        at_echo_set,            at_echo_read,           at_error_not_supported),
+    AT_COMMAND_DEF (AT_INFO,        at_error_not_supported, at_info_read,           at_error_not_supported),
     AT_COMMAND_DEF (AT_DEVEUI,      at_deveui_set,          at_deveui_read,         at_deveui_test),
     AT_COMMAND_DEF (AT_APPEUI,      at_appeui_set,          at_appeui_read,         at_appeui_test),
     AT_COMMAND_DEF (AT_JOINEUI,     at_joineui_set,         at_joineui_read,        at_joineui_test),
@@ -2066,14 +2081,14 @@ static at_command_t at_commands[] =
     AT_COMMAND_DEF (AT_BATT,        at_error_not_supported, at_batt_read,           at_error_not_supported),
     AT_COMMAND_DEF (AT_RSSI,        at_error_not_supported, at_rssi_read,           at_error_not_supported),
     AT_COMMAND_DEF (AT_SNR,         at_error_not_supported, at_snr_read,            at_error_not_supported),
-    AT_COMMAND_DEF (AT_FW,          at_error_not_supported, at_fw_read,             at_error_not_supported),
-    AT_COMMAND_DEF (AT_HW,          at_error_not_supported, at_hw_read,             at_error_not_supported),
     AT_COMMAND_DEF (AT_DUTYC,       at_dutyc_set,           at_dutyc_read,          at_error_not_supported),
  //   AT_COMMAND_DEF (AT_COUNTER,     at_error_not_supported, at_counter_read,        at_error_not_supported),
     AT_COMMAND_DEF (AT_CHANNEL,     at_channel_set,         at_channel_read,        at_error_not_supported),
+    AT_COMMAND_DEF (AT_CERTIF,      at_certif_set,          at_error_not_supported, at_error_not_supported),
+    AT_COMMAND_DEF (AT_CTXRST,      at_ctxrst_set,          at_error_not_supported, at_error_not_supported),
 };
 
-at_error_code_t at_manager_execute()
+uint32_t at_manager_execute()
 {
     at_error_code_t err_code;
     at_command_t *current_at_command;
@@ -2085,45 +2100,63 @@ at_error_code_t at_manager_execute()
     // Process AT command
     if (m_at_command_ready)
     {
-        if ((m_rx_at_command[0] != 'A') || (m_rx_at_command[1] != 'T'))
+        // If enabled echo command
+        if (m_echo)
+        {
+            sprintf(m_tx_buffer, "%s",  m_rx_buffer);
+            m_tx_buffer[strcspn(m_tx_buffer, "\r\n")] = 0; 
+            strcat(m_tx_buffer, "\r\n");
+            at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
+        }
+
+        // Verify that command starts with AT
+        if ((m_rx_buffer[0] != 'A') || (m_rx_buffer[1] != 'T'))
         {
             err_code = AT_ERROR_UNKNOWN_CMD;
         }
+        // Search AT commands in the list and execute correponding functio
         else
         {
             err_code = AT_ERROR_UNKNOWN_CMD;
-            p_data = m_rx_at_command+2;
-    
-            for (int i=0; i < (sizeof(at_commands) / sizeof(at_command_t)); i++)
+            p_data = m_rx_buffer+2;
+
+            if (p_data[0] == '\r' || p_data[0] == '\n')
             {
-                if (strncmp(p_data, at_commands[i].name, at_commands[i].name_size) == 0)
+                err_code = AT_OK;
+            }
+            else
+            {
+                for (int i=0; i < (sizeof(at_commands) / sizeof(at_command_t)); i++)
                 {
-                    // command found 
-                    current_at_command = &(at_commands[i]);
-                    p_data += current_at_command->name_size;
+                    if (strncmp(p_data, at_commands[i].name, at_commands[i].name_size) == 0)
+                    {
+                        // command found 
+                        current_at_command = &(at_commands[i]);
+                        p_data += current_at_command->name_size;
                         
-                    //  parse the type (set, read or test), and jump to the correcponding function
-                    if (p_data[0] == '\r' || p_data[0] == '\n')
-                    {
-                        err_code = current_at_command->set(p_data+1);
-                    }
-                    else if (p_data[0] == '?')
-                    {
-                        err_code = current_at_command->read(p_data+1);
-                    }
-                    else if (p_data[0] == '=')
-                    {
-                        if (p_data[1] == '?')
-                        {
-                            err_code = current_at_command->test(p_data+1);
-                        }
-                        else if (p_data[1] != '\r' && p_data[1] != '\n')
+                        //  parse the type (set, read or test), and jump to the correcponding function
+                        if (p_data[0] == '\r' || p_data[0] == '\n')
                         {
                             err_code = current_at_command->set(p_data+1);
                         }
+                        else if (p_data[0] == '?')
+                        {
+                            err_code = current_at_command->read(p_data+1);
+                        }
+                        else if (p_data[0] == '=')
+                        {
+                            if (p_data[1] == '?')
+                            {
+                                err_code = current_at_command->test(p_data+1);
+                            }
+                            else if (p_data[1] != '\r' && p_data[1] != '\n')
+                            {
+                                err_code = current_at_command->set(p_data+1);
+                            }
+                        }
+                        //  we end the loop as the command was found 
+                        break;
                     }
-                    //  we end the loop as the command was found 
-                    break;
                 }
             }
         }
@@ -2132,12 +2165,21 @@ at_error_code_t at_manager_execute()
         final_response_send(err_code);
 
 
-        memset1(m_rx_at_command, 0, 128);
+        memset1(m_rx_buffer, 0, 128);
         m_at_command_ready = false;
     }
+
+    if (IsMacProcessPending == 1)
+    {
+        // Clear flag and prevent MCU to go into low power modes.
+        IsMacProcessPending = 0;
+        return 1;
+    }
+
+    return 0;
 }
 
-at_error_code_t at_manager_init()
+uint32_t at_manager_init()
 {
     uint32_t err_code;
     LmHandlerErrorStatus_t lm_err_code;
@@ -2152,7 +2194,10 @@ at_error_code_t at_manager_init()
 
     // Initialize LoRaWan
     lm_err_code = LmHandlerInit(&LmHandlerCallbacks, &LmHandlerParams);
-    APP_ERROR_CHECK_BOOL(lm_err_code == LORAMAC_HANDLER_SUCCESS);
+    if (lm_err_code != LORAMAC_HANDLER_SUCCESS)
+    {
+        return NRF_ERROR_INTERNAL;
+    }
 
     // Set system maximum tolerated rx error in milliseconds
     LmHandlerSetSystemMaxRxError(20);

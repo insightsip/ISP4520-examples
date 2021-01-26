@@ -23,7 +23,9 @@
 
 #include <stdint.h>
 
-#define FW_VERSION "3.1.0"
+#define FW_VERSION_STR "3.1.0"
+#define FW_VERSION_NUM 0x03010000 // 3.1.0.0
+#define MODULE_NAME "ISP4520"
 
 typedef enum 
 {
@@ -39,6 +41,8 @@ typedef enum
 
 /* AT Command list */
 #define AT_RESET        "Z"
+#define AT_ECHO         "E"
+#define AT_INFO         "I"
 #define AT_DEVEUI       "+DEVEUI"
 #define AT_APPEUI       "+APPEUI"
 #define AT_JOINEUI      "+JOINEUI"
@@ -69,15 +73,13 @@ typedef enum
 #define AT_BATT         "+BATT"
 #define AT_RSSI         "+RSSI"
 #define AT_SNR          "+SNR"
-#define AT_FW           "+FW"
-#define AT_HW           "+HW"
 #define AT_DUTYC        "+DUTYC"
-//#define AT_COUNTER      "+COUNTER"
 #define AT_CHANNEL      "+CHANNEL"
+#define AT_CERTIF       "+CERTIF"
+#define AT_CTXRST       "+CTXRST"
 
-
-at_error_code_t at_manager_init();
-at_error_code_t at_manager_execute();
+uint32_t at_manager_init();
+uint32_t at_manager_execute();
 
 
 #endif
