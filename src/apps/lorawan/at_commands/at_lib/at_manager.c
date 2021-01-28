@@ -38,8 +38,7 @@
 #include "LoRaMacTest.h"
 
 #include "nrf_log.h"
-#include "nrf_log_ctrl.h"
-#include "nrf_log_default_backends.h"
+
 
 #define LORAWAN_APP_DATA_BUFFER_MAX_SIZE        242                             /**< Size of the LoRa data to be allocate. */
 #define APP_TX_DUTYCYCLE                        5000                            /**< Data transmission duty cycle in ms. */
@@ -266,11 +265,11 @@ static void OnNetworkParametersChange(CommissioningParams_t* params)
 {
 }
 
-static void OnMacMcpsRequest( LoRaMacStatus_t status, McpsReq_t *mcpsReq, TimerTime_t nextTxIn )
+static void OnMacMcpsRequest(LoRaMacStatus_t status, McpsReq_t *mcpsReq, TimerTime_t nextTxIn)
 {
 }
 
-static void OnMacMlmeRequest( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn )
+static void OnMacMlmeRequest(LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerTime_t nextTxIn)
 {
 }
 
@@ -322,6 +321,34 @@ static void OnSysTimeUpdate( void )
 {
 }
 #endif
+
+/*!
+ * Prepares the payload of the frame and transmits it.
+ */
+static void PrepareTxFrame(void)
+{
+    if (LmHandlerIsBusy() == true)
+    {
+        return;
+    }
+
+    uint8_t msg[] = "Hello world!";
+    TxAppData.Port = 2;
+    strcpy(TxAppData.Buffer, msg);
+    TxAppData.BufferSize = sizeof(msg);
+    LmHandlerSend(&TxAppData, LmHandlerParams.IsTxConfirmed);
+}
+
+static void UplinkProcess(void)
+{
+    uint8_t isPending = 0;
+    isPending = IsTxFramePending;
+    IsTxFramePending = 0;
+    if (isPending == 1)
+    {
+        PrepareTxFrame();
+    }
+}
 
 
 /*!
@@ -537,27 +564,6 @@ at_error_code_t at_nwk_key_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwk_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_NWK_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_NWKKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwk_key_test (const uint8_t *param)
 {
     sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKKEY);
@@ -585,27 +591,6 @@ at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
-
-    return AT_OK;
-}
-
-at_error_code_t at_f_nwk_s_int_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_F_NWK_S_INT_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_FNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -641,27 +626,6 @@ at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_s_nwk_s_int_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_S_NWK_S_INT_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.SNwkSIntKey, sizeof(mibReq.Param.SNwkSIntKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_SNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-    return AT_OK;
-}
-
 at_error_code_t at_s_nwk_s_int_key_test (const uint8_t *param)
 {
     sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_SNWKSINTKEY);
@@ -689,27 +653,6 @@ at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
-
-    return AT_OK;
-}
-
-at_error_code_t at_nwk_s_enc_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_NWK_S_ENC_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_NWKSENCKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -745,27 +688,6 @@ at_error_code_t at_appkey_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_appkey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_APP_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.AppKey, sizeof(mibReq.Param.AppKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_APPKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-    return AT_OK;
-}
-
 at_error_code_t at_appkey_test(const uint8_t *param)
 {
     sprintf(m_tx_buffer, "%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_APPKEY);
@@ -793,28 +715,6 @@ at_error_code_t at_nwkkey_set(const uint8_t *param)
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
-
-    return AT_OK;
-}
-
-at_error_code_t at_nwkkey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t m_tx_buffer[70];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-  
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_NWK_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.NwkKey, sizeof(mibReq.Param.NwkKey));
-    sprintf(m_tx_buffer, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -850,27 +750,6 @@ at_error_code_t at_fnwksintkey_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_fnwksintkey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-    
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_F_NWK_S_INT_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.FNwkSIntKey, sizeof(mibReq.Param.FNwkSIntKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_FNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-    return AT_OK;
-}
-
 at_error_code_t at_fnwksintkey_test(const uint8_t *param)
 {
     sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_FNWKSINTKEY);
@@ -898,27 +777,6 @@ at_error_code_t at_snwksintkey_set(const uint8_t *param)
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
-
-    return AT_OK;
-}
-
-at_error_code_t at_snwksintkey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-    
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_S_NWK_S_INT_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.SNwkSIntKey, sizeof(mibReq.Param.SNwkSIntKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_SNWKSINTKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -954,27 +812,6 @@ at_error_code_t at_nwksenckey_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwksenckey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-    
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_NWK_S_ENC_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.NwkSEncKey, sizeof(mibReq.Param.NwkSEncKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_NWKSENCKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwksenckey_test(const uint8_t *param)
 {
     sprintf(m_tx_buffer,"%s: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n", AT_NWKSENCKEY);
@@ -1002,28 +839,6 @@ at_error_code_t at_appskey_set(const uint8_t *param)
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
-
-    return AT_OK;
-}
-
-at_error_code_t at_appskey_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    LoRaMacStatus_t status;
-    at_error_code_t at_err_code;
-    
-    // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
-    mibReq.Type = MIB_APP_S_KEY;
-    status = LoRaMacMibGetRequestConfirm(&mibReq);
-    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
-    AT_VERIFY_SUCCESS(at_err_code);
-
-    memcpy(key, mibReq.Param.AppSKey, sizeof(mibReq.Param.AppSKey));
-    sprintf(m_tx_buffer, "%s: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-            AT_APPSKEY, key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-            key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
     return AT_OK;
 }
@@ -1238,7 +1053,7 @@ at_error_code_t at_joinstat_read(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_rcv_read (const uint8_t *param)
+at_error_code_t at_rcv_read(const uint8_t *param)
 {
     sprintf(m_tx_buffer, "%s: %u,%u,%s\r\n", AT_RCV, m_lora_ack_received, RxAppData.Port, RxAppData.Buffer);
     at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
@@ -1246,7 +1061,7 @@ at_error_code_t at_rcv_read (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_send_set (const uint8_t *param)
+at_error_code_t at_send_set(const uint8_t *param)
 {
     LmHandlerErrorStatus_t lm_err_code;
     at_error_code_t at_err_code;
@@ -1255,7 +1070,7 @@ at_error_code_t at_send_set (const uint8_t *param)
     uint8_t *p_data = (uint8_t*)param;
     uint32_t is_confirmed;
     uint32_t port;
-    
+  
     memcpy(buffer, param, buffersize); 
 
     // Check if there is a confirmed/unconfirmed mode and application port
@@ -1292,6 +1107,13 @@ at_error_code_t at_send_set (const uint8_t *param)
     TxAppData.BufferSize = buffersize;
     TxAppData.Port = port;
     LmHandlerParams.IsTxConfirmed = is_confirmed;
+
+    // Check if device is activated
+    if(LmHandlerJoinStatus() != LORAMAC_HANDLER_SET)
+    {
+        // The network isn't joined
+        return AT_ERROR_NOT_JOINED;
+    }
 
     m_lora_ack_received = false;
     lm_err_code = LmHandlerSend(&TxAppData, LmHandlerParams.IsTxConfirmed);
@@ -1962,6 +1784,7 @@ at_error_code_t at_ctxrst_set(const uint8_t *param)
     }
 
     NvmDataMgmtFactoryReset();
+    NVIC_SystemReset();
 
     return AT_OK;
 }
@@ -2054,13 +1877,13 @@ static at_command_t at_commands[] =
     AT_COMMAND_DEF (AT_DEVEUI,      at_deveui_set,          at_deveui_read,         at_deveui_test),
     AT_COMMAND_DEF (AT_APPEUI,      at_appeui_set,          at_appeui_read,         at_appeui_test),
     AT_COMMAND_DEF (AT_JOINEUI,     at_joineui_set,         at_joineui_read,        at_joineui_test),
-    AT_COMMAND_DEF (AT_APPKEY,      at_appkey_set,          at_appkey_read,         at_appkey_test),
+    AT_COMMAND_DEF (AT_APPKEY,      at_appkey_set,          at_error_not_supported, at_appkey_test),
     AT_COMMAND_DEF (AT_GENAPPKEY,   at_error_not_supported, at_error_not_supported, at_error_not_supported),
-    AT_COMMAND_DEF (AT_NWKKEY,      at_nwkkey_set,          at_nwkkey_read,         at_nwkkey_test),
-    AT_COMMAND_DEF (AT_FNWKSINTKEY, at_fnwksintkey_set,     at_fnwksintkey_read,    at_fnwksintkey_test),
-    AT_COMMAND_DEF (AT_SNWKSINTKEY, at_snwksintkey_set,     at_snwksintkey_read,    at_snwksintkey_test),
-    AT_COMMAND_DEF (AT_NWKSENCKEY,  at_nwksenckey_set,      at_nwksenckey_read,     at_nwksenckey_test),
-    AT_COMMAND_DEF (AT_APPSKEY,     at_appskey_set,         at_appskey_read,        at_appskey_test),
+    AT_COMMAND_DEF (AT_NWKKEY,      at_nwkkey_set,          at_error_not_supported, at_nwkkey_test),
+    AT_COMMAND_DEF (AT_FNWKSINTKEY, at_fnwksintkey_set,     at_error_not_supported, at_fnwksintkey_test),
+    AT_COMMAND_DEF (AT_SNWKSINTKEY, at_snwksintkey_set,     at_error_not_supported, at_snwksintkey_test),
+    AT_COMMAND_DEF (AT_NWKSENCKEY,  at_nwksenckey_set,      at_error_not_supported, at_nwksenckey_test),
+    AT_COMMAND_DEF (AT_APPSKEY,     at_appskey_set,         at_error_not_supported, at_appskey_test),
     AT_COMMAND_DEF (AT_DEVADDR,     at_devaddr_set,         at_devaddr_read,        at_devaddr_test),
     AT_COMMAND_DEF (AT_NETID,       at_netid_set,           at_netid_read,          at_netid_test),
     AT_COMMAND_DEF (AT_JOINRQ,      at_joinrq_set,          at_error_not_supported, at_error_not_supported),
@@ -2082,7 +1905,6 @@ static at_command_t at_commands[] =
     AT_COMMAND_DEF (AT_RSSI,        at_error_not_supported, at_rssi_read,           at_error_not_supported),
     AT_COMMAND_DEF (AT_SNR,         at_error_not_supported, at_snr_read,            at_error_not_supported),
     AT_COMMAND_DEF (AT_DUTYC,       at_dutyc_set,           at_dutyc_read,          at_error_not_supported),
- //   AT_COMMAND_DEF (AT_COUNTER,     at_error_not_supported, at_counter_read,        at_error_not_supported),
     AT_COMMAND_DEF (AT_CHANNEL,     at_channel_set,         at_channel_read,        at_error_not_supported),
     AT_COMMAND_DEF (AT_CERTIF,      at_certif_set,          at_error_not_supported, at_error_not_supported),
     AT_COMMAND_DEF (AT_CTXRST,      at_ctxrst_set,          at_error_not_supported, at_error_not_supported),
@@ -2096,6 +1918,8 @@ uint32_t at_manager_execute()
 
     // Process the LoRaMac events
     LmHandlerProcess();
+
+    UplinkProcess();
 
     // Process AT command
     if (m_at_command_ready)
@@ -2164,7 +1988,6 @@ uint32_t at_manager_execute()
         // Send final response
         final_response_send(err_code);
 
-
         memset1(m_rx_buffer, 0, 128);
         m_at_command_ready = false;
     }
@@ -2191,6 +2014,9 @@ uint32_t at_manager_init()
     {
         NvmDataMgmtFactoryReset();
     }
+
+    // Initialize transmission periodicity variable
+    TxPeriodicity = APP_TX_DUTYCYCLE + randr(-APP_TX_DUTYCYCLE_RND, APP_TX_DUTYCYCLE_RND);
 
     // Initialize LoRaWan
     lm_err_code = LmHandlerInit(&LmHandlerCallbacks, &LmHandlerParams);
