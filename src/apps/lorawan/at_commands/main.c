@@ -48,6 +48,8 @@
 #include "ble_conn_state.h"
 #include "ble_dis.h"
 #include "nrf_pwr_mgmt.h"
+#include "peer_manager.h"
+#include "peer_manager_handler.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -65,15 +67,23 @@
 // BLE
 #define DEAD_BEEF                       0xDEADBEEF                              ///< Value used as error code on stack dump, can be used to identify stack location on stack unwind.
 #define APP_FEATURE_NOT_SUPPORTED       BLE_GATT_STATUS_ATTERR_APP_BEGIN + 2    ///< Reply when unsupported features are requested.
-#define DEVICE_NAME                     "ISP_LoRa"                              ///< Name of device. Will be included in the advertising data.
+#define DEVICE_NAME                     "ISP4520-AT"                            ///< Name of device. Will be included in the advertising data.
 #define APP_BLE_OBSERVER_PRIO           3                                       ///< Application's BLE observer priority. You shouldn't need to modify this value.
 #define APP_BLE_CONN_CFG_TAG            1                                       ///< A tag identifying the SoftDevice BLE configuration. */
-#define APP_ADV_INTERVAL             	1600                                    ///< The advertising interval (in units of 0.625 ms).
-#define APP_ADV_TIMEOUT_IN_SECONDS      0                                       ///< The advertising timeout (in units of seconds).
-#define MIN_CONN_INTERVAL_MS            100                                     ///< Minimum acceptable connection interval in seconds.
-#define MAX_CONN_INTERVAL_MS            500                                     ///< Maximum acceptable connection interval in seconds.
-#define SLAVE_LATENCY                   0                                       ///< Slave latency.
-#define CONN_SUP_TIMEOUT_MS             3200                                    ///< Connection supervisory timeout (4 seconds), Supervision Timeout uses 10 ms units.
+#define APP_ADV_INTERVAL                300                                     /**< The advertising interval (in units of 0.625 ms. */
+#define APP_ADV_DURATION                0                                       /**< The advertising duration in units of 10 milliseconds. */
+#define MIN_CONN_INTERVAL               MSEC_TO_UNITS(500, UNIT_1_25_MS)        /**< Minimum acceptable connection interval (0.5 seconds).  */
+#define MAX_CONN_INTERVAL               MSEC_TO_UNITS(1000, UNIT_1_25_MS)       /**< Maximum acceptable connection interval (1 second). */
+#define SLAVE_LATENCY                   0                                       /**< Slave latency. */
+#define CONN_SUP_TIMEOUT                MSEC_TO_UNITS(4000, UNIT_10_MS)         /**< Connection supervisory timeout (4 seconds). */
+#define SEC_PARAM_BOND                  1                                       /**< Perform bonding. */
+#define SEC_PARAM_MITM                  0                                       /**< Man In The Middle protection not required. */
+#define SEC_PARAM_LESC                  0                                       /**< LE Secure Connections not enabled. */
+#define SEC_PARAM_KEYPRESS              0                                       /**< Keypress notifications not enabled. */
+#define SEC_PARAM_IO_CAPABILITIES       BLE_GAP_IO_CAPS_NONE                    /**< No I/O capabilities. */
+#define SEC_PARAM_OOB                   0                                       /**< Out Of Band data not available. */
+#define SEC_PARAM_MIN_KEY_SIZE          7                                       /**< Minimum encryption key size. */
+#define SEC_PARAM_MAX_KEY_SIZE          16                                      /**< Maximum encryption key size. */
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(1000)                   ///< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds).
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(30000)                  ///< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds).
 #define MAX_CONN_PARAMS_UPDATE_COUNT    3                                       ///< Number of attempts before giving up the connection parameter negotiation.
@@ -81,13 +91,14 @@
 
 // DIS Service
 #define MANUFACTURER_NAME               "Insight SiP"     
-#define HW_REVISION                     "E" // TODO: move this define into a "board" file
 
 // Static vars
 NRF_BLE_GATT_DEF(m_gatt);                                           ///< GATT module instance.
 BLE_ADVERTISING_DEF(m_advertising);                                 ///< Advertising module instance.
-APP_TIMER_DEF(lora_tx_timer_id);                                    ///< LoRa tranfer timer instance.
-
+static ble_uuid_t m_adv_uuids[] =  
+{
+    {BLE_UUID_DEVICE_INFORMATION_SERVICE, BLE_UUID_TYPE_BLE}
+};
 
 /**@brief Callback function for asserts in the SoftDevice.
  *
@@ -103,21 +114,6 @@ APP_TIMER_DEF(lora_tx_timer_id);                                    ///< LoRa tr
 void assert_nrf_callback (uint16_t line_num, const uint8_t * p_file_name)
 {
     app_error_handler(DEAD_BEEF, line_num, p_file_name);
-}
-
-/**@brief Function for the Timer initialization.
- *
- * @details Initializes the timer module. This creates and starts application timers.
- */
-static void timers_init (void)
-{
-    ret_code_t err_code;
-	
-    APP_SCHED_INIT(SCHED_MAX_EVENT_DATA_SIZE, SCHED_QUEUE_SIZE);
-
-    // Initialize timer module.
-    err_code = app_timer_init();
-    APP_ERROR_CHECK(err_code);
 }
 
 /**@brief Function for handling BLE events.
@@ -219,6 +215,59 @@ static void ble_stack_init (void)
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
 }
 
+/**@brief Function for handling Peer Manager events.
+ *
+ * @param[in] p_evt  Peer Manager event.
+ */
+static void pm_evt_handler(pm_evt_t const * p_evt)
+{
+    pm_handler_on_pm_evt(p_evt);
+    pm_handler_flash_clean(p_evt);
+
+    switch (p_evt->evt_id)
+    {
+        case PM_EVT_PEERS_DELETE_SUCCEEDED:
+          //  advertising_start(false);
+            break;
+
+        default:
+            break;
+    }
+}
+
+/**@brief Function for the Peer Manager initialization.
+ */
+static void peer_manager_init(void)
+{
+    ble_gap_sec_params_t sec_param;
+    ret_code_t           err_code;
+
+    err_code = pm_init();
+    APP_ERROR_CHECK(err_code);
+
+    memset(&sec_param, 0, sizeof(ble_gap_sec_params_t));
+
+    // Security parameters to be used for all security procedures.
+    sec_param.bond           = SEC_PARAM_BOND;
+    sec_param.mitm           = SEC_PARAM_MITM;
+    sec_param.lesc           = SEC_PARAM_LESC;
+    sec_param.keypress       = SEC_PARAM_KEYPRESS;
+    sec_param.io_caps        = SEC_PARAM_IO_CAPABILITIES;
+    sec_param.oob            = SEC_PARAM_OOB;
+    sec_param.min_key_size   = SEC_PARAM_MIN_KEY_SIZE;
+    sec_param.max_key_size   = SEC_PARAM_MAX_KEY_SIZE;
+    sec_param.kdist_own.enc  = 1;
+    sec_param.kdist_own.id   = 1;
+    sec_param.kdist_peer.enc = 1;
+    sec_param.kdist_peer.id  = 1;
+
+    err_code = pm_sec_params_set(&sec_param);
+    APP_ERROR_CHECK(err_code);
+
+    err_code = pm_register(pm_evt_handler);
+    APP_ERROR_CHECK(err_code);
+}
+
 /**@brief Function for the GAP initialization.
  *
  * @details This function sets up all the necessary GAP (Generic Access Profile) parameters of the
@@ -236,26 +285,36 @@ static void gap_params_init (void)
     APP_ERROR_CHECK(err_code);
 
     memset(&gap_conn_params, 0, sizeof(gap_conn_params));
-    gap_conn_params.min_conn_interval = MSEC_TO_UNITS(MIN_CONN_INTERVAL_MS, UNIT_1_25_MS);
-    gap_conn_params.max_conn_interval = MSEC_TO_UNITS(MAX_CONN_INTERVAL_MS, UNIT_1_25_MS);;
+    gap_conn_params.min_conn_interval = MIN_CONN_INTERVAL;
+    gap_conn_params.max_conn_interval = MAX_CONN_INTERVAL;
     gap_conn_params.slave_latency     = SLAVE_LATENCY;
-    gap_conn_params.conn_sup_timeout  = MSEC_TO_UNITS(CONN_SUP_TIMEOUT_MS, UNIT_10_MS);
+    gap_conn_params.conn_sup_timeout  = CONN_SUP_TIMEOUT;
+
 
     err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
     APP_ERROR_CHECK(err_code);
 
-    err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, BLE_TX_POWER_LEVEL);
-    APP_ERROR_CHECK(err_code);
+    //err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, BLE_TX_POWER_LEVEL);
+    //APP_ERROR_CHECK(err_code);
 	
-    err_code = sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
-    APP_ERROR_CHECK(err_code);
+    //err_code = sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
+    //APP_ERROR_CHECK(err_code);
 }
 
+/**@brief GATT module event handler.
+ */
+static void gatt_evt_handler(nrf_ble_gatt_t * p_gatt, nrf_ble_gatt_evt_t const * p_evt)
+{
+    if (p_evt->evt_id == NRF_BLE_GATT_EVT_ATT_MTU_UPDATED)
+    {
+        NRF_LOG_INFO("GATT ATT MTU on connection 0x%x changed to %d.", p_evt->conn_handle, p_evt->params.att_mtu_effective);
+    }
+}
 /**@brief Function for initializing the GATT module.
  */
-static void gatt_init (void)
+static void gatt_init(void)
 {
-    ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, NULL);
+    ret_code_t err_code = nrf_ble_gatt_init(&m_gatt, gatt_evt_handler);
     APP_ERROR_CHECK(err_code);
 }
 
@@ -263,14 +322,14 @@ static void gatt_init (void)
  *
  * @param[in] nrf_error  Error code containing information about what went wrong.
  */
-static void conn_params_error_handler (uint32_t nrf_error)
+static void conn_params_error_handler(uint32_t nrf_error)
 {
     APP_ERROR_HANDLER(nrf_error);
 }
 
 /**@brief Function for initializing the Connection Parameters module.
  */
-static void conn_params_init (void)
+static void conn_params_init(void)
 {
     ret_code_t             err_code;
     ble_conn_params_init_t cp_init;
@@ -293,7 +352,7 @@ static void conn_params_init (void)
  *
  * @param[in] ble_adv_evt  Advertising event.
  */
-static void adv_evt_handler (ble_adv_evt_t ble_adv_evt)
+static void on_adv_evt(ble_adv_evt_t ble_adv_evt)
 {
     switch (ble_adv_evt)
     {
@@ -315,23 +374,21 @@ static void adv_evt_handler (ble_adv_evt_t ble_adv_evt)
  * @details Encodes the required advertising data and passes it to the stack.
  *          Also builds a structure to be passed to the stack when starting advertising.
  */
-static void advertising_init (void)
+static void advertising_init(void)
 {
     ret_code_t err_code;
     ble_advertising_init_t init;
-
-    ble_uuid_t adv_uuid =  {BLE_UUID_DEVICE_INFORMATION_SERVICE, BLE_UUID_TYPE_BLE};
 
     memset(&init, 0, sizeof(init));
     init.advdata.name_type               	= BLE_ADVDATA_FULL_NAME;
     init.advdata.include_appearance      	= false;
     init.advdata.flags                   	= BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE;
-    init.advdata.uuids_complete.uuid_cnt 	= 1;
-    init.advdata.uuids_complete.p_uuids  	= &adv_uuid;
+    init.advdata.uuids_complete.uuid_cnt        = sizeof(m_adv_uuids) / sizeof(m_adv_uuids[0]);
+    init.advdata.uuids_complete.p_uuids  	= m_adv_uuids;
     init.config.ble_adv_fast_enabled  		= true;
     init.config.ble_adv_fast_interval 		= APP_ADV_INTERVAL;
-    init.config.ble_adv_fast_timeout  		= APP_ADV_TIMEOUT_IN_SECONDS;
-    init.evt_handler = adv_evt_handler;
+    init.config.ble_adv_fast_timeout  		= APP_ADV_DURATION;
+    init.evt_handler = on_adv_evt;
 
     err_code = ble_advertising_init(&m_advertising, &init);
     APP_ERROR_CHECK(err_code);
@@ -341,19 +398,37 @@ static void advertising_init (void)
 
 /**@brief Function for initializing services that will be used by the application.
  */
-static void services_init (void)
+static void services_init(void)
 {
     ret_code_t err_code;
     ble_dis_init_t dis_init;
 
-    memset (&dis_init, 0, sizeof(ble_dis_init_t));
-    ble_srv_ascii_to_utf8 (&dis_init.manufact_name_str,   (char*)MANUFACTURER_NAME);
-    ble_srv_ascii_to_utf8 (&dis_init.fw_rev_str,          (char*)FW_VERSION_STR);
-    ble_srv_ascii_to_utf8 (&dis_init.hw_rev_str,          (char*)HW_REVISION);
+    char hw[2];
+    hw[0] = BoardGetRevision();
+    hw[1] = '\0';
+
+    memset(&dis_init, 0, sizeof(ble_dis_init_t));
+    ble_srv_ascii_to_utf8(&dis_init.manufact_name_str,   (char*)MANUFACTURER_NAME);
+    ble_srv_ascii_to_utf8(&dis_init.fw_rev_str,          (char*)FW_VERSION_STR);
+    ble_srv_ascii_to_utf8(&dis_init.hw_rev_str,          (char*)hw);
 
     dis_init.dis_char_rd_sec = SEC_OPEN;
 
     err_code = ble_dis_init(&dis_init);
+    APP_ERROR_CHECK(err_code);
+}
+
+
+/**@brief Function for the Timer initialization.
+ *
+ * @details Initializes the timer module. This creates and starts application timers.
+ */
+static void timers_init(void)
+{
+    ret_code_t err_code;
+
+    // Initialize timer module.
+    err_code = app_timer_init();
     APP_ERROR_CHECK(err_code);
 }
 
@@ -378,20 +453,21 @@ int main (void)
     log_init();
     NRF_LOG_INFO("BLE LoRa at commands application started.");
 	
-    // Initialize clocks
+    // Initialize clocks & timer
     nrf_drv_clock_init();
     nrf_drv_clock_lfclk_request(NULL);
-    nrf_pwr_mgmt_init();
-	
-    // Initialize Scheduler and timer
+    err_code = nrf_pwr_mgmt_init();
+    APP_ERROR_CHECK(err_code);
     timers_init();
 		
     // Initialize BLE
     ble_stack_init();
-    advertising_init();
     gap_params_init();
+    gatt_init();
+    advertising_init();
     conn_params_init();
     services_init();
+    //peer_manager_init();
 	
     // Initialize LoRa chip.
     err_code = lora_hardware_init();
@@ -410,9 +486,6 @@ int main (void)
     {   
         // Process received AT command
         is_mac_processing_pending = at_manager_execute();
-
-        // Process scheduler events (user application)
-        app_sched_execute();
 
         if (!is_mac_processing_pending)
         {
