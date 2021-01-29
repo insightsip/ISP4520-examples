@@ -29,8 +29,8 @@
 #include "nrf_delay.h"
 #include "board.h"
 
-#define UART_TX_BUF_SIZE 256                                        /**< UART TX buffer size. */
-#define UART_RX_BUF_SIZE 256                                        /**< UART RX buffer size. */
+#define UART_TX_BUF_SIZE 512                                        /**< UART TX buffer size. */
+#define UART_RX_BUF_SIZE 512                                        /**< UART RX buffer size. */
 
 static uint8_t tx_buffer[UART_TX_BUF_SIZE];
 static uint8_t m_rx_buffer[UART_RX_BUF_SIZE];
@@ -110,7 +110,7 @@ uint32_t at_phy_open(at_phy_events_handler_t events_handler)
         .tx_pin_no    = PIN_UART_TX,
         .rts_pin_no   = PIN_UART_RTS,
         .cts_pin_no   = PIN_UART_CTS,
-        .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
+        .flow_control = APP_UART_FLOW_CONTROL_ENABLED,
         .use_parity   = false,
         .baud_rate    = NRF_UART_BAUDRATE_38400
     };
