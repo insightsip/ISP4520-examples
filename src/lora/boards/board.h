@@ -74,14 +74,14 @@ extern "C"
  */
 #define BOARD_TCXO_WAKEUP_TIME  2
 
-#define LORA_RESET 	PIN_LORA_RESET
-#define SPI_INSTANCE 	0
+#define LORA_RESET              PIN_LORA_RESET
+#define SPI_INSTANCE            0
 #define NRF_NUM_GPIO_PINS       32
 
 // External pin configuration
-#define PIN_UART_RTS            5       // UART RTS for AT commands
+#define PIN_UART_RTS            7       // UART RTS for AT commands
 #define PIN_UART_TX             6       // UART TX for AT commands
-#define PIN_UART_CTS            7       // UART CTS for AT commands
+#define PIN_UART_CTS            5       // UART CTS for AT commands
 #define PIN_UART_RX             8       // UART RX for AT commands
 #define PIN_NVM_ERASE           12      // Non-volatile data erase
 
