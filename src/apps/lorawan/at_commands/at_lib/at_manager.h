@@ -23,9 +23,10 @@
 
 #include <stdint.h>
 
-#define FW_VERSION_STR "3.1.0"
-#define FW_VERSION_NUM 0x03010000 // 3.1.0.0
-#define MODULE_NAME "ISP4520"
+#define FW_VERSION_STR          "3.1.0"
+#define FW_VERSION_NUM          0x03010000 // 3.1.0.0
+#define MODULE_NAME             "ISP4520"
+#define MAX_AT_PREFIX_SIZE      20
 
 typedef enum 
 {
