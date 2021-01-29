@@ -133,7 +133,7 @@ static void fds_evt_handler(fds_evt_t const * p_evt)
         {
             if (p_evt->result == NRF_SUCCESS)
             {
-                NRF_LOG_INFO("FDS write success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
+                NRF_LOG_DEBUG("FDS write success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
             }
             m_fds_write_done = true;
         } break;
@@ -142,7 +142,7 @@ static void fds_evt_handler(fds_evt_t const * p_evt)
         {
             if (p_evt->result == NRF_SUCCESS)
             {
-                NRF_LOG_INFO("FDS update success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
+                NRF_LOG_DEBUG("FDS update success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
             }
             m_fds_write_done = true;
         } break;
@@ -151,7 +151,7 @@ static void fds_evt_handler(fds_evt_t const * p_evt)
         {
             if (p_evt->result == NRF_SUCCESS)
             {
-                NRF_LOG_INFO("FDS delete success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
+                NRF_LOG_DEBUG("FDS delete success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
             }
             m_fds_delete_done = true;
         } break;
@@ -160,13 +160,13 @@ static void fds_evt_handler(fds_evt_t const * p_evt)
         {
             if (p_evt->result == NRF_SUCCESS)
             {
-                NRF_LOG_INFO("FDS Garbage collection success!");
+                NRF_LOG_DEBUG("FDS Garbage collection success!");
             }
             m_fds_gc_done = true;
         } break;
 
         default:
-            NRF_LOG_INFO("Event: %s received (%s)", fds_evt_str[p_evt->id], fds_err_str(p_evt->result));
+            NRF_LOG_DEBUG("Event: %s received (%s)", fds_evt_str[p_evt->id], fds_err_str(p_evt->result));
             break;
     }
 }
