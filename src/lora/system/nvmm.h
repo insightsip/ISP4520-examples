@@ -90,6 +90,17 @@ uint16_t NvmmWrite( uint8_t* src, uint16_t size, uint16_t offset );
 uint16_t NvmmRead( uint8_t* dest, uint16_t size, uint16_t offset );
 
 /*!
+ * \brief Verfies the CRC 32 of a data block. The function assumes that the
+ *        crc32 is at the end of the block with 4 bytes.
+ *
+ * \param[IN] size   Length of the block.
+ * \param[IN] offset Address offset of the NVM.
+ *
+ * \retval           Status of the operation
+ */
+bool NvmmCrc32Check( uint16_t size, uint16_t offset );
+
+/*!
  * \brief Invalidates the CRC 32 of a data block. The function assumes that the
  *        crc32 is at the end of the block with 4 bytes.
  *

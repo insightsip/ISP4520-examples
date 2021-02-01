@@ -38,314 +38,50 @@
  *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
  *	OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * @note 
- *      This implementation is the FDS (Flash Dara Storage) library of Nordic Semiconductor.
- *      The impacts are:
- *          - Higher flash lifetime
- *          - Easy implementation (we manipulate files and not firectly the flash)
- *          - Should not be conflict with other nordic tools that require flash operation (peer manager, bootloader; etc..)
- *
  *****************************************************************************/
 
 #include <stdint.h>
 
 #include "utilities.h"
-//#include "eeprom-board.h"
+#include "eeprom-board.h"
 #include "nvmm.h"
-
-#ifdef SOFTDEVICE_PRESENT
-#include "nrf_sdh.h"
-#include "nrf_sdh_ble.h"
-#endif
-#include "fds.h"
-
-#include "nrf_log.h"
-
-
-#define CTX_FILE 1000                       //!< Context File ID.
-
-
-static bool volatile m_fds_initialized;     //!< Flag to check fds initialization.
-static bool volatile m_fds_write_done;      //!< Flag to check fds writting or updating is done.
-static bool volatile m_fds_delete_done;     //!< Flag to check fds deleting is done.
-static bool volatile m_fds_gc_done;         //!< Flag to check fds gc is done.
-
-
-/* Array to map FDS events to strings. */
-static char const * fds_evt_str[] =
-{
-    "FDS_EVT_INIT",
-    "FDS_EVT_WRITE",
-    "FDS_EVT_UPDATE",
-    "FDS_EVT_DEL_RECORD",
-    "FDS_EVT_DEL_FILE",
-    "FDS_EVT_GC",
-};
-
-const char *fds_err_str(ret_code_t ret)
-{
-    /* Array to map FDS return values to strings. */
-    static char const * err_str[] =
-    {
-        "FDS_ERR_OPERATION_TIMEOUT",
-        "FDS_ERR_NOT_INITIALIZED",
-        "FDS_ERR_UNALIGNED_ADDR",
-        "FDS_ERR_INVALID_ARG",
-        "FDS_ERR_NULL_ARG",
-        "FDS_ERR_NO_OPEN_RECORDS",
-        "FDS_ERR_NO_SPACE_IN_FLASH",
-        "FDS_ERR_NO_SPACE_IN_QUEUES",
-        "FDS_ERR_RECORD_TOO_LARGE",
-        "FDS_ERR_NOT_FOUND",
-        "FDS_ERR_NO_PAGES",
-        "FDS_ERR_USER_LIMIT_REACHED",
-        "FDS_ERR_CRC_CHECK_FAILED",
-        "FDS_ERR_BUSY",
-        "FDS_ERR_INTERNAL",
-    };
-
-    return err_str[ret - NRF_ERROR_FDS_ERR_BASE];
-}
-
-/**@brief   Sleep until an event is received. */
-static void power_manage(void)
-{
-#ifdef SOFTDEVICE_PRESENT
-    (void) sd_app_evt_wait();
-#else
-    __WFE();
-#endif
-}
-
-
-static void fds_evt_handler(fds_evt_t const * p_evt)
-{
-    switch (p_evt->id)
-    {
-        case FDS_EVT_INIT:
-            if (p_evt->result == NRF_SUCCESS)
-            {
-                m_fds_initialized = true;
-            }
-            break;
-
-        case FDS_EVT_WRITE:
-        {
-            if (p_evt->result == NRF_SUCCESS)
-            {
-                NRF_LOG_DEBUG("FDS write success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
-            }
-            m_fds_write_done = true;
-        } break;
-
-        case FDS_EVT_UPDATE:
-        {
-            if (p_evt->result == NRF_SUCCESS)
-            {
-                NRF_LOG_DEBUG("FDS update success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
-            }
-            m_fds_write_done = true;
-        } break;
-
-        case FDS_EVT_DEL_RECORD:
-        {
-            if (p_evt->result == NRF_SUCCESS)
-            {
-                NRF_LOG_DEBUG("FDS delete success! FileId: 0x%x RecKey:0x%x", p_evt->write.file_id, p_evt->write.record_key);
-            }
-            m_fds_delete_done = true;
-        } break;
-
-        case FDS_EVT_GC:
-        {
-            if (p_evt->result == NRF_SUCCESS)
-            {
-                NRF_LOG_DEBUG("FDS Garbage collection success!");
-            }
-            m_fds_gc_done = true;
-        } break;
-
-        default:
-            NRF_LOG_DEBUG("Event: %s received (%s)", fds_evt_str[p_evt->id], fds_err_str(p_evt->result));
-            break;
-    }
-}
 
 uint16_t NvmmInit(void)
 {
-    ret_code_t rc;
-    fds_record_desc_t desc = {0};
-    fds_find_token_t  tok  = {0};
-
-    /* Register first to receive an event when initialization is complete. */
-    (void) fds_register(fds_evt_handler);
-
-    NRF_LOG_INFO("Initializing fds...");
-    
-    /* Initialize fds */
-    rc = fds_init();
-    APP_ERROR_CHECK(rc);
-
-    /* Wait for fds to initialize. */
-    while (!m_fds_initialized)
-    {
-        power_manage();
-    }
-
-    /* Reading flash usage statistics */
-    NRF_LOG_INFO("Reading flash usage statistics...");
-
-    fds_stat_t stat = {0};
-    rc = fds_stat(&stat);
-    APP_ERROR_CHECK(rc);
-
-    NRF_LOG_INFO("Found %d valid records.", stat.valid_records);
-    NRF_LOG_INFO("Found %d dirty records (ready to be garbage collected).", stat.dirty_records);
-
-    while (fds_record_find_in_file(CTX_FILE, &desc, &tok) != FDS_ERR_NOT_FOUND)
-    {
-        NRF_LOG_INFO("Record %d at %x", desc.record_id, desc.p_record);
-    }
-
-    return 0;
+   return EepromMcuInit();
 }
 
-uint16_t NvmmWrite( uint8_t* src, uint16_t size, uint16_t record_key )
+uint16_t NvmmWrite( uint8_t* src, uint16_t size, uint16_t offset )
 {
-    ret_code_t rc_find, rc_write;
-    fds_record_desc_t desc = {0};
-    fds_find_token_t  tok  = {0};
-    fds_record_t record;
-
-    record.file_id = CTX_FILE;
-    record.key = record_key;
-    record.data.p_data = src,
-    record.data.length_words = CEIL_DIV(size, sizeof(uint32_t));
-
-    m_fds_write_done = false;
-    rc_find = fds_record_find(CTX_FILE, record_key, &desc, &tok);
-    if (rc_find != NRF_SUCCESS && rc_find != FDS_ERR_NOT_FOUND)
+    if( EepromMcuWriteBuffer(offset, src, size) == SUCCESS )
     {
-        return 0;
-    }
-
-    if (rc_find == NRF_SUCCESS)
-    {
-        /* Write the updated record to flash. */
-        rc_write = fds_record_update(&desc, &record);
-    }
-    else if (rc_find == FDS_ERR_NOT_FOUND)
-    {
-        /* Record not found; write a new one. */
-        rc_write = fds_record_write(&desc, &record);
-    }
-
-    if (rc_write == NRF_SUCCESS)
-    { 
-        /* Write/update started, let's wait for fds to finish. */
-        while (!m_fds_write_done)
-        {
-            power_manage();
-        }
-        // Here writting is successfully done so we can leave the function
         return size;
     }
-    else if (rc_write == FDS_ERR_NO_SPACE_IN_FLASH)
+    return 0;
+}
+
+uint16_t NvmmRead( uint8_t* dest, uint16_t size, uint16_t offset  )
+{
+    if( EepromMcuReadBuffer( offset, dest, size ) == SUCCESS )
     {
-        /* No more space, so we run garbage collector to free some space and then try again */
-        NRF_LOG_INFO("No space in flash, running garbage collector.");
-        m_fds_gc_done = false;
-        fds_gc();
-
-         /* Garbage collection in progress, let's wait for fds to finish. */
-        while (!m_fds_gc_done)
-        {
-            power_manage();
-        }
-     
-        /* try again */
-        m_fds_write_done = false;
-        rc_find = fds_record_find(CTX_FILE, record_key, &desc, &tok);
-        if (rc_find != NRF_SUCCESS && rc_find != FDS_ERR_NOT_FOUND)
-        {
-            return 0;
-        }
-
-        if (rc_find == NRF_SUCCESS)
-        {
-           /* Write the updated record to flash. */
-           rc_write = fds_record_update(&desc, &record);
-        }
-        else if (rc_find == FDS_ERR_NOT_FOUND)
-        {
-           /* Record not found; write a new one. */
-           rc_write = fds_record_write(&desc, &record);
-        }
-
-        if (rc_write == NRF_SUCCESS)
-        { 
-            /* Write/update started, let's wait for fds to finish. */
-            while (!m_fds_write_done)
-            {
-                power_manage();
-            }
-            return size;
-        }
+        return size;
     }
     return 0;
 }
 
-uint16_t NvmmRead( uint8_t* dest, uint16_t size, uint16_t record_key  )
+bool NvmmCrc32Check( uint16_t size, uint16_t offset )
 {
-    ret_code_t rc;
-    fds_record_desc_t desc = {0};
-    fds_find_token_t  tok  = {0};
-    fds_flash_record_t flash_rec;
-
-    rc = fds_record_find(CTX_FILE, record_key, &desc, &tok);
-    if (rc != NRF_SUCCESS)
-    {
-        return 0;
-    }
-
-    rc = fds_record_open(&desc, &flash_rec);
-    if (rc != NRF_SUCCESS)
-    {
-        return 0;
-    }
-
-    memcpy(dest, flash_rec.p_data, size);
-
-    fds_record_close(&desc);
-
-    return size;
-}
-
-bool NvmmReset( uint16_t size, uint16_t record_key )
-{
-    ret_code_t rc;
-    fds_record_desc_t desc = {0};
-    fds_find_token_t  tok  = {0};
-
-    rc = fds_record_find(CTX_FILE, record_key, &desc, &tok);
-    if (rc != NRF_SUCCESS)
-    {
-        return false;
-    }
-
-    /* Delete record. */
-    m_fds_delete_done = false;
-    rc = fds_record_delete(&desc);
-    if (rc != NRF_SUCCESS)
-    {
-        return false;
-    }
-
-    /* Deletinge started, let's wait for fds to finish. */
-    while (!m_fds_delete_done)
-    {
-        power_manage();
-    }
+    // Not required with the current EEPROM-board implementation
+    // CRC is checked by the FDS library
 
     return true;
+}
+
+bool NvmmReset( uint16_t size, uint16_t offset )
+{
+    if( EepromMcuDeleteBuffer(offset) == SUCCESS )
+    {
+        return true;
+    }
+    return false;
 }

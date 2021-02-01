@@ -301,6 +301,7 @@
       <file file_name="../../../../lora/boards/ISP4520E-EU/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520E-EU/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520E-EU/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -309,6 +310,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -632,6 +634,7 @@
       <file file_name="../../../../lora/boards/ISP4520D-EU/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520D-EU/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520D-EU/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520D-EU/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -640,6 +643,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -963,6 +967,7 @@
       <file file_name="../../../../lora/boards/ISP4520A-AS/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520A-AS/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520A-AS/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520A-AS/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -971,6 +976,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1295,6 +1301,7 @@
       <file file_name="../../../../lora/boards/ISP4520B-AS/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-AS/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-AS/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -1303,6 +1310,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1626,6 +1634,7 @@
       <file file_name="../../../../lora/boards/ISP4520A-US/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520A-US/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520A-US/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520A-US/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -1634,6 +1643,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1958,6 +1968,7 @@
       <file file_name="../../../../lora/boards/ISP4520B-US/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-US/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-US/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -1966,6 +1977,7 @@
       <file file_name="../../../../lora/system/delay.c" />
       <file file_name="../../../../lora/system/timer.c" />
       <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
     </folder>
     <folder Name="LoRa\radio">
       <file file_name="../../../../lora/radio/sx126x/radio.c" />
@@ -1988,6 +2000,7 @@
       <file file_name="../../../../lora/mac/region/Region.c" />
       <file file_name="../../../../lora/mac/region/RegionCommon.c" />
       <file file_name="../../../../lora/mac/region/RegionUS915.c" />
+      <file file_name="../../../../lora/mac/region/RegionBaseUS.c" />
     </folder>
     <folder Name="LoRa\peripherals">
       <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />

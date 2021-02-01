@@ -171,6 +171,7 @@
       <file file_name="../../../../lora/boards/ISP4520E-EU/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520E-EU/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520E-EU/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
@@ -429,6 +430,7 @@
       <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
       <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
     </folder>
+    <file file_name="../../../../lora/boards/ISP4520B-AS/eeprom-board.c" />
   </project>
   <project Name="End-device_ISP4520B-US">
     <configuration
@@ -593,6 +595,7 @@
       <file file_name="../../../../lora/boards/ISP4520B-US/rtc-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-US/spi-board.c" />
       <file file_name="../../../../lora/boards/ISP4520B-US/sx126x-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/eeprom-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
