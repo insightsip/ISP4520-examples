@@ -22,6 +22,25 @@
  *
  * \author    Miguel Luis ( Semtech )
  */
+
+
+/******************************************************************************
+ * @attention
+ *      Modified work 2021 Insight SiP  
+ *
+ *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
+ *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *	OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *	DISCLAIMED. IN NO EVENT SHALL INSIGHT SIP OR CONTRIBUTORS BE
+ *	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *	GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ *	OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *****************************************************************************/
+
 #include <stdlib.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -37,13 +56,14 @@
 #include "LmhpRemoteMcastSetup.h"
 #include "LmhpFragmentation.h"
 
-#ifndef ACTIVE_REGION
+// Insight SiP: Commented the following, it is not sued and generate a warning
+//#ifndef ACTIVE_REGION
 
-#warning "No active region defined, LORAMAC_REGION_EU868 will be used as default."
+//#warning "No active region defined, LORAMAC_REGION_EU868 will be used as default."
 
-#define ACTIVE_REGION LORAMAC_REGION_EU868
+//#define ACTIVE_REGION LORAMAC_REGION_EU868
 
-#endif
+//#endif
 
 #include "LoRaMacTest.h"
 
@@ -370,6 +390,7 @@ TimerTime_t LmHandlerGetDutyCycleWaitTime( void )
     return DutyCycleWaitTime;
 }
 
+// Insight SiP: made the following function non static, so it can be called from elsewhere
 /*!
  * Join a LoRa Network in classA
  *
@@ -377,7 +398,7 @@ TimerTime_t LmHandlerGetDutyCycleWaitTime( void )
  *
  * \param [IN] isOtaa Indicates which activation mode must be used
  */
-static void LmHandlerJoinRequest( bool isOtaa )
+void LmHandlerJoinRequest( bool isOtaa )
 {
     MlmeReq_t mlmeReq;
 

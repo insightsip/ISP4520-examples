@@ -1051,7 +1051,7 @@ at_error_code_t at_joinrq_set (const uint8_t *param)
     }
 
     m_otaa = otaa;
-    LmHandlerJoin();
+    LmHandlerJoinRequest(m_otaa);
 
     return AT_OK;
 }

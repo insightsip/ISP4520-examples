@@ -22,6 +22,24 @@
  *
  * \author    Miguel Luis ( Semtech )
  */
+
+/******************************************************************************
+ * @attention
+ *      Modified work 2021 Insight SiP  
+ *
+ *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
+ *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+ *	OF MERCHANTABILITY, NONINFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ *	DISCLAIMED. IN NO EVENT SHALL INSIGHT SIP OR CONTRIBUTORS BE
+ *	LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ *	CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+ *	GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *	HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+ *	LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+ *	OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ *****************************************************************************/
+
 #ifndef __LORAMAC_HANDLER_H__
 #define __LORAMAC_HANDLER_H__
 
@@ -269,6 +287,8 @@ LmHandlerErrorStatus_t LmHandlerSend( LmHandlerAppData_t *appData, LmHandlerMsgT
  * \Note if the device is ABP, this is a pass through function
  */
 void LmHandlerJoin( void );
+// Insight SiP: added void LmHandlerJoinRequest( bool isOtaa );
+void LmHandlerJoinRequest( bool isOtaa );
 
 /*!
  * Check whether the Device is joined to the network
