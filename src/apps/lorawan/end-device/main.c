@@ -47,7 +47,7 @@
 #include "nrf_log_default_backends.h"
 
 
-#define FIRMWARE_VERSION                        0x01000000 // 1.0.0.0
+#define FIRMWARE_VERSION                        0x03010100 // 3.1.1.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE                        60                              /**< Maximum number of events in the scheduler queue. */
 #define LORAWAN_DEFAULT_CLASS                   CLASS_A                         /**< LoRaWAN default end-device class. */
@@ -341,7 +341,7 @@ static void OnMacMlmeRequest( LoRaMacStatus_t status, MlmeReq_t *mlmeReq, TimerT
 
 static void OnJoinRequest(LmHandlerJoinParams_t* params)
 {
-    if( params->Status == LORAMAC_HANDLER_ERROR )
+    if(params->Status == LORAMAC_HANDLER_ERROR)
     {
         NRF_LOG_INFO("Network not joined, Retrying...");
         LmHandlerJoin( );
@@ -386,7 +386,7 @@ static void OnClassChange(DeviceClass_t deviceClass)
         .BufferSize = 0,
         .Port = 0,
     };
-    LmHandlerSend( &appData, LORAMAC_HANDLER_UNCONFIRMED_MSG );
+    LmHandlerSend(&appData, LORAMAC_HANDLER_UNCONFIRMED_MSG);
 }
 
 static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params )
@@ -435,12 +435,10 @@ static void OnBeaconStatusChange( LoRaMacHandlerBeaconParams_t* params )
 #if( LMH_SYS_TIME_UPDATE_NEW_API == 1 )
 static void OnSysTimeUpdate( bool isSynchronized, int32_t timeCorrection )
 {
-
 }
 #else
 static void OnSysTimeUpdate( void )
 {
-
 }
 #endif
 
@@ -455,7 +453,7 @@ static void OnTxTimerEvent(void* context)
 
     // Schedule next transmission
     TimerSetValue(&TxTimer, TxPeriodicity);
-    TimerStart(&TxTimer );
+    TimerStart(&TxTimer);
 }
 
 static void StartTxProcess(LmHandlerTxEvents_t txEvent)
@@ -469,7 +467,7 @@ static void StartTxProcess(LmHandlerTxEvents_t txEvent)
             // Schedule 1st packet transmission
             TimerInit(&TxTimer, OnTxTimerEvent);
             TimerSetValue(&TxTimer, TxPeriodicity);
-            OnTxTimerEvent(NULL );
+            OnTxTimerEvent(NULL);
         }
         break;
         case LORAMAC_HANDLER_TX_ON_EVENT:
@@ -562,6 +560,7 @@ int main(void)
     nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
     if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
     {
+        NRF_LOG_INFO("NVM data restored to factory settings.");
         NvmDataMgmtFactoryReset();
     }
   		
