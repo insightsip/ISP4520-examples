@@ -66,20 +66,17 @@ extern "C" {
  * When set to 1 DevEui is LORAWAN_DEVICE_EUI
  * When set to 0 DevEui is automatically set with a value provided by MCU platform
  */
-//#define STATIC_DEVICE_EUI                                  0
-#define STATIC_DEVICE_EUI                                  1
+#define STATIC_DEVICE_EUI                                  0
 
 /*!
  * end-device IEEE EUI (big endian)
  */
-//#define LORAWAN_DEVICE_EUI                                 { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
-#define LORAWAN_DEVICE_EUI                                 { 0xA2, 0x3C, 0x78, 0xFF, 0xA7, 0x68, 0xCD, 0x02 }
+#define LORAWAN_DEVICE_EUI                                 { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 
 /*!
  * App/Join server IEEE EUI (big endian)
  */
 //#define LORAWAN_JOIN_EUI                                   { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
-#define LORAWAN_JOIN_EUI                                   { 0xA2, 0x3C, 0x78, 0xFF, 0xA7, 0x68, 0xCD, 0xB3 }
 
 /*!
  * Secure-element pin
