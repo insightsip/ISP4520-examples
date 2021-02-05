@@ -76,7 +76,7 @@ extern "C" {
 /*!
  * App/Join server IEEE EUI (big endian)
  */
-//#define LORAWAN_JOIN_EUI                                   { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
+#define LORAWAN_JOIN_EUI                                   { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 
 /*!
  * Secure-element pin
