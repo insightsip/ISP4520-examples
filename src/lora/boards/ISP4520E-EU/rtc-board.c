@@ -25,7 +25,7 @@
 
 /******************************************************************************
  * @attention
- *      Modified work 2020 Insight SiP  
+ *      Modified work 2021 Insight SiP  
  *
  *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
  *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES

@@ -54,3 +54,7 @@ dkms.conf
 # SES 
 *.emSession
 *.jlink
+*.asm
+
+# Others
+*.bak

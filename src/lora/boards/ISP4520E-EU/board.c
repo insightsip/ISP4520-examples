@@ -23,7 +23,7 @@
 
 /******************************************************************************
  * @attention
- *      Modified work 2020 Insight SiP  
+ *      Modified work 2021 Insight SiP  
  *
  *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
  *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -45,7 +45,9 @@
 #define ID1     (0x10000060)
 #define ID2     (0x10000064)
 
-uint32_t lora_hardware_init (void)
+static uint8_t __CR_NESTED = 0;  
+
+uint32_t lora_hardware_init(void)
 {
     TimerRtcInit();
 
@@ -55,18 +57,26 @@ uint32_t lora_hardware_init (void)
     return NRF_SUCCESS;
 }
 
-void lora_hardware_uninit (void)
+void lora_hardware_uninit(void)
 {
     SpiDeInit(&SX126x.Spi);
     SX126xIoDeInit();
 }
 
-uint32_t BoardGetRandomSeed (void)
+void BoardResetMcu(void)
+{
+    CRITICAL_SECTION_BEGIN();
+
+    //Restart system
+    NVIC_SystemReset();
+}
+
+uint32_t BoardGetRandomSeed(void)
 {
     return ((*(uint32_t*)ID1) ^ (*(uint32_t*)ID2));
 }
 
-void BoardGetUniqueId (uint8_t *id)
+void BoardGetUniqueId(uint8_t *id)
 {
     id[7] = ( (*(uint32_t*)ID1) );
     id[6] = ( (*(uint32_t*)ID1) ) >> 8;
@@ -78,7 +88,7 @@ void BoardGetUniqueId (uint8_t *id)
     id[0] = ( (*(uint32_t*)ID2) ) >> 24;
 }
 
-uint8_t BoardGetBatteryLevel (void)
+uint8_t BoardGetBatteryLevel(void)
 {
     return 0;
 }
@@ -90,11 +100,10 @@ char BoardGetRevision(void)
 
 void BoardCriticalSectionBegin(uint32_t *mask)
 {
-    *mask = __get_PRIMASK( );
-    __disable_irq( );
+    app_util_critical_region_enter(&__CR_NESTED);
 }
 
 void BoardCriticalSectionEnd(uint32_t *mask)
 {
-    __set_PRIMASK( *mask );
+    app_util_critical_region_exit(__CR_NESTED);  
 }

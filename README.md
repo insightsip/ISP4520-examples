@@ -11,22 +11,22 @@ The module incorporates chips from the leading semiconductor vendors for each te
 
 For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
-* **lorawan_class_A**: Class A end-device example application.
+* **lorawan/end-device**: LoRaWan end-device example application.
 
-* **lorawan_class_C**: Class C end-device example application.
+* **lorawan/class_A**: LoRaWan Class A end-device example application (deprecated).
 
-* **ble_lorawan_AT_commands**: Example of LoRaWan AT commands set.
+* **lorawan/at_commands**: Example of LoRaWan AT commands set.
 
-* **lora_ping_pong**: Point to point LoRa link example application.
+* **lora/ping_pong**: Point to point LoRa link example application.
 
-* **lora_tx_cw**: Transmits an RF Continuous Wave.
+* **lora/tx_cw**: Transmits an RF Continuous Wave.
 
-* **lora_tx_temperature**: Transmits local temperature using Point to point LoRa link.
+* **lora/tx_temperature**: Transmits local temperature using Point to point LoRa link.
 
-* **lora_rx_temperature**: Receives temperature from lora_tx_temperature and transmits it to a COM port.
+* **lora/rx_temperature**: Receives temperature from lora_tx_temperature and transmits it to a COM port.
 
 The LoRaWan implementation is based on the official LoRaWAN stack (http://stackforce.github.io/LoRaMac-doc/).
-All Loramac/Region files are fetched from the StackForce LoRaMac-node master branch (4.4.3 release)
+All Loramac/Region files are fetched from the StackForce LoRaMac-node master branch (4.5.1 release)
 https://github.com/Lora-net/LoRaMac-node/tree/master
 
 ## Environment
@@ -40,12 +40,14 @@ For more information regarding Segger Embedded Studio, please visit https://www.
 
 ## Test
 
-For Europeran regional parameters, the LoRaWan Class A example has been tested using the LoRa-alliance pre-certification tool LCTT (https://lora-alliance.org/lorawan-certification-test-tool).
-Tests for US and Asia regional parameters are ongoing. The gateways used with the pre-certification tool are the Semtech Picocell SX1308P868GW and SX1308P915GW.
-
-Additionally, Class A & C basic LoRaWan functionalities (OTAA, uplinks, downlinks) have been tested with the AAEON-ILRA01 gateway (https://www.aaeon.com/en/p/intel-lora-gateway-system-server).
+For all 3 regional version (EU,868, AS923 and US915), the LoRaWan end-device example has been tested using the LoRa-alliance pre-certification tool LCTT (https://lora-alliance.org/lorawan-certification-test-tool).
+The gateways used with the pre-certification tool are the Semtech Picocell SX1308P868GW and SX1308P915GW.
 
 ## Changelog
+
+### 2021-02-05, v3.1.1
+
+New implementation based on v4.5.1 stackforce implementation.
 
 ### 2020-05-26, v3.0.0
 

@@ -23,7 +23,7 @@
 
 /******************************************************************************
  * @attention
- *      Modified work 2020 Insight SiP  
+ *      Modified work 2021 Insight SiP  
  *
  *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
  *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -130,7 +130,7 @@ void TimerStart(TimerEvent_t *obj)
 
     if ((obj == NULL) || (TimerExists(obj) == true))
     {
-        CRITICAL_SECTION_END( );
+        CRITICAL_SECTION_END();
         return;
     }
 
@@ -159,7 +159,7 @@ void TimerStart(TimerEvent_t *obj)
             TimerInsertTimer(obj);
         }
     }
-    CRITICAL_SECTION_END( );
+    CRITICAL_SECTION_END();
 
     
 }

@@ -74,15 +74,18 @@ extern "C"
  */
 #define BOARD_TCXO_WAKEUP_TIME  2
 
-#define LORA_RESET 	PIN_LORA_RESET
-#define SPI_INSTANCE 	0
-
-//nRF pin configuration
+#define LORA_RESET              PIN_LORA_RESET
+#define SPI_INSTANCE            0
 #define NRF_NUM_GPIO_PINS       32
-#define PIN_UART_RTS            5       // UART RTS for AT commands
+
+// External pin configuration
+#define PIN_UART_RTS            7       // UART RTS for AT commands
 #define PIN_UART_TX             6       // UART TX for AT commands
-#define PIN_UART_CTS            7       // UART CTS for AT commands
+#define PIN_UART_CTS            5       // UART CTS for AT commands
 #define PIN_UART_RX             8       // UART RX for AT commands
+#define PIN_NVM_ERASE           12      // Non-volatile data erase
+
+// Internal pin configuration
 #define PIN_LORA_DIO_1          11      // LORA DIO_1
 #define PIN_LORA_RESET          19      // LORA RESET
 #define PIN_LORA_SCLK           23      // LORA SPI CLK
@@ -98,6 +101,10 @@ uint32_t lora_hardware_init(void);
 /**@brief De-initializes the target board peripherals to decrease power consumption.
  */
 void lora_hardware_uninit(void);
+
+/**@brief Reset CPU.
+ */
+void BoardResetMcu(void);
 
 /**@brief Returns a pseudo random seed generated using the MCU Unique ID
  *
@@ -118,18 +125,6 @@ uint8_t BoardGetBatteryLevel(void);
 /**@brief   Get module revision 
  */
 char BoardGetRevision(void);
-
-/**@brief Disable interrupts
- *
- * @remark IRQ nesting is managed
- */
-void BoardDisableIrq(void);
-
-/**@brief Enable interrupts
- *
- * @remark IRQ nesting is managed
- */
-void BoardEnableIrq(void);
 
 #ifdef __cplusplus
 }
