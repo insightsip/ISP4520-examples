@@ -1257,7 +1257,6 @@ at_error_code_t at_dr_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    //TODO check if it is enough, DR should be updated at next uplink
     LmHandlerParams.TxDatarate = dr;
 
     return AT_OK;
