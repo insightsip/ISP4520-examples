@@ -110,7 +110,7 @@ uint32_t at_phy_open(at_phy_events_handler_t events_handler)
         .tx_pin_no    = PIN_UART_TX,
         .rts_pin_no   = PIN_UART_RTS,
         .cts_pin_no   = PIN_UART_CTS,
-        .flow_control = APP_UART_FLOW_CONTROL_ENABLED,
+        .flow_control = APP_UART_FLOW_CONTROL_DISABLED,
         .use_parity   = false,
         .baud_rate    = NRF_UART_BAUDRATE_38400
     };
