@@ -455,8 +455,7 @@ at_error_code_t at_appeui_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.JoinEui, key, SE_EUI_SIZE);
+    mibReq.Param.JoinEui = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -508,8 +507,7 @@ at_error_code_t at_joineui_set (const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_JOIN_EUI;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.JoinEui, key, SE_EUI_SIZE);
+    mibReq.Param.JoinEui = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -561,8 +559,7 @@ at_error_code_t at_nwk_key_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_NWK_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.NwkKey, key, SE_KEY_SIZE);
+    mibReq.Param.NwkKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -593,8 +590,7 @@ at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_F_NWK_S_INT_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.FNwkSIntKey, key, SE_KEY_SIZE);
+    mibReq.Param.FNwkSIntKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -625,8 +621,7 @@ at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_S_NWK_S_INT_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.SNwkSIntKey, key, SE_KEY_SIZE);
+    mibReq.Param.SNwkSIntKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -657,8 +652,7 @@ at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_NWK_S_ENC_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.NwkSEncKey, key, SE_KEY_SIZE);
+    mibReq.Param.NwkSEncKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -689,8 +683,7 @@ at_error_code_t at_appkey_set (const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_APP_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.AppKey, key, SE_KEY_SIZE);
+    mibReq.Param.AppKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -721,8 +714,7 @@ at_error_code_t at_nwkkey_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_NWK_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.NwkKey, key, SE_KEY_SIZE);
+    mibReq.Param.NwkKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -753,8 +745,7 @@ at_error_code_t at_fnwksintkey_set(const uint8_t *param)
 
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_F_NWK_S_INT_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.FNwkSIntKey, key, SE_KEY_SIZE);
+    mibReq.Param.FNwkSIntKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -785,8 +776,7 @@ at_error_code_t at_snwksintkey_set(const uint8_t *param)
     
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_S_NWK_S_INT_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.SNwkSIntKey, key, SE_KEY_SIZE);
+    mibReq.Param.SNwkSIntKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -817,8 +807,7 @@ at_error_code_t at_nwksenckey_set(const uint8_t *param)
     
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_NWK_S_ENC_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.NwkSEncKey, key, SE_KEY_SIZE);
+    mibReq.Param.NwkSEncKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -849,8 +838,7 @@ at_error_code_t at_appskey_set(const uint8_t *param)
     
     // Not implemented by LmHandler, so we call LoRaMacMibSetRequestConfirm directly
     mibReq.Type = MIB_APP_S_KEY;
-    LoRaMacMibGetRequestConfirm(&mibReq);
-    memcpy(mibReq.Param.AppSKey, key, SE_KEY_SIZE);
+    mibReq.Param.AppSKey = key;
     status = LoRaMacMibSetRequestConfirm(&mibReq);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
@@ -2043,6 +2031,10 @@ uint32_t at_manager_init()
     {
         return NRF_ERROR_INTERNAL;
     }
+
+    // Fill mibReq structure
+    mibReq.Type = MIB_DEV_EUI;
+    LoRaMacMibGetRequestConfirm(&mibReq);
 
     // Set system maximum tolerated rx error in milliseconds
     LmHandlerSetSystemMaxRxError(20);
