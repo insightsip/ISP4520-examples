@@ -2016,11 +2016,6 @@ uint32_t at_manager_init()
 
     // Initialize NVM
     NvmDataMgmtInit();
-    nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
-    if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
-    {
-        NvmDataMgmtFactoryReset();
-    }
 
     // Initialize transmission periodicity variable
     TxPeriodicity = APP_TX_DUTYCYCLE + randr(-APP_TX_DUTYCYCLE_RND, APP_TX_DUTYCYCLE_RND);
