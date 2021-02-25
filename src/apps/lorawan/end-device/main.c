@@ -363,7 +363,7 @@ static void OnTxData(LmHandlerTxParams_t* params)
     mibReq.Type  = MIB_CHANNELS;
     if (LoRaMacMibGetRequestConfirm(&mibReq) == LORAMAC_STATUS_OK)
     {
-        NRF_LOG_DEBUG("Uplink frequency: %lu", mibReq.Param.ChannelList[params->Channel].Frequency );
+        NRF_LOG_DEBUG("Uplink frequency: %lu", mibReq.Param.ChannelList[params->Channel].Frequency);
     }
 }
 
@@ -557,12 +557,6 @@ int main(void)
 
     // Initialize NVM
     NvmDataMgmtInit();
-    nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
-    if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
-    {
-        NRF_LOG_INFO("NVM data restored to factory settings.");
-        NvmDataMgmtFactoryReset();
-    }
   		
     // Initialize LoRa chip.
     err_code = lora_hardware_init();
