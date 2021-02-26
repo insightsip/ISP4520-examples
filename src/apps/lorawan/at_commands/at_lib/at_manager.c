@@ -288,8 +288,15 @@ static void OnTxData(LmHandlerTxParams_t* params)
 }
 
 static void OnRxData(LmHandlerAppData_t* appData, LmHandlerRxParams_t* params)
-{
-    memcpy(&RxAppData, appData, sizeof(RxAppData));
+{  
+    // Clear current buffer
+    memset(RxAppData.Buffer, 0, LORAWAN_APP_DATA_BUFFER_MAX_SIZE);
+
+    // Fill buffer with new message
+    RxAppData.Port = appData->Port;
+    RxAppData.BufferSize = appData->BufferSize;
+    memcpy(RxAppData.Buffer, appData->Buffer, appData->BufferSize);
+
     LastRssi = params->Rssi;
     LastSnr = params->Snr;
 
