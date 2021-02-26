@@ -87,7 +87,7 @@
 #define FIRST_CONN_PARAMS_UPDATE_DELAY  APP_TIMER_TICKS(1000)                   ///< Time from initiating event (connect or start of notification) to first time sd_ble_gap_conn_param_update is called (5 seconds).
 #define NEXT_CONN_PARAMS_UPDATE_DELAY   APP_TIMER_TICKS(30000)                  ///< Time between each call to sd_ble_gap_conn_param_update after the first call (30 seconds).
 #define MAX_CONN_PARAMS_UPDATE_COUNT    3                                       ///< Number of attempts before giving up the connection parameter negotiation.
-#define BLE_TX_POWER_LEVEL              0                                       ///< Tx power in dBm. 
+#define BLE_TX_POWER_LEVEL              4                                       ///< Tx power in dBm. 
 
 // DIS Service
 #define MANUFACTURER_NAME               "Insight SiP"     
@@ -213,6 +213,10 @@ static void ble_stack_init (void)
 
     // Register a handler for BLE events.
     NRF_SDH_BLE_OBSERVER(m_ble_observer, APP_BLE_OBSERVER_PRIO, ble_evt_handler, NULL);
+
+    // Start DCDC regulator
+    err_code = sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
+    APP_ERROR_CHECK(err_code);
 }
 
 /**@brief Function for handling Peer Manager events.
@@ -293,12 +297,6 @@ static void gap_params_init (void)
 
     err_code = sd_ble_gap_ppcp_set(&gap_conn_params);
     APP_ERROR_CHECK(err_code);
-
-    //err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, BLE_TX_POWER_LEVEL);
-    //APP_ERROR_CHECK(err_code);
-	
-    //err_code = sd_power_dcdc_mode_set(NRF_POWER_DCDC_ENABLE);
-    //APP_ERROR_CHECK(err_code);
 }
 
 /**@brief GATT module event handler.
@@ -394,6 +392,10 @@ static void advertising_init(void)
     APP_ERROR_CHECK(err_code);
 
     ble_advertising_conn_cfg_tag_set(&m_advertising, APP_BLE_CONN_CFG_TAG);
+
+    err_code = sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_advertising.adv_handle, BLE_TX_POWER_LEVEL);
+    APP_ERROR_CHECK(err_code);
+	
 }
 
 /**@brief Function for initializing services that will be used by the application.
