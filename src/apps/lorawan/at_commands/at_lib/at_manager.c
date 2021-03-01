@@ -288,8 +288,15 @@ static void OnTxData(LmHandlerTxParams_t* params)
 }
 
 static void OnRxData(LmHandlerAppData_t* appData, LmHandlerRxParams_t* params)
-{
-    memcpy(&RxAppData, appData, sizeof(RxAppData));
+{  
+    // Clear current buffer
+    memset(RxAppData.Buffer, 0, LORAWAN_APP_DATA_BUFFER_MAX_SIZE);
+
+    // Fill buffer with new message
+    RxAppData.Port = appData->Port;
+    RxAppData.BufferSize = appData->BufferSize;
+    memcpy(RxAppData.Buffer, appData->Buffer, appData->BufferSize);
+
     LastRssi = params->Rssi;
     LastSnr = params->Snr;
 
@@ -1198,9 +1205,9 @@ at_error_code_t at_class_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    if      (class_param == 'a' ||  class_param != 'A') new_class = CLASS_A;
-    else if (class_param == 'b' ||  class_param != 'B') new_class = CLASS_B;
-    else if (class_param == 'c' ||  class_param != 'C') new_class = CLASS_C;
+    if      (class_param == 'a' ||  class_param == 'A') new_class = CLASS_A;
+    else if (class_param == 'b' ||  class_param == 'B') new_class = CLASS_B;
+    else if (class_param == 'c' ||  class_param == 'C') new_class = CLASS_C;
 
     lm_err_code = LmHandlerRequestClass(new_class);
     if (lm_err_code != LORAMAC_HANDLER_SUCCESS)
@@ -2016,11 +2023,6 @@ uint32_t at_manager_init()
 
     // Initialize NVM
     NvmDataMgmtInit();
-    nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
-    if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
-    {
-        NvmDataMgmtFactoryReset();
-    }
 
     // Initialize transmission periodicity variable
     TxPeriodicity = APP_TX_DUTYCYCLE + randr(-APP_TX_DUTYCYCLE_RND, APP_TX_DUTYCYCLE_RND);

@@ -47,7 +47,7 @@
 #include "nrf_log_default_backends.h"
 
 
-#define FIRMWARE_VERSION                        0x03010100 // 3.1.1.0
+#define FIRMWARE_VERSION                        0x03010300 // 3.1.3.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE                        60                              /**< Maximum number of events in the scheduler queue. */
 #define LORAWAN_DEFAULT_CLASS                   CLASS_A                         /**< LoRaWAN default end-device class. */
@@ -363,7 +363,7 @@ static void OnTxData(LmHandlerTxParams_t* params)
     mibReq.Type  = MIB_CHANNELS;
     if (LoRaMacMibGetRequestConfirm(&mibReq) == LORAMAC_STATUS_OK)
     {
-        NRF_LOG_DEBUG("Uplink frequency: %lu", mibReq.Param.ChannelList[params->Channel].Frequency );
+        NRF_LOG_DEBUG("Uplink frequency: %lu", mibReq.Param.ChannelList[params->Channel].Frequency);
     }
 }
 
@@ -557,12 +557,6 @@ int main(void)
 
     // Initialize NVM
     NvmDataMgmtInit();
-    nrf_gpio_cfg_input(PIN_NVM_ERASE, NRF_GPIO_PIN_PULLUP);
-    if (!nrf_gpio_pin_read(PIN_NVM_ERASE))
-    {
-        NRF_LOG_INFO("NVM data restored to factory settings.");
-        NvmDataMgmtFactoryReset();
-    }
   		
     // Initialize LoRa chip.
     err_code = lora_hardware_init();
