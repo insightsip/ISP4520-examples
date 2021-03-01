@@ -47,7 +47,7 @@ Additionally, Class A & C basic LoRaWan functionalities (OTAA, uplinks, downlink
 
 ## Changelog
 
-### 2021-01-0., v3.0.2
+### 2021-01-01, v3.0.2
 
 Fixed error in the parameter check of AT+CLASS command
 Fixed Key handling when using at commands
