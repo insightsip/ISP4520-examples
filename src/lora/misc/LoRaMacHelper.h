@@ -159,43 +159,43 @@ void lmh_process(void);
  * @brief  Set device EUI
  * @param[in]  pointer to the provided dev_eui
  */
-void lmh_device_eui_set(uint8_t *dev_eui);
+lmh_error_code_t lmh_device_eui_set(uint8_t *dev_eui);
 
 /**
  * @brief  Get device EUI
  * @param[out]  pointer to dev_eui
  */
-void lmh_device_eui_get(uint8_t *dev_eui);
+lmh_error_code_t lmh_device_eui_get(uint8_t *dev_eui);
 
 /**
  * @brief  Set the App/Join server EUI
  * @param[in]  pointer to provided join_eui
  */
-void lmh_join_eui_set(uint8_t *join_eui);
+lmh_error_code_t lmh_join_eui_set(uint8_t *join_eui);
 
 /**
  * @brief  Get the App/Join server EUI
  * @param[out]   pointer to join_eui
  */
-void lmh_join_eui_get(uint8_t *join_eui);
+lmh_error_code_t lmh_join_eui_get(uint8_t *join_eui);
 
 /**
  * @brief  Set the Network root key
  * @param[out]   pointer to nwk_key
  */
-void lmh_nwk_key_set(uint8_t *nwk_key);
+lmh_error_code_t lmh_nwk_key_set(uint8_t *nwk_key);
 
 /**
  * @brief  Get the Network root key
  * @param[out]   pointer to nwk_key
  */
-void lmh_nwk_key_get(uint8_t *nwk_key);
+lmh_error_code_t lmh_nwk_key_get(uint8_t *nwk_key);
 
 /**
  * @brief  Set the Forwarding Network session integrity key
  * @param[out]   pointer to f_nwk_s_int_key
  */
-void lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key);
+lmh_error_code_t lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key);
 
 /**
  * @brief  Get the Forwarding Network session integrity key
@@ -207,7 +207,7 @@ void lmh_f_nwk_s_int_key_get(uint8_t *f_nwk_s_int_key);
  * @brief  Set the Serving Network session integrity key
  * @param[out]   pointer to s_nwk_s_int_key
  */
-void lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key);
+lmh_error_code_t lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key);
 
 /**
  * @brief  Get the Serving Network session integrity key
@@ -219,7 +219,7 @@ void lmh_s_nwk_s_int_key_get(uint8_t *s_nwk_s_int_key);
  * @brief  Set the Network session encryption key
  * @param[out]   pointer to nwk_s_enc_key
  */
-void lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key);
+lmh_error_code_t lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key);
 
 /**
  * @brief  Get the Network session encryption key
@@ -231,7 +231,7 @@ void lmh_nwk_s_enc_key_get(uint8_t *nwk_s_enc_key);
  * @brief  Set the Application root key (Used to derive Multicast keys on 1.0.x devices)
  * @param[in]  pointer to provided gen_app_key
  */
-void lmh_gen_app_key_set(uint8_t *gen_app_key);
+lmh_error_code_t lmh_gen_app_key_set(uint8_t *gen_app_key);
 
 /**
  * @brief  Get the Application root key (Used to derive Multicast keys on 1.0.x devices)
@@ -243,7 +243,7 @@ void lmh_gen_app_key_get(uint8_t *gen_app_key);
  * @brief  Set the Application root key
  * @param[in]  pointer to provided app_key
  */
-void lmh_app_key_set(uint8_t *app_key);
+lmh_error_code_t lmh_app_key_set(uint8_t *app_key);
 
 /**
  * @brief  Get the Application root key
@@ -255,7 +255,7 @@ void lmh_app_key_get(uint8_t *app_key);
  * @brief  Set the Application session key
  * @param[in]  pointer to provided app_key
  */
-void lmh_app_s_key_set(uint8_t *app_s_key);
+lmh_error_code_t lmh_app_s_key_set(uint8_t *app_s_key);
 
 /**
  * @brief  Get the Application session key

@@ -893,39 +893,99 @@ void lmh_process(void)
     LoRaMacProcess();
 }
 
-void lmh_device_eui_set(uint8_t *dev_eui)
+lmh_error_code_t lmh_device_eui_set(uint8_t *dev_eui)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_device_eui, dev_eui, sizeof(m_device_eui));
+
+    mibReq.Type = MIB_DEV_EUI;
+    mibReq.Param.DevEui = dev_eui;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_device_eui_get(uint8_t *dev_eui)
+lmh_error_code_t lmh_device_eui_get(uint8_t *dev_eui)
 {
-    memcpy(dev_eui, m_device_eui, sizeof(m_device_eui));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_DEV_EUI;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(dev_eui, mibReq.Param.DevEui, 8);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_join_eui_set(uint8_t *join_eui)
+lmh_error_code_t lmh_join_eui_set(uint8_t *join_eui)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_join_eui, join_eui, sizeof(m_join_eui));
+
+    mibReq.Type = MIB_JOIN_EUI;
+    mibReq.Param.JoinEui = join_eui;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_join_eui_get(uint8_t *join_eui)
+lmh_error_code_t lmh_join_eui_get(uint8_t *join_eui)
 {
-    memcpy(join_eui, m_join_eui, sizeof(m_join_eui));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_JOIN_EUI;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(join_eui, mibReq.Param.JoinEui, 8);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_nwk_key_set(uint8_t *nwk_key)
+lmh_error_code_t lmh_nwk_key_set(uint8_t *nwk_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_nwk_key, nwk_key, sizeof(m_nwk_key));
+
+    mibReq.Type = MIB_NWK_KEY;
+    mibReq.Param.NwkKey = nwk_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_nwk_key_get(uint8_t *nwk_key)
+lmh_error_code_t lmh_nwk_key_get(uint8_t *nwk_key)
 {
-    memcpy(nwk_key, m_nwk_key, sizeof(m_nwk_key));
+    LoRaMacStatus_t status;
+
+    mibReq.Type = MIB_NWK_KEY;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    memcpy(nwk_key, mibReq.Param.NwkKey, 16);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key)
+lmh_error_code_t lmh_f_nwk_s_int_key_set(uint8_t *f_nwk_s_int_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_f_nwk_s_int_key, f_nwk_s_int_key, sizeof(m_f_nwk_s_int_key));
+
+    mibReq.Type = MIB_F_NWK_S_INT_KEY;
+    mibReq.Param.FNwkSIntKey = f_nwk_s_int_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_f_nwk_s_int_key_get(uint8_t *f_nwk_s_int_key)
@@ -933,9 +993,18 @@ void lmh_f_nwk_s_int_key_get(uint8_t *f_nwk_s_int_key)
     memcpy(f_nwk_s_int_key, m_f_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
 }
 
-void lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key)
+lmh_error_code_t lmh_s_nwk_s_int_key_set(uint8_t *s_nwk_s_int_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_s_nwk_s_int_key, s_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
+
+    mibReq.Type = MIB_S_NWK_S_INT_KEY;
+    mibReq.Param.SNwkSIntKey = s_nwk_s_int_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_s_nwk_s_int_key_get(uint8_t *s_nwk_s_int_key)
@@ -943,9 +1012,18 @@ void lmh_s_nwk_s_int_key_get(uint8_t *s_nwk_s_int_key)
     memcpy(s_nwk_s_int_key, m_s_nwk_s_int_key, sizeof(m_s_nwk_s_int_key));
 }
 
-void lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key)
+lmh_error_code_t lmh_nwk_s_enc_key_set(uint8_t *nwk_s_enc_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_nwk_s_enc_key, nwk_s_enc_key, sizeof(m_nwk_s_enc_key));
+
+    mibReq.Type = MIB_NWK_S_ENC_KEY;
+    mibReq.Param.NwkSEncKey = nwk_s_enc_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_nwk_s_enc_key_get(uint8_t *nwk_s_enc_key)
@@ -953,9 +1031,18 @@ void lmh_nwk_s_enc_key_get(uint8_t *nwk_s_enc_key)
     memcpy(nwk_s_enc_key, m_nwk_s_enc_key, sizeof(m_nwk_s_enc_key));
 }
 
-void lmh_gen_app_key_set(uint8_t *gen_app_key)
+lmh_error_code_t lmh_gen_app_key_set(uint8_t *gen_app_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_gen_app_key, gen_app_key, sizeof(m_gen_app_key));
+
+    mibReq.Type = MIB_GEN_APP_KEY;
+    mibReq.Param.GenAppKey = gen_app_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_gen_app_key_get(uint8_t *gen_app_key)
@@ -963,9 +1050,18 @@ void lmh_gen_app_key_get(uint8_t *gen_app_key)
     memcpy(gen_app_key, m_gen_app_key, sizeof(m_gen_app_key));
 }
 
-void lmh_app_key_set(uint8_t *app_key)
+lmh_error_code_t lmh_app_key_set(uint8_t *app_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_app_key, app_key, sizeof(m_app_key));
+
+    mibReq.Type = MIB_APP_KEY;
+    mibReq.Param.AppKey = app_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_app_key_get(uint8_t *app_key)
@@ -973,9 +1069,18 @@ void lmh_app_key_get(uint8_t *app_key)
     memcpy(app_key, m_app_key, sizeof(m_app_key));
 }
 
-void lmh_app_s_key_set(uint8_t *app_s_key)
+lmh_error_code_t lmh_app_s_key_set(uint8_t *app_s_key)
 {
+    LoRaMacStatus_t status;
+
     memcpy(m_app_s_key, app_s_key, sizeof(m_app_s_key));
+
+    mibReq.Type = MIB_APP_S_KEY;
+    mibReq.Param.AppSKey = app_s_key;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
 void lmh_app_s_key_get(uint8_t *app_s_key)
