@@ -102,25 +102,18 @@ at_error_code_t at_joineui_set (const uint8_t *param);
 at_error_code_t at_joineui_read (const uint8_t *param);
 at_error_code_t at_joineui_test (const uint8_t *param);
 at_error_code_t at_appkey_set (const uint8_t *param);
-at_error_code_t at_appkey_read (const uint8_t *param);
 at_error_code_t at_appkey_test (const uint8_t *param);
 at_error_code_t at_genappkey_set (const uint8_t *param);
-at_error_code_t at_genappkey_read (const uint8_t *param);
 at_error_code_t at_genappkey_test (const uint8_t *param);
 at_error_code_t at_nwkkey_set (const uint8_t *param);
-at_error_code_t at_nwkkey_read (const uint8_t *param);
 at_error_code_t at_nwkkey_test (const uint8_t *param);
 at_error_code_t at_fnwksintkey_set (const uint8_t *param);
-at_error_code_t at_fnwksintkey_read (const uint8_t *param);
 at_error_code_t at_fnwksintkey_test (const uint8_t *param);
 at_error_code_t at_snwksintkey_set (const uint8_t *param);
-at_error_code_t at_snwksintkey_read (const uint8_t *param);
 at_error_code_t at_snwksintkey_test (const uint8_t *param);
 at_error_code_t at_nwksenckey_set (const uint8_t *param);
-at_error_code_t at_nwksenckey_read (const uint8_t *param);
 at_error_code_t at_nwksenckey_test (const uint8_t *param);
 at_error_code_t at_appskey_set (const uint8_t *param);
-at_error_code_t at_appskey_read (const uint8_t *param);
 at_error_code_t at_appskey_test (const uint8_t *param);
 at_error_code_t at_devaddr_set (const uint8_t *param);
 at_error_code_t at_devaddr_read (const uint8_t *param);
@@ -219,13 +212,13 @@ static at_command_t at_commands[] =
     AT_COMMAND_DEF (AT_DEVEUI,      at_deveui_set,          at_deveui_read,         at_deveui_test),
     AT_COMMAND_DEF (AT_APPEUI,      at_appeui_set,          at_appeui_read,         at_appeui_test),
     AT_COMMAND_DEF (AT_JOINEUI,     at_joineui_set,         at_joineui_read,        at_joineui_test),
-    AT_COMMAND_DEF (AT_APPKEY,      at_appkey_set,          at_appkey_read,         at_appkey_test),
-    AT_COMMAND_DEF (AT_GENAPPKEY,   at_genappkey_set,       at_genappkey_read,      at_genappkey_test),
-    AT_COMMAND_DEF (AT_NWKKEY,      at_nwkkey_set,          at_nwkkey_read,         at_nwkkey_test),
-    AT_COMMAND_DEF (AT_FNWKSINTKEY, at_fnwksintkey_set,     at_fnwksintkey_read,    at_fnwksintkey_test),
-    AT_COMMAND_DEF (AT_SNWKSINTKEY, at_snwksintkey_set,     at_snwksintkey_read,    at_snwksintkey_test),
-    AT_COMMAND_DEF (AT_NWKSENCKEY,  at_nwksenckey_set,      at_nwksenckey_read,     at_nwksenckey_test),
-    AT_COMMAND_DEF (AT_APPSKEY,     at_appskey_set,         at_appskey_read,        at_appskey_test),
+    AT_COMMAND_DEF (AT_APPKEY,      at_appkey_set,          at_error_not_supported, at_appkey_test),
+    AT_COMMAND_DEF (AT_GENAPPKEY,   at_genappkey_set,       at_error_not_supported, at_genappkey_test),
+    AT_COMMAND_DEF (AT_NWKKEY,      at_nwkkey_set,          at_error_not_supported, at_nwkkey_test),
+    AT_COMMAND_DEF (AT_FNWKSINTKEY, at_fnwksintkey_set,     at_error_not_supported, at_fnwksintkey_test),
+    AT_COMMAND_DEF (AT_SNWKSINTKEY, at_snwksintkey_set,     at_error_not_supported, at_snwksintkey_test),
+    AT_COMMAND_DEF (AT_NWKSENCKEY,  at_nwksenckey_set,      at_error_not_supported, at_nwksenckey_test),
+    AT_COMMAND_DEF (AT_APPSKEY,     at_appskey_set,         at_error_not_supported, at_appskey_test),
     AT_COMMAND_DEF (AT_DEVADDR,     at_devaddr_set,         at_devaddr_read,        at_devaddr_test),
     AT_COMMAND_DEF (AT_NETID,       at_netid_set,           at_netid_read,          at_netid_test),
     AT_COMMAND_DEF (AT_JOINRQ,      at_joinrq_set,          at_error_not_supported, at_error_not_supported),
@@ -362,22 +355,6 @@ at_error_code_t at_nwk_key_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwk_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[60];
-    
-    lmh_nwk_key_get(key);
-
-    sprintf(text, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwk_key_test (const uint8_t *param)
 {
     uint8_t text[60] = "+NWKKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -398,22 +375,6 @@ at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
     }
 
     lmh_f_nwk_s_int_key_set(key);
-
-    return AT_OK;
-}
-
-at_error_code_t at_f_nwk_s_int_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_f_nwk_s_int_key_get(key);
-
-    sprintf(text, "+FNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
 
     return AT_OK;
 }
@@ -442,22 +403,6 @@ at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_s_nwk_s_int_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_s_nwk_s_int_key_get(key);
-
-    sprintf(text, "+SNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
-
-    return AT_OK;
-}
-
 at_error_code_t at_s_nwk_s_int_key_test (const uint8_t *param)
 {
     uint8_t text[70] = "+SNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -482,22 +427,6 @@ at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwk_s_enc_key_read(const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_s_nwk_s_int_key_get(key);
-
-    sprintf(text, "+NWKSENCKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, sizeof(text)-1);
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwk_s_enc_key_test (const uint8_t *param)
 {
     uint8_t text[70] = "+NWKSENCKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -518,22 +447,6 @@ at_error_code_t at_gen_app_key_set (const uint8_t *param)
     }
 
     lmh_gen_app_key_set(appkey);
-
-    return AT_OK;
-}
-
-at_error_code_t at_gen_app_key_read (const uint8_t *param)
-{
-    uint8_t appkey[16];
-    uint8_t text[70];
-    
-    lmh_gen_app_key_get(appkey);
-
-    sprintf(text, "+GENAPPKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                appkey[0], appkey[1], appkey[2], appkey[3], appkey[4], appkey[5], appkey[6], appkey[7],
-                appkey[8], appkey[9], appkey[10], appkey[11], appkey[12], appkey[13], appkey[14], appkey[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
 
     return AT_OK;
 }
@@ -563,22 +476,6 @@ at_error_code_t at_appkey_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_appkey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[60];
-    
-    lmh_app_key_get(key);
-
-    sprintf(text, "+APPKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
 at_error_code_t at_appkey_test (const uint8_t *param)
 {
     uint8_t text[60] = "+APPKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -599,22 +496,6 @@ at_error_code_t at_genappkey_set (const uint8_t *param)
     }
 
     lmh_gen_app_key_set(key);
-
-    return AT_OK;
-}
-
-at_error_code_t at_genappkey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_gen_app_key_get(key);
-
-    sprintf(text, "+GENAPPKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
 
     return AT_OK;
 }
@@ -643,22 +524,6 @@ at_error_code_t at_nwkkey_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwkkey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_nwk_key_get(key);
-
-    sprintf(text, "+NWKKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwkkey_test (const uint8_t *param)
 {
     uint8_t text[70] = "+NWKKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -679,22 +544,6 @@ at_error_code_t at_fnwksintkey_set (const uint8_t *param)
     }
 
     lmh_f_nwk_s_int_key_set(key);
-
-    return AT_OK;
-}
-
-at_error_code_t at_fnwksintkey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_f_nwk_s_int_key_get(key);
-
-    sprintf(text, "+FNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
 
     return AT_OK;
 }
@@ -723,22 +572,6 @@ at_error_code_t at_snwksintkey_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_snwksintkey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_s_nwk_s_int_key_get(key);
-
-    sprintf(text, "+SNWKSINTKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
 at_error_code_t at_snwksintkey_test (const uint8_t *param)
 {
     uint8_t text[70] = "+SNWKSINTKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -763,22 +596,6 @@ at_error_code_t at_nwksenckey_set (const uint8_t *param)
     return AT_OK;
 }
 
-at_error_code_t at_nwksenckey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_nwk_s_enc_key_get(key);
-
-    sprintf(text, "+NWKSENCKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
-
-    return AT_OK;
-}
-
 at_error_code_t at_nwksenckey_test (const uint8_t *param)
 {
     uint8_t text[70] = "+NWKSENCKEY: hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh-hh\r\n";
@@ -799,22 +616,6 @@ at_error_code_t at_appskey_set (const uint8_t *param)
     }
 
     lmh_app_s_key_set(key);
-
-    return AT_OK;
-}
-
-at_error_code_t at_appskey_read (const uint8_t *param)
-{
-    uint8_t key[16];
-    uint8_t text[70];
-    
-    lmh_app_s_key_get(key);
-
-    sprintf(text, "+APPSKEY: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
-                key[0], key[1], key[2], key[3], key[4], key[5], key[6], key[7],
-                key[8], key[9], key[10], key[11], key[12], key[13], key[14], key[15]);
-
-    at_hal_transport_tx_pkt_send(text, strlen(text));
 
     return AT_OK;
 }
