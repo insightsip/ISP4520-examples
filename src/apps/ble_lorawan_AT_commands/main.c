@@ -418,8 +418,8 @@ int main (void)
     APP_ERROR_CHECK(err_code);
 
     // Start BLE
-    //err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
-    //APP_ERROR_CHECK(err_code);
+    err_code = ble_advertising_start(&m_advertising, BLE_ADV_MODE_FAST);
+    APP_ERROR_CHECK(err_code);
 
     // Enter main loop.
     for (;;)
