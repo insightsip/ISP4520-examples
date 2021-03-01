@@ -1137,9 +1137,9 @@ at_error_code_t at_class_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    if      (class_param == 'a' ||  class_param != 'A') new_class = CLASS_A;
-    else if (class_param == 'b' ||  class_param != 'B') new_class = CLASS_B;
-    else if (class_param == 'c' ||  class_param != 'C') new_class = CLASS_C;
+    if      (class_param == 'a' ||  class_param = 'A') new_class = CLASS_A;
+    else if (class_param == 'b' ||  class_param = 'B') new_class = CLASS_B;
+    else if (class_param == 'c' ||  class_param = 'C') new_class = CLASS_C;
 
 
     // run AT command
