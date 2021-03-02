@@ -260,6 +260,8 @@ at_error_code_t at_reset (const uint8_t *param)
 
 at_error_code_t at_appeui_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[8];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -269,17 +271,23 @@ at_error_code_t at_appeui_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_join_eui_set(key);
+    lmh_error = lmh_join_eui_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
 
 at_error_code_t at_appeui_read (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[8];
     uint8_t text[35];
     
-    lmh_join_eui_get(key);
+    lmh_error = lmh_join_eui_get(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     sprintf(text, "+APPEUI: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
                 key[0], key[1], key[2], key[3],
@@ -300,6 +308,8 @@ at_error_code_t at_appeui_test (const uint8_t *param)
 
 at_error_code_t at_joineui_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[8];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -309,17 +319,23 @@ at_error_code_t at_joineui_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_join_eui_set(key);
+    lmh_error = lmh_join_eui_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
 
 at_error_code_t at_joineui_read (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[8];
     uint8_t text[35];
     
-    lmh_join_eui_get(key);
+    lmh_error = lmh_join_eui_get(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     sprintf(text, "+JOINEUI: %02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x\r\n", 
                 key[0], key[1], key[2], key[3],
@@ -338,9 +354,10 @@ at_error_code_t at_joineui_test (const uint8_t *param)
     return AT_OK;
 }
 
-
 at_error_code_t at_nwk_key_set(const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -350,7 +367,9 @@ at_error_code_t at_nwk_key_set(const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_nwk_key_set(key);
+    lmh_error = lmh_nwk_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -365,6 +384,8 @@ at_error_code_t at_nwk_key_test (const uint8_t *param)
 
 at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -374,7 +395,9 @@ at_error_code_t at_f_nwk_s_int_key_set(const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_f_nwk_s_int_key_set(key);
+    lmh_error = lmh_f_nwk_s_int_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -389,6 +412,8 @@ at_error_code_t at_f_nwk_s_int_key_test (const uint8_t *param)
 
 at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -398,7 +423,9 @@ at_error_code_t at_s_nwk_s_int_key_set(const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_s_nwk_s_int_key_set(key);
+    lmh_error = lmh_s_nwk_s_int_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -413,6 +440,8 @@ at_error_code_t at_s_nwk_s_int_key_test (const uint8_t *param)
 
 at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -422,7 +451,9 @@ at_error_code_t at_nwk_s_enc_key_set(const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_nwk_s_enc_key_set(key);
+    lmh_error = lmh_nwk_s_enc_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -437,6 +468,8 @@ at_error_code_t at_nwk_s_enc_key_test (const uint8_t *param)
 
 at_error_code_t at_gen_app_key_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t appkey[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -446,7 +479,9 @@ at_error_code_t at_gen_app_key_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_gen_app_key_set(appkey);
+    lmh_error = lmh_gen_app_key_set(appkey);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -462,6 +497,8 @@ at_error_code_t at_gen_app_key_test (const uint8_t *param)
 
 at_error_code_t at_appkey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -471,7 +508,9 @@ at_error_code_t at_appkey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_app_key_set(key);
+    lmh_error = lmh_app_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -486,6 +525,8 @@ at_error_code_t at_appkey_test (const uint8_t *param)
 
 at_error_code_t at_genappkey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -495,7 +536,9 @@ at_error_code_t at_genappkey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_gen_app_key_set(key);
+    lmh_error = lmh_gen_app_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -510,6 +553,8 @@ at_error_code_t at_genappkey_test (const uint8_t *param)
 
 at_error_code_t at_nwkkey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -519,7 +564,9 @@ at_error_code_t at_nwkkey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_nwk_key_set(key);
+    lmh_error = lmh_nwk_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -534,6 +581,8 @@ at_error_code_t at_nwkkey_test (const uint8_t *param)
 
 at_error_code_t at_fnwksintkey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -543,7 +592,9 @@ at_error_code_t at_fnwksintkey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_f_nwk_s_int_key_set(key);
+    lmh_error = lmh_f_nwk_s_int_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -558,6 +609,8 @@ at_error_code_t at_fnwksintkey_test (const uint8_t *param)
 
 at_error_code_t at_snwksintkey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -567,7 +620,9 @@ at_error_code_t at_snwksintkey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_s_nwk_s_int_key_set(key);
+    lmh_error = lmh_s_nwk_s_int_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -582,6 +637,8 @@ at_error_code_t at_snwksintkey_test (const uint8_t *param)
 
 at_error_code_t at_nwksenckey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -591,7 +648,9 @@ at_error_code_t at_nwksenckey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_nwk_s_enc_key_set(key);
+    lmh_error = lmh_nwk_s_enc_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -606,6 +665,8 @@ at_error_code_t at_nwksenckey_test (const uint8_t *param)
 
 at_error_code_t at_appskey_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t key[16];
 
     if (sscanf(param, "%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx-%hhx",
@@ -615,7 +676,9 @@ at_error_code_t at_appskey_set (const uint8_t *param)
         return AT_ERROR_PARAM;
     }
 
-    lmh_app_s_key_set(key);
+    lmh_error = lmh_app_s_key_set(key);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
@@ -1535,8 +1598,6 @@ at_error_code_t at_channel_read (const uint8_t *param)
 }
 
 
-
-
 /**
  * @brief  Send final response
  * @param[in] 
@@ -1638,7 +1699,7 @@ static void lmh_rx_data_handler (lmh_app_rx_data_t *app_data)
 
     memcpy(&m_lora_rx_data, app_data, sizeof(lmh_app_rx_data_t));
 
-     sprintf(text, "+RXDATA: %u,%s\r\n", m_lora_rx_data.port, m_lora_rx_data.buffer);
+    sprintf(text, "+RXDATA: %u,%s\r\n", m_lora_rx_data.port, m_lora_rx_data.buffer);
     at_hal_transport_tx_pkt_send(text, strlen(text));
 
     NRF_LOG_INFO("LoRa Packet received on port %d, size:%d, rssi:%d, snr:%d", app_data->port, app_data->buffsize, app_data->rssi, app_data->snr);
