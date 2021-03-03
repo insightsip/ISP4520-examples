@@ -1088,14 +1088,32 @@ void lmh_app_s_key_get(uint8_t *app_s_key)
     memcpy(app_s_key, m_app_s_key, sizeof(m_app_s_key));
 }
 
-void lmh_device_address_set (uint32_t device_address)
+lmh_error_code_t lmh_device_address_set (uint32_t device_address)
 {
+    LoRaMacStatus_t status;
     m_device_address = device_address;
+
+    mibReq.Type = MIB_DEV_ADDR;
+    LoRaMacMibGetRequestConfirm(&mibReq);
+    mibReq.Param.DevAddr = device_address;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+
+    return LORAMAC_STATUS_OK;
 }
 
-void lmh_device_address_get (uint32_t *device_address)
+lmh_error_code_t lmh_device_address_get (uint32_t *device_address)
 {
+    LoRaMacStatus_t status;
     *device_address = m_device_address;
+
+    mibReq.Type = MIB_DEV_ADDR;
+    status = LoRaMacMibGetRequestConfirm(&mibReq);
+    LMH_VERIFY_SUCCESS(status);
+    
+    *device_address = mibReq.Param.DevAddr;
+
+    return LORAMAC_STATUS_OK;
 }
 
 lmh_error_code_t lmh_network_id_set (uint32_t network_id)

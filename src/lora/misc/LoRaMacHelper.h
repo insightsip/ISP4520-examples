@@ -267,13 +267,13 @@ void lmh_app_s_key_get(uint8_t *app_s_key);
  * @brief  Set the device address
  * @param[in]  pointer to provided device_address
  */
-void lmh_device_address_set(uint32_t device_address);
+lmh_error_code_t lmh_device_address_set(uint32_t device_address);
 
 /**
  * @brief  Get the device address
  * @param[out]  pointer to device_address
  */
-void lmh_device_address_get(uint32_t *device_address);
+lmh_error_code_t lmh_device_address_get(uint32_t *device_address);
 
 /**
  * @brief  Set the Network ID

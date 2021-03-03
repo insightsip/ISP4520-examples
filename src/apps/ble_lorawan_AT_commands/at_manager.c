@@ -693,6 +693,8 @@ at_error_code_t at_appskey_test (const uint8_t *param)
 
 at_error_code_t at_devaddr_set (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t devaddr[4];
     uint32_t devaddr1;
 
@@ -707,18 +709,24 @@ at_error_code_t at_devaddr_set (const uint8_t *param)
     devaddr1 |= ((uint32_t)devaddr[2]) << 8;
     devaddr1 |=  (uint32_t)devaddr[3];
 
-    lmh_device_address_set(devaddr1);
+    lmh_error = lmh_device_address_set(devaddr1);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     return AT_OK;
 }
 
 at_error_code_t at_devaddr_read (const uint8_t *param)
 {
+    lmh_error_code_t lmh_error;
+    at_error_code_t at_error;
     uint8_t devaddr[4];
     uint32_t devaddr1;
     uint8_t text[24];
     
-    lmh_device_address_get(&devaddr1);
+    lmh_error = lmh_device_address_get(&devaddr1);
+    CONVERT_LMH_TO_AT_ERROR(lmh_error, at_error);
+    AT_VERIFY_SUCCESS(at_error);
 
     devaddr[0] = devaddr1 >> 24;
     devaddr[1] = devaddr1 >> 16;
