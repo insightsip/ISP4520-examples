@@ -281,6 +281,8 @@ TimerTime_t LmHandlerGetDutyCycleWaitTime( void );
  */
 LmHandlerErrorStatus_t LmHandlerSend( LmHandlerAppData_t *appData, LmHandlerMsgTypes_t isTxConfirmed );
 
+LoRaMacStatus_t LmHandlerSend2( LmHandlerAppData_t *appData, LmHandlerMsgTypes_t isTxConfirmed );
+
 /*!
  * Join a LoRa Network in classA
  *
@@ -288,7 +290,8 @@ LmHandlerErrorStatus_t LmHandlerSend( LmHandlerAppData_t *appData, LmHandlerMsgT
  */
 void LmHandlerJoin( void );
 // Insight SiP: added void LmHandlerJoinRequest( bool isOtaa );
-LoRaMacStatus_t LmHandlerJoinRequest( bool isOtaa );
+void LmHandlerJoinRequest( bool isOtaa );
+LoRaMacStatus_t LmHandlerJoinRequest2( bool isOtaa );
 
 /*!
  * Check whether the Device is joined to the network

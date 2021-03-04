@@ -1051,7 +1051,7 @@ at_error_code_t at_joinrq_set (const uint8_t *param)
     }
 
     m_otaa = otaa;
-    status = LmHandlerJoinRequest(m_otaa);
+    status = LmHandlerJoinRequest2(m_otaa);
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
@@ -1080,7 +1080,7 @@ at_error_code_t at_rcv_read(const uint8_t *param)
 
 at_error_code_t at_send_set(const uint8_t *param)
 {
-    LmHandlerErrorStatus_t lm_err_code;
+    LoRaMacStatus_t status;
     at_error_code_t at_err_code;
     uint8_t buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE];
     uint8_t buffersize = strlen(param);
@@ -1133,11 +1133,9 @@ at_error_code_t at_send_set(const uint8_t *param)
     }
 
     m_lora_ack_received = false;
-    lm_err_code = LmHandlerSend(&TxAppData, LmHandlerParams.IsTxConfirmed);
-    if (lm_err_code != LORAMAC_HANDLER_SUCCESS)
-    {
-        return AT_ERROR_OTHER;
-    }
+    status = LmHandlerSend2(&TxAppData, LmHandlerParams.IsTxConfirmed);
+    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
+    AT_VERIFY_SUCCESS(at_err_code);
 
     return AT_OK;
 }
