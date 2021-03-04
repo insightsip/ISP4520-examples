@@ -424,9 +424,10 @@ TimerTime_t LmHandlerGetDutyCycleWaitTime( void )
  *
  * \param [IN] isOtaa Indicates which activation mode must be used
  */
-void LmHandlerJoinRequest( bool isOtaa )
+LoRaMacStatus_t LmHandlerJoinRequest( bool isOtaa )
 {
     MlmeReq_t mlmeReq;
+    LoRaMacStatus_t status = LORAMAC_STATUS_OK;
 
     mlmeReq.Type = MLME_JOIN;
     mlmeReq.Req.Join.Datarate = LmHandlerParams->TxDatarate;
@@ -444,8 +445,11 @@ void LmHandlerJoinRequest( bool isOtaa )
         CommissioningParams.IsOtaaActivation = false;
     }
     // Starts the join procedure
-    LmHandlerCallbacks->OnMacMlmeRequest( LoRaMacMlmeRequest( &mlmeReq ), &mlmeReq, mlmeReq.ReqReturn.DutyCycleWaitTime );
+    status = LoRaMacMlmeRequest( &mlmeReq );
+    LmHandlerCallbacks->OnMacMlmeRequest(status, &mlmeReq, mlmeReq.ReqReturn.DutyCycleWaitTime );
     DutyCycleWaitTime = mlmeReq.ReqReturn.DutyCycleWaitTime;
+
+    return status;
 }
 
 void LmHandlerJoin( void )

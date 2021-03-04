@@ -288,7 +288,7 @@ LmHandlerErrorStatus_t LmHandlerSend( LmHandlerAppData_t *appData, LmHandlerMsgT
  */
 void LmHandlerJoin( void );
 // Insight SiP: added void LmHandlerJoinRequest( bool isOtaa );
-void LmHandlerJoinRequest( bool isOtaa );
+LoRaMacStatus_t LmHandlerJoinRequest( bool isOtaa );
 
 /*!
  * Check whether the Device is joined to the network

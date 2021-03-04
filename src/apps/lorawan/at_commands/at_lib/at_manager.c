@@ -1037,6 +1037,8 @@ at_error_code_t at_netid_test(const uint8_t *param)
 at_error_code_t at_joinrq_set (const uint8_t *param)
 {
     uint8_t otaa;
+    LoRaMacStatus_t status;
+    at_error_code_t at_err_code;
 
     if (sscanf(param, "%u", &otaa) != 1)
     {
@@ -1049,7 +1051,9 @@ at_error_code_t at_joinrq_set (const uint8_t *param)
     }
 
     m_otaa = otaa;
-    LmHandlerJoinRequest(m_otaa);
+    status = LmHandlerJoinRequest(m_otaa);
+    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
+    AT_VERIFY_SUCCESS(at_err_code);
 
     return AT_OK;
 }
