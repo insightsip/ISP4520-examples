@@ -444,8 +444,36 @@ void LmHandlerJoinRequest( bool isOtaa )
         CommissioningParams.IsOtaaActivation = false;
     }
     // Starts the join procedure
-    LmHandlerCallbacks->OnMacMlmeRequest( LoRaMacMlmeRequest( &mlmeReq ), &mlmeReq, mlmeReq.ReqReturn.DutyCycleWaitTime );
+    LmHandlerCallbacks->OnMacMlmeRequest(LoRaMacMlmeRequest( &mlmeReq ), &mlmeReq, mlmeReq.ReqReturn.DutyCycleWaitTime );
     DutyCycleWaitTime = mlmeReq.ReqReturn.DutyCycleWaitTime;
+}
+
+LoRaMacStatus_t LmHandlerJoinRequest2( bool isOtaa )
+{
+    MlmeReq_t mlmeReq;
+    LoRaMacStatus_t status = LORAMAC_STATUS_OK;
+
+    mlmeReq.Type = MLME_JOIN;
+    mlmeReq.Req.Join.Datarate = LmHandlerParams->TxDatarate;
+
+    if( isOtaa == true )
+    {
+        mlmeReq.Req.Join.NetworkActivation = ACTIVATION_TYPE_OTAA;
+        // Update commissioning parameters activation type variable.
+        CommissioningParams.IsOtaaActivation = true;
+    }
+    else
+    {
+        mlmeReq.Req.Join.NetworkActivation = ACTIVATION_TYPE_ABP;
+        // Update commissioning parameters activation type variable.
+        CommissioningParams.IsOtaaActivation = false;
+    }
+    // Starts the join procedure
+    status = LoRaMacMlmeRequest( &mlmeReq );
+    LmHandlerCallbacks->OnMacMlmeRequest(status, &mlmeReq, mlmeReq.ReqReturn.DutyCycleWaitTime );
+    DutyCycleWaitTime = mlmeReq.ReqReturn.DutyCycleWaitTime;
+
+    return status;
 }
 
 void LmHandlerJoin( void )
@@ -524,6 +552,52 @@ LmHandlerErrorStatus_t LmHandlerSend( LmHandlerAppData_t *appData, LmHandlerMsgT
     {
         return LORAMAC_HANDLER_ERROR;
     }
+}
+
+// Insight SiP: same function than LmHandlerSend but return more detailed error code
+LoRaMacStatus_t LmHandlerSend2( LmHandlerAppData_t *appData, LmHandlerMsgTypes_t isTxConfirmed )
+{
+    LoRaMacStatus_t status = LORAMAC_STATUS_OK;
+    McpsReq_t mcpsReq;
+    LoRaMacTxInfo_t txInfo;
+
+    if( LmHandlerJoinStatus( ) != LORAMAC_HANDLER_SET )
+    {
+        // The network isn't joined, try again.
+        LmHandlerJoinRequest( CommissioningParams.IsOtaaActivation );
+        return LORAMAC_STATUS_NO_NETWORK_JOINED;
+    }
+
+    TxParams.MsgType = isTxConfirmed;
+    mcpsReq.Type = ( isTxConfirmed == LORAMAC_HANDLER_UNCONFIRMED_MSG ) ? MCPS_UNCONFIRMED : MCPS_CONFIRMED;
+    mcpsReq.Req.Unconfirmed.Datarate = LmHandlerParams->TxDatarate;
+    if( LoRaMacQueryTxPossible( appData->BufferSize, &txInfo ) != LORAMAC_STATUS_OK )
+    {
+        // Send empty frame in order to flush MAC commands
+        mcpsReq.Type = MCPS_UNCONFIRMED;
+        mcpsReq.Req.Unconfirmed.fBuffer = NULL;
+        mcpsReq.Req.Unconfirmed.fBufferSize = 0;
+    }
+    else
+    {
+        mcpsReq.Req.Unconfirmed.fPort = appData->Port;
+        mcpsReq.Req.Unconfirmed.fBufferSize = appData->BufferSize;
+        mcpsReq.Req.Unconfirmed.fBuffer = appData->Buffer;
+    }
+
+    TxParams.AppData = *appData;
+    TxParams.Datarate = LmHandlerParams->TxDatarate;
+
+    status = LoRaMacMcpsRequest( &mcpsReq );
+    LmHandlerCallbacks->OnMacMcpsRequest( status, &mcpsReq, mcpsReq.ReqReturn.DutyCycleWaitTime );
+    DutyCycleWaitTime = mcpsReq.ReqReturn.DutyCycleWaitTime;
+
+    if( status == LORAMAC_STATUS_OK )
+    {
+        IsUplinkTxPending = false;
+    }
+
+    return status;
 }
 
 static LmHandlerErrorStatus_t LmHandlerDeviceTimeReq( void )

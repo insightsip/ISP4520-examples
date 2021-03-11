@@ -80,14 +80,14 @@ static uint8_t frame_counter = 0;
  */
 void OnRadioTxTimeout (void)
 {
-    // Nothing to do
+    Radio.Sleep();
 }
 
  /**@brief Function executed on Radio Tx Done event
  */
 void OnRadioTxdone (void)
 {
-    // Nothing to do
+    Radio.Sleep();
 }
 
 /**@brief Function for handling a LoRa tx timer timeout event.
@@ -174,7 +174,6 @@ int main(void)
      // Initialize Clocks and DCDC
     nrf_drv_clock_init();
     nrf_drv_clock_lfclk_request(NULL);
-    nrf_drv_clock_hfclk_request(NULL);
     NRF_POWER->DCDCEN = 1;
 
     // Initialize Scheduler and timer
@@ -196,6 +195,8 @@ int main(void)
     // Start timer
     app_timer_start(lora_tx_timer_id, APP_TIMER_TICKS(10000), NULL); // Every 10sec
     tx_lora_periodic_handler(NULL);
+
+    Radio.Sleep();
 
     // Enter main loop.
     for (;;)

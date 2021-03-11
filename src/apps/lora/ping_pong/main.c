@@ -251,7 +251,6 @@ int main (void)
     // Initialize Clocks and DCDC
     nrf_drv_clock_init();
     nrf_drv_clock_lfclk_request(NULL);
-    nrf_drv_clock_hfclk_request(NULL);
     NRF_POWER->DCDCEN = 1;
 
     // Initialize LoRa chip.

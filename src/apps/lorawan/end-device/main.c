@@ -47,7 +47,7 @@
 #include "nrf_log_default_backends.h"
 
 
-#define FIRMWARE_VERSION                        0x03010300 // 3.1.3.0
+#define FIRMWARE_VERSION                        0x03010400 // 3.1.4.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE                        60                              /**< Maximum number of events in the scheduler queue. */
 #define LORAWAN_DEFAULT_CLASS                   CLASS_A                         /**< LoRaWAN default end-device class. */
