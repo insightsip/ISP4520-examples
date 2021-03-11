@@ -45,6 +45,12 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2021-03-11, v3.1.4
+
+Reduced current consumption on some LoRa examples
+
+AT+SEND and AT+JOINRQ returns more responses (BUSY, DUTY CYCLE etc..).
+
 ### 2021-02-05, v3.1.3
 
 Fixed issues related to at-commands & unwanted LoRaWAN context erase. 
