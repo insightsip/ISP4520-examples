@@ -80,14 +80,14 @@ static uint8_t frame_counter = 0;
  */
 void OnRadioTxTimeout (void)
 {
-    // Nothing to do
+    Radio.Sleep();
 }
 
  /**@brief Function executed on Radio Tx Done event
  */
 void OnRadioTxdone (void)
 {
-    // Nothing to do
+    Radio.Sleep();
 }
 
 /**@brief Function for handling a LoRa tx timer timeout event.
