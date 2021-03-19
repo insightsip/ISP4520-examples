@@ -35,22 +35,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -113,17 +100,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -173,28 +149,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -264,25 +221,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520a-as">
       <file file_name="../../../../lora/boards/ISP4520A-AS/board.c" />
@@ -351,22 +293,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -430,16 +359,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -489,28 +408,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -580,25 +480,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520b-as">
       <file file_name="../../../../lora/boards/ISP4520B-AS/board.c" />
@@ -659,22 +544,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -738,16 +610,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -797,28 +659,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -888,25 +731,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520e-eu">
       <file file_name="../../../../lora/boards/ISP4520E-EU/board.c" />
@@ -967,22 +795,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -1046,16 +861,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -1105,28 +910,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -1196,25 +982,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520d-eu">
       <file file_name="../../../../lora/boards/ISP4520D-EU/board.c" />
@@ -1275,22 +1046,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -1354,16 +1112,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -1413,28 +1161,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -1504,25 +1233,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520a-us">
       <file file_name="../../../../lora/boards/ISP4520A-US/board.c" />
@@ -1583,22 +1297,9 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
-    <folder Name="nRF_Crypto backend nRF HW">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/nrf_hw/nrf_hw_backend_rng_mbedtls.c" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend uECC">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/micro_ecc/micro_ecc_backend_ecdsa.c" />
     </folder>
     <folder Name="nRF_External">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/thedotfactory_fonts/orkney24pts.c" />
@@ -1662,16 +1363,6 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager/task_manager_core_armgcc.S" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
     </folder>
-    <folder Name="nRF_Crypto backend mbed TLS">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_aes_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/mbedtls/mbedtls_backend_init.c" />
-    </folder>
     <folder Name="nRF_Log">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
@@ -1721,28 +1412,9 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_wdt.c" />
     </folder>
-    <folder Name="nRF_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_aes_shared.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hkdf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_hmac.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_init.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_rng.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/nrf_crypto_shared.c" />
-    </folder>
     <folder Name="Application">
       <file file_name="../config/sdk_config.h" />
       <file file_name="../main.c" />
-    </folder>
-    <folder Name="nRF_micro-ecc">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/micro-ecc/nrf52hf_armgcc/armgcc/micro_ecc_lib_nrf52.a" />
     </folder>
     <folder Name="nRF_TLS">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/aes.c" />
@@ -1812,25 +1484,10 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/x509_csr.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/mbedtls/library/xtea.c" />
     </folder>
-    <folder Name="nRF_Oberon_Crypto">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_oberon/lib/cortex-m4/hard-float/liboberon_3.0.1.a" />
-    </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend cifra">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/cifra/cifra_backend_aes_aead.c" />
-    </folder>
-    <folder Name="nRF_Crypto backend Oberon">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_chacha_poly_aead.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_ecdsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_eddsa.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hash.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto/backend/oberon/oberon_backend_hmac.c" />
     </folder>
     <folder Name="LoRa\boards\isp4520b-us">
       <file file_name="../../../../lora/boards/ISP4520B-US/board.c" />
