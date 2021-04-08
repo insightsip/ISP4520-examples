@@ -257,6 +257,7 @@ uint8_t EepromMcuWriteBuffer( uint16_t record_key, uint8_t *buffer, uint16_t siz
         }
      
         /* try again */
+		memset(&tok, 0, sizeof(fds_find_token_t));
         m_fds_write_done = false;
         rc_find = fds_record_find(CTX_FILE, record_key, &desc, &tok);
         if (rc_find != NRF_SUCCESS && rc_find != FDS_ERR_NOT_FOUND)
