@@ -43,9 +43,6 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
@@ -322,9 +319,6 @@
       project_type="Executable" />
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
-    </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
     </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
@@ -879,9 +873,6 @@
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
-    </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard/nrf_stack_guard.c" />
@@ -1157,9 +1148,6 @@
       project_type="Executable" />
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
-    </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
     </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
@@ -1437,9 +1425,6 @@
       project_type="Executable" />
     <folder Name="Segger Startup Files">
       <file file_name="$(StudioDir)/source/thumb_crt0.s" />
-    </folder>
-    <folder Name="nrf_cc310">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/nrf_cc310/lib/cortex-m4/hard-float/libnrf_cc310_0.9.12.a" />
     </folder>
     <folder Name="nRF_Core">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu/nrf_mpu_lib.c" />
