@@ -257,6 +257,8 @@ static LoRaMacCtx_t MacCtx;
 
 static LoRaMacNvmData_t Nvm;
 
+static Band_t RegionBands[REGION_NVM_MAX_NB_BANDS];
+
 /*!
  * Defines the LoRaMac radio events status
  */
@@ -2712,6 +2714,7 @@ static void ResetMacParameters( void )
     params.Type = INIT_TYPE_RESET_TO_DEFAULT_CHANNELS;
     params.NvmGroup1 = &Nvm.RegionGroup1;
     params.NvmGroup2 = &Nvm.RegionGroup2;
+    params.Bands = &RegionBands;
     RegionInitDefaults( Nvm.MacGroup2.Region, &params );
 
     // Initialize channel index.
@@ -3332,11 +3335,12 @@ LoRaMacStatus_t LoRaMacInitialization( LoRaMacPrimitives_t* primitives, LoRaMacC
 
     // FPort 224 is enabled by default.
     Nvm.MacGroup2.IsCertPortOn = true;
-
+  
     InitDefaultsParams_t params;
     params.Type = INIT_TYPE_DEFAULTS;
     params.NvmGroup1 = &Nvm.RegionGroup1;
     params.NvmGroup2 = &Nvm.RegionGroup2;
+    params.Bands = &RegionBands;
     RegionInitDefaults( Nvm.MacGroup2.Region, &params );
 
     ResetMacParameters( );
@@ -4530,6 +4534,10 @@ LoRaMacStatus_t LoRaMacMlmeRequest( MlmeReq_t* mlmeRequest )
     {
         return LORAMAC_STATUS_PARAMETER_INVALID;
     }
+    // Initialize mlmeRequest->ReqReturn.DutyCycleWaitTime to 0 in order to
+    // return a valid value in case the MAC is busy.
+    mlmeRequest->ReqReturn.DutyCycleWaitTime = 0;
+
     if( LoRaMacIsBusy( ) == true )
     {
         return LORAMAC_STATUS_BUSY;
@@ -4705,6 +4713,10 @@ LoRaMacStatus_t LoRaMacMcpsRequest( McpsReq_t* mcpsRequest )
     {
         return LORAMAC_STATUS_PARAMETER_INVALID;
     }
+    // Initialize mcpsRequest->ReqReturn.DutyCycleWaitTime to 0 in order to
+    // return a valid value in case the MAC is busy.
+    mcpsRequest->ReqReturn.DutyCycleWaitTime = 0;
+
     if( LoRaMacIsBusy( ) == true )
     {
         return LORAMAC_STATUS_BUSY;
