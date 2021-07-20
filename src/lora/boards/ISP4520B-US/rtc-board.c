@@ -156,15 +156,16 @@ uint32_t RtcGetTimerContext( void )
 uint32_t RtcGetCalendarTime(uint16_t *milliseconds)
 {
     uint32_t ticks;
+    uint32_t temp_milliseconds;
 
     ticks = RtcGetTimerValue();
     ticks += m_ovrflw_cnt*0xFFFFFFUL; 
 
-    *milliseconds = RtcTick2Ms(ticks);
+    temp_milliseconds = RtcTick2Ms(ticks);
 
-    uint32_t seconds = (uint32_t)(*milliseconds/1000);
+    uint32_t seconds = (uint32_t)(temp_milliseconds/1000);
 
-    *milliseconds = *milliseconds % 1000; 
+    *milliseconds = (uint16_t)(temp_milliseconds % 1000); 
 
     return seconds;
 }
