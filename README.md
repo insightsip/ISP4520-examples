@@ -45,6 +45,10 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2021-07-27, v3.1.6
+
+Fixed a timing issue.
+
 ### 2021-04-08, v3.1.5
 
 Fixed issue with context storage on flash.
