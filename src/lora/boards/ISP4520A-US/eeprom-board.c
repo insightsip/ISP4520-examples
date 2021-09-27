@@ -324,7 +324,7 @@ uint8_t EepromMcuDeleteBuffer(uint16_t record_key)
     rc = fds_record_find(CTX_FILE, record_key, &desc, &tok);
     if (rc != NRF_SUCCESS)
     {
-        return FAIL;
+        return SUCCESS;
     }
 
     /* Delete record. */
