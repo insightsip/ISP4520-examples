@@ -44,7 +44,7 @@
 #define TX_OUTPUT_POWER                             14          // dBm
 #define RF_FREQUENCY                                923000000   // Hz
 #elif defined(ISP4520_US)
-#define TX_OUTPUT_POWER                             22          // dBm
+#define TX_OUTPUT_POWER                             20          // dBm
 #define RF_FREQUENCY                                915000000   // Hz
 #else
     #error "Please define a ISP4520 configuration"
