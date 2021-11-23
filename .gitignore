@@ -56,3 +56,6 @@ dkms.conf
 
 # Others
 *.bak
+*.hex
+*.ld
+*.ind
