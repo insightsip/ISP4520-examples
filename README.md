@@ -47,40 +47,39 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ### 2021-11-23, v3.1.7
 
-Fix Eeprom issue on AS & US variant
-Fix timeout on tx-cw example
+- Fix Eeprom issue on AS & US variant.
+- Fix timeout on tx-cw example.
 
 ### 2021-07-27, v3.1.6
 
-Fixed a timing issue.
+- Fixed a timing issue.
 
 ### 2021-04-08, v3.1.5
 
-Fixed issue with context storage on flash.
+- Fixed issue with context storage on flash.
 
 ### 2021-03-11, v3.1.4
 
-Reduced current consumption on some LoRa examples
-AT+SEND and AT+JOINRQ returns more responses (BUSY, DUTY CYCLE etc..).
+- Reduced current consumption on some LoRa examples.
+- AT+SEND and AT+JOINRQ returns more responses (BUSY, DUTY CYCLE etc..).
 
 ### 2021-02-05, v3.1.3
 
-Fixed issues related to at-commands & unwanted LoRaWAN context erase. 
-
-Enabled DCDC regulator and set BLE TX power to 4dBm for the at-commands example.
+- Fixed issues related to at-commands & unwanted LoRaWAN context erase. 
+- Enabled DCDC regulator and set BLE TX power to 4dBm for the at-commands example.
 
 ### 2021-02-05, v3.1.1
 
-New implementation based on v4.5.1 stackforce implementation.
+- New implementation based on v4.5.1 stackforce implementation.
 
 ### 2020-05-26, v3.0.0
 
-New implementation based on v4.4.3 stackforce implementation.
+- New implementation based on v4.4.3 stackforce implementation.
 
 ### 2019-12-12, v2.0.0
 
-Release for customer
+- Release for customer
 
 ### 2018-06-28, v1.0.0
 
-Initial version.
+- Initial version.
