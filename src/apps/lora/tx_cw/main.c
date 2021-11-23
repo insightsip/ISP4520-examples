@@ -50,7 +50,7 @@
     #error "Please define a ISP4520 configuration"
 #endif
 
-#define TX_TIMEOUT                                 3000         // seconds (MAX value) //ms atm
+#define TX_TIMEOUT                                  3         // in seconds
 
 static RadioEvents_t RadioEvents;
 
@@ -60,6 +60,7 @@ static RadioEvents_t RadioEvents;
 void OnRadioTxTimeout(void)
 {
     NRF_LOG_INFO("OnRadioTxTimeout");
+    Radio.Sleep();
 }
 
 
