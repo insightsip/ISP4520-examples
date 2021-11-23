@@ -45,6 +45,11 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2021-11-23, v3.1.7
+
+Fix Eeprom issue on AS & US variant
+Fix timeout on tx-cw example
+
 ### 2021-07-27, v3.1.6
 
 Fixed a timing issue.
