@@ -545,9 +545,9 @@ void SX126xSetTxParams( int8_t power, RadioRampTimes_t rampTime )
         // WORKAROUND END
 
         SX126xSetPaConfig( 0x04, 0x07, 0x00, 0x01 );
-        if( power > 22 )
+        if( power > 20 )
         {
-            power = 22;
+            power = 20;
         }
         else if( power < -9 )
         {
