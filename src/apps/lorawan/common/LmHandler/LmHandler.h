@@ -129,7 +129,7 @@ typedef struct LmHandlerParams_s
     /*!
      * Class B ping-slot periodicity.
      */
-    bool PingSlotPeriodicity;
+    uint8_t PingSlotPeriodicity;
 }LmHandlerParams_t;
 
 typedef struct LmHandlerCallbacks_s
@@ -356,6 +356,13 @@ LoRaMacRegion_t LmHandlerGetActiveRegion( void );
  *                processed else \ref LORAMAC_HANDLER_ERROR
  */
 LmHandlerErrorStatus_t LmHandlerSetSystemMaxRxError( uint32_t maxErrorInMs );
+
+/*!
+ * Requests network server time update
+ *
+ * \retval status Returns \ref LORAMAC_HANDLER_SET if joined else \ref LORAMAC_HANDLER_RESET
+ */
+LmHandlerErrorStatus_t LmHandlerDeviceTimeReq( void );
 
 /*
  *=============================================================================

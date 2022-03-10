@@ -293,7 +293,7 @@ PhyParam_t RegionKR920GetPhyParam( GetPhyParams_t* getPhy )
 
 void RegionKR920SetBandTxDone( SetBandTxDoneParams_t* txDone )
 {
-     RegionCommonSetBandTxDone( &RegionBands[RegionNvmGroup2->Channels[txDone->Channel].Band],
+    RegionCommonSetBandTxDone( &RegionBands[RegionNvmGroup2->Channels[txDone->Channel].Band],
                                txDone->LastTxAirTime, txDone->Joined, txDone->ElapsedTimeSinceStartUp );
 }
 
@@ -315,7 +315,7 @@ void RegionKR920InitDefaults( InitDefaultsParams_t* params )
 
             RegionNvmGroup1 = (RegionNvmDataGroup1_t*) params->NvmGroup1;
             RegionNvmGroup2 = (RegionNvmDataGroup2_t*) params->NvmGroup2;
-			RegionBands = (Band_t*) params->Bands;
+            RegionBands = (Band_t*) params->Bands;
 
             // Initialize bands
             memcpy1( ( uint8_t* )RegionBands, ( uint8_t* )bands, sizeof( Band_t ) * KR920_MAX_NB_BANDS );
@@ -738,6 +738,11 @@ int8_t RegionKR920TxParamSetupReq( TxParamSetupReqParams_t* txParamSetupReq )
 int8_t RegionKR920DlChannelReq( DlChannelReqParams_t* dlChannelReq )
 {
     uint8_t status = 0x03;
+
+    if( dlChannelReq->ChannelId >= ( CHANNELS_MASK_SIZE * 16 ) )
+    {
+        return 0;
+    }
 
     // Verify if the frequency is supported
     if( VerifyRfFreq( dlChannelReq->Rx1Frequency ) == false )

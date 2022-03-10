@@ -326,7 +326,7 @@ PhyParam_t RegionAS923GetPhyParam( GetPhyParams_t* getPhy )
         }
         case PHY_PING_SLOT_CHANNEL_FREQ:
         {
-            phyParam.Value = AS923_PING_SLOT_CHANNEL_FREQ;
+            phyParam.Value = AS923_PING_SLOT_CHANNEL_FREQ - REGION_AS923_FREQ_OFFSET;
             break;
         }
         case PHY_PING_SLOT_CHANNEL_DR:
@@ -377,7 +377,7 @@ void RegionAS923InitDefaults( InitDefaultsParams_t* params )
 
             RegionNvmGroup1 = (RegionNvmDataGroup1_t*) params->NvmGroup1;
             RegionNvmGroup2 = (RegionNvmDataGroup2_t*) params->NvmGroup2;
-			RegionBands = (Band_t*) params->Bands;
+            RegionBands = (Band_t*) params->Bands;
 
             // Default bands
             memcpy1( ( uint8_t* )RegionBands, ( uint8_t* )bands, sizeof( Band_t ) * AS923_MAX_NB_BANDS );
@@ -840,6 +840,11 @@ int8_t RegionAS923TxParamSetupReq( TxParamSetupReqParams_t* txParamSetupReq )
 int8_t RegionAS923DlChannelReq( DlChannelReqParams_t* dlChannelReq )
 {
     uint8_t status = 0x03;
+
+    if( dlChannelReq->ChannelId >= ( CHANNELS_MASK_SIZE * 16 ) )
+    {
+        return 0;
+    }
 
     // Verify if the frequency is supported
     if( VerifyRfFreq( dlChannelReq->Rx1Frequency ) == false )

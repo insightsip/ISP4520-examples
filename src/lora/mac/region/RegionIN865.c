@@ -295,7 +295,7 @@ void RegionIN865InitDefaults( InitDefaultsParams_t* params )
 
             RegionNvmGroup1 = (RegionNvmDataGroup1_t*) params->NvmGroup1;
             RegionNvmGroup2 = (RegionNvmDataGroup2_t*) params->NvmGroup2;
-			RegionBands = (Band_t*) params->Bands;
+            RegionBands = (Band_t*) params->Bands;
 
             // Initialize bands
             memcpy1( ( uint8_t* )RegionBands, ( uint8_t* )bands, sizeof( Band_t ) * IN865_MAX_NB_BANDS );
@@ -765,6 +765,11 @@ int8_t RegionIN865TxParamSetupReq( TxParamSetupReqParams_t* txParamSetupReq )
 int8_t RegionIN865DlChannelReq( DlChannelReqParams_t* dlChannelReq )
 {
     uint8_t status = 0x03;
+
+    if( dlChannelReq->ChannelId >= ( CHANNELS_MASK_SIZE * 16 ) )
+    {
+        return 0;
+    }
 
     // Verify if the frequency is supported
     if( VerifyRfFreq( dlChannelReq->Rx1Frequency ) == false )
