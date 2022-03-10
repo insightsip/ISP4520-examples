@@ -46,8 +46,8 @@
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
+#include "version.h"
 
-#define FIRMWARE_VERSION                        0x03010700 // 3.1.7.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE                        60                              /**< Maximum number of events in the scheduler queue. */
 #define LORAWAN_DEFAULT_CLASS                   CLASS_A                         /**< LoRaWAN default end-device class. */
@@ -155,7 +155,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
 {
-    .FwVersion.Value = FIRMWARE_VERSION,
+    .FwVersion.Value = FW_VERSION_STR,
     .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
     .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
     .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,

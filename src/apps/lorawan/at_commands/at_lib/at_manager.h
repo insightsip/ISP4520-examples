@@ -22,9 +22,8 @@
 #define AT_MANAGER_H__
 
 #include <stdint.h>
+#include "version.h"
 
-#define FW_VERSION_STR          "3.1.7"
-#define FW_VERSION_NUM          0x03010700 // 3.1.7.0
 #define MODULE_NAME             "ISP4520"
 #define MAX_AT_PREFIX_SIZE      20
 
