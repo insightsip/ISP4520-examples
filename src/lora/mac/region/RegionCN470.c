@@ -537,7 +537,7 @@ PhyParam_t RegionCN470GetPhyParam( GetPhyParams_t* getPhy )
 
 void RegionCN470SetBandTxDone( SetBandTxDoneParams_t* txDone )
 {
-    RegionCommonSetBandTxDone( &RegionNvmGroup1->Bands[RegionNvmGroup2->Channels[txDone->Channel].Band],
+    RegionCommonSetBandTxDone( &RegionBands[RegionNvmGroup2->Channels[txDone->Channel].Band],
                                txDone->LastTxAirTime, txDone->Joined, txDone->ElapsedTimeSinceStartUp );
 }
 
@@ -559,19 +559,15 @@ void RegionCN470InitDefaults( InitDefaultsParams_t* params )
 
             RegionNvmGroup1 = (RegionNvmDataGroup1_t*) params->NvmGroup1;
             RegionNvmGroup2 = (RegionNvmDataGroup2_t*) params->NvmGroup2;
-			RegionBands = (Band_t*) params->Bands;
+            RegionBands = (Band_t*) params->Bands;
 
             // Default bands
             memcpy1( ( uint8_t* )RegionBands, ( uint8_t* )bands, sizeof( Band_t ) * CN470_MAX_NB_BANDS );
 
-            // Verify that a default channel plan is available
-            if( RegionNvmGroup2->ChannelPlan == CHANNEL_PLAN_UNKNOWN )
-            {
-                // 125 kHz channels
-                RegionNvmGroup2->ChannelPlan = REGION_CN470_DEFAULT_CHANNEL_PLAN;
-                RegionNvmGroup2->CommonJoinChannelIndex = 0;
-                RegionNvmGroup2->IsOtaaDevice = false;
-            }
+            // 125 kHz channels
+            RegionNvmGroup2->ChannelPlan = REGION_CN470_DEFAULT_CHANNEL_PLAN;
+            RegionNvmGroup2->CommonJoinChannelIndex = 0;
+            RegionNvmGroup2->IsOtaaDevice = false;
 
             // Apply the channel plan configuration
             ApplyChannelPlanConfig( RegionNvmGroup2->ChannelPlan, &ChannelPlanCtx );
