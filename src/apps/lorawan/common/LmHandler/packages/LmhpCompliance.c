@@ -237,11 +237,9 @@ static void LmhpComplianceProcess( void )
 {
     if( ComplianceTestState.IsTxPending == true )
     {
-        if( TimerGetCurrentTime( ) > ( ComplianceTestState.TxPendingTimestamp + LmHandlerGetDutyCycleWaitTime( ) ) )
+        TimerTime_t now = TimerGetCurrentTime( );
+        if( now > ( ComplianceTestState.TxPendingTimestamp + LmHandlerGetDutyCycleWaitTime( ) ) )
         {
-            ComplianceTestState.IsTxPending = false;
-            ComplianceTestState.TxPendingTimestamp = TimerGetCurrentTime( );
-
             if( ComplianceTestState.DataBufferSize != 0 )
             {
                 // Answer commands
@@ -256,6 +254,11 @@ static void LmhpComplianceProcess( void )
                     // try to send the message again
                     ComplianceTestState.IsTxPending = true;
                 }
+                else
+                {
+                    ComplianceTestState.IsTxPending = false;
+                }
+                ComplianceTestState.TxPendingTimestamp = now;
             }
         }
     }
@@ -346,7 +349,7 @@ static void LmhpComplianceOnMcpsIndication( McpsIndication_t* mcpsIndication )
             uint32_t periodicity[] = { 0, 5000, 10000, 20000, 30000, 40000, 50000, 60000, 120000, 240000, 480000 };
             uint8_t  index         = mcpsIndication->Buffer[cmdIndex++];
 
-            if( index < ( sizeof( periodicity ) / sizeof( uint16_t ) ) )
+            if( index < ( sizeof( periodicity ) / sizeof( uint32_t ) ) )
             {
                 if( ComplianceParams->OnTxPeriodicityChanged != NULL )
                 {
@@ -488,6 +491,11 @@ static void LmhpComplianceOnMcpsIndication( McpsIndication_t* mcpsIndication )
     if( ComplianceTestState.DataBufferSize != 0 )
     {
         ComplianceTestState.IsTxPending = true;
+    }
+    else
+    {
+        // Abort any pending Tx as a new command has been processed
+        ComplianceTestState.IsTxPending = false;
     }
 }
 
