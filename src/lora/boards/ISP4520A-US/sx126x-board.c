@@ -442,6 +442,11 @@ bool SX126xCheckRfFrequency (uint32_t frequency)
     return true;
 }
 
+uint32_t SX126xGetDio1PinState( void )
+{
+    return GpioRead( &SX126x.DIO1 );
+}
+
 void SX126xGetStats (uint16_t* nb_pkt_received, uint16_t* nb_pkt_crc_error, uint16_t* nb_pkt_length_error)
 {
     uint8_t buf[6];
