@@ -23,8 +23,8 @@
 
 #include <stdint.h>
 
-#define FW_VERSION_STR          "3.1.7"
-#define FW_VERSION_NUM          0x03010700 // 3.1.7.0
+#define FW_VERSION_STR          "3.1.8"
+#define FW_VERSION_NUM          0x03010800 // 3.1.8.0
 #define MODULE_NAME             "ISP4520"
 #define MAX_AT_PREFIX_SIZE      20
 
