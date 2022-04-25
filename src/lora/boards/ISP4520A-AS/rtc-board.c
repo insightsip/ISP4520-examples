@@ -25,7 +25,7 @@
 
 /******************************************************************************
  * @attention
- *      Modified work 2020 Insight SiP  
+ *      Modified work 2021 Insight SiP  
  *
  *	THIS SOFTWARE IS PROVIDED BY INSIGHT SIP "AS IS" AND ANY EXPRESS
  *	OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
@@ -116,20 +116,21 @@ uint32_t RtcGetMinimumTimeout( void )
 {
     return MIN_ALARM_DELAY;
 }
-
 uint32_t RtcMs2Tick( uint32_t milliseconds )
 {
-     return ((uint32_t)ROUNDED_DIV((milliseconds) * ((uint64_t)RTC2_CLOCK_FREQ), 1000 * (RTC2_PRESCALER + 1)));
+    uint32_t tick = ((uint32_t)ROUNDED_DIV((milliseconds) * ((uint64_t)RTC2_CLOCK_FREQ), 1000 * (RTC2_PRESCALER + 1)));
+    return tick;
 }
 
 uint32_t RtcTick2Ms( uint32_t tick )
 {
-     return ((uint32_t)ROUNDED_DIV((tick) * ((uint64_t)(1000 * (RTC2_PRESCALER + 1))), (uint64_t)RTC2_CLOCK_FREQ));
+    uint32_t ms = ((uint32_t)ROUNDED_DIV((tick) * ((uint64_t)(1000 * (RTC2_PRESCALER + 1))), (uint64_t)RTC2_CLOCK_FREQ));
+    return ms;
 }
 
 void RtcSetAlarm(uint32_t timeout)
 {
-    TimerTime_t now = NRF_RTC2->COUNTER;
+    TimerTime_t now =  RtcGetTimerValue();
     NRF_RTC2->CC[0] = RtcTimerContext.Time + timeout;
 
     // Enable RTC2 CC[0] interrupts
@@ -144,7 +145,7 @@ void RtcStopAlarm(void)
 
 uint32_t RtcSetTimerContext( void )
 {
-    RtcTimerContext.Time = NRF_RTC2->COUNTER;
+    RtcTimerContext.Time = RtcGetTimerValue();
     return ( uint32_t )RtcTimerContext.Time;  
 }
 
@@ -159,7 +160,6 @@ uint32_t RtcGetCalendarTime(uint16_t *milliseconds)
     uint32_t temp_milliseconds;
 
     ticks = RtcGetTimerValue();
-    ticks += m_ovrflw_cnt*0xFFFFFFUL; 
 
     temp_milliseconds = RtcTick2Ms(ticks);
 
@@ -172,12 +172,18 @@ uint32_t RtcGetCalendarTime(uint16_t *milliseconds)
 
 uint32_t RtcGetTimerValue(void)
 {
-    return NRF_RTC2->COUNTER;
+   uint32_t ticks;
+
+   NVIC_DisableIRQ(RTC2_IRQn);
+   ticks = (((uint32_t)m_ovrflw_cnt) << 24) + NRF_RTC2->COUNTER;
+   NVIC_EnableIRQ(RTC2_IRQn);
+
+   return ticks;
 }
 
 uint32_t RtcGetTimerElapsedTime(void)
 {
-    TimerTime_t now_in_ticks = NRF_RTC2->COUNTER;
+    TimerTime_t now_in_ticks =  RtcGetTimerValue();
     return (now_in_ticks - RtcTimerContext.Time);
 }
 

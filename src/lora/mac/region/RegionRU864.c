@@ -296,7 +296,7 @@ void RegionRU864InitDefaults( InitDefaultsParams_t* params )
 
             RegionNvmGroup1 = (RegionNvmDataGroup1_t*) params->NvmGroup1;
             RegionNvmGroup2 = (RegionNvmDataGroup2_t*) params->NvmGroup2;
-			RegionBands = (Band_t*) params->Bands;
+            RegionBands = (Band_t*) params->Bands;
 
             // Default bands
             memcpy1( ( uint8_t* )RegionBands, ( uint8_t* )bands, sizeof( Band_t ) * RU864_MAX_NB_BANDS );
