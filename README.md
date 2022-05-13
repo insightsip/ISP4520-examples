@@ -13,7 +13,7 @@ For each ISP4520 variant (Europe, Asia, US) the following examples are provided:
 
 * **lorawan/end-device**: LoRaWan end-device example application.
 
-* **lorawan/class_A**: LoRaWan Class A end-device example application (deprecated).
+* **lorawan/class_A**: LoRaWan Class A end-device example application (deprecated - Please do not use).
 
 * **lorawan/at_commands**: Example of LoRaWan AT commands set.
 
@@ -44,6 +44,10 @@ For all 3 regional version (EU,868, AS923 and US915), the LoRaWan end-device exa
 The gateways used with the pre-certification tool are the Semtech Picocell SX1308P868GW and SX1308P915GW.
 
 ## Changelog
+
+### 2022-05-13, v3.1.8
+
+- Fix certification issues and re-transmission handling.
 
 ### 2021-11-23, v3.1.7
 
