@@ -62,7 +62,6 @@
 #include "nrf_log_default_backends.h"
 
 
-#define HW_REVISION "C"
 // Scheduler Defines
 #define SCHED_MAX_EVENT_DATA_SIZE APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE 60                                       /**< Maximum number of events in the scheduler queue. */
@@ -1014,6 +1013,9 @@ static void services_init(void) {
     ble_motion_gravity_t gravityt_init = {0.0};
     ble_motion_magnetization_t magnetization_init = {0.0};
     ble_motion_angular_velocity_t angular_velocity_init = {0.0};
+    char hw_rev[2];
+    hw_rev[0] = BoardGetRevision();
+    hw_rev[1] = '\0';
 
     // Initialize Queued Write Module.
     qwr_init.error_handler = nrf_qwr_error_handler;
@@ -1023,7 +1025,7 @@ static void services_init(void) {
     // Initialize Device Information Service.
     memset(&dis_init, 0, sizeof(dis_init));
     ble_srv_ascii_to_utf8(&dis_init.fw_rev_str, (char *)FW_VERSION_STR);
-    ble_srv_ascii_to_utf8(&dis_init.hw_rev_str, (char *)HW_REVISION);
+    ble_srv_ascii_to_utf8(&dis_init.hw_rev_str, (char *)hw_rev);
     dis_init.dis_char_rd_sec = SEC_OPEN;
 
     // Initialize environment service
