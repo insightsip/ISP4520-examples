@@ -36,6 +36,7 @@
 #include "NvmDataMgmt.h"
 #include "RegionCommon.h"
 #include "LoRaMacTest.h"
+#include "version.h"
 
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
@@ -210,7 +211,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
 {
-    .FwVersion.Value = FW_VERSION_NUM,
+    .FwVersion.Value = FW_VERSION,
     .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
     .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
     .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,

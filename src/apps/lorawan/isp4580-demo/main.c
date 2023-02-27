@@ -19,12 +19,10 @@
  *
  *****************************************************************************/
 
-// Standards
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 
-// nRF
 #include "app_error.h"
 #include "app_scheduler.h"
 #include "app_timer.h"
@@ -37,7 +35,6 @@
 #include "nrf_sdh.h"
 #include "nrf_sdh_ble.h"
 
-// BLE
 #include "ble.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
@@ -46,29 +43,26 @@
 #include "ble_isp4580.h"
 #include "ble_motion.h"
 
-// LoRa
 #include "Commissioning.h"
 #include "LmHandler.h"
 #include "LmhpCompliance.h"
 #include "NvmDataMgmt.h"
 #include "RegionCommon.h"
 #include "board.h"
+#include "version.h"
 
-// Sensors
 #include "drv_humidity.h"
 #include "drv_light.h"
 #include "drv_motion.h"
 #include "drv_pressure.h"
 #include "twi_manager.h"
 
-// logs
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-#define FW_VERSION "3.1.8.0"
+
 #define HW_REVISION "C"
-#define FIRMWARE_VERSION 0x03010800 // 3.1.8.0
 // Scheduler Defines
 #define SCHED_MAX_EVENT_DATA_SIZE APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE 60                                       /**< Maximum number of events in the scheduler queue. */
@@ -218,7 +212,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
     {
-        .FwVersion.Value = FIRMWARE_VERSION,
+        .FwVersion.Value = FW_VERSION,
         .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
         .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
         .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,
@@ -1023,13 +1017,12 @@ static void services_init(void) {
 
     // Initialize Queued Write Module.
     qwr_init.error_handler = nrf_qwr_error_handler;
-
     err_code = nrf_ble_qwr_init(&m_qwr, &qwr_init);
     APP_ERROR_CHECK(err_code);
 
     // Initialize Device Information Service.
     memset(&dis_init, 0, sizeof(dis_init));
-    ble_srv_ascii_to_utf8(&dis_init.fw_rev_str, (char *)FW_VERSION);
+    ble_srv_ascii_to_utf8(&dis_init.fw_rev_str, (char *)FW_VERSION_STR);
     ble_srv_ascii_to_utf8(&dis_init.hw_rev_str, (char *)HW_REVISION);
     dis_init.dis_char_rd_sec = SEC_OPEN;
 

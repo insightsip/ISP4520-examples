@@ -57,6 +57,7 @@
 
 #include "at_manager.h"
 #include "board.h"
+#include "version.h"
 
 // Timer & scheduler
 #define APP_TIMER_PRESCALER         0                                           ///<  Value of the RTC1 PRESCALER register.
