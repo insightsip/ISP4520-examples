@@ -45,6 +45,14 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2023-03-01, v3.1.11
+
+- Add ISP4580 project
+
+### 2023-02-14, v3.1.10
+
+- Fix SES projects
+
 ### 2022-05-13, v3.1.8
 
 - Fix certification issues and re-transmission handling.

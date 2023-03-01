@@ -19,12 +19,10 @@
  *
  *****************************************************************************/
 
-// Standards
 #include <stdbool.h>
 #include <stdint.h>
 #include <string.h>
 
-// nRF
 #include "nrf.h"
 #include "app_error.h"
 #include "app_timer.h"
@@ -33,21 +31,18 @@
 #include "nrf_drv_clock.h"
 #include "nrf_pwr_mgmt.h"
 
-// LoRa
 #include "board.h"
 #include "LmHandler.h"
 #include "LmhpCompliance.h"
 #include "Commissioning.h"
 #include "RegionCommon.h"
 #include "NvmDataMgmt.h"
+#include "version.h"
 
-//logs
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-
-#define FIRMWARE_VERSION                        0x03011000 // 3.1.10.0
 #define SCHED_MAX_EVENT_DATA_SIZE               APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE                        60                              /**< Maximum number of events in the scheduler queue. */
 #define LORAWAN_DEFAULT_CLASS                   CLASS_A                         /**< LoRaWAN default end-device class. */
@@ -155,7 +150,7 @@ static LmHandlerParams_t LmHandlerParams =
 
 static LmhpComplianceParams_t LmhpComplianceParams =
 {
-    .FwVersion.Value = FIRMWARE_VERSION,
+    .FwVersion.Value = FW_VERSION,
     .OnTxPeriodicityChanged = OnTxPeriodicityChanged,
     .OnTxFrameCtrlChanged = OnTxFrameCtrlChanged,
     .OnPingSlotPeriodicityChanged = OnPingSlotPeriodicityChanged,

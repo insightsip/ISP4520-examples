@@ -1,398 +1,16 @@
 <!DOCTYPE CrossStudio_Project_File>
 <solution Name="at-commands" target="8" version="2">
-  <project Name="at-commands_ISP4520-EU">
-    <configuration
-      Name="Common"
-      arm_architecture="v7EM"
-      arm_core_type="Cortex-M4"
-      arm_endian="Little"
-      arm_fp_abi="Hard"
-      arm_fpu_type="FPv4-SP-D16"
-      arm_linker_heap_size="8192"
-      arm_linker_process_stack_size="0"
-      arm_linker_stack_size="8192"
-      arm_linker_treat_warnings_as_errors="No"
-      arm_simulator_memory_simulation_parameter="RWX 00000000,00100000,FFFFFFFF;RWX 20000000,00010000,CDCDCDCD"
-      arm_target_device_name="nRF52832_xxAA"
-      arm_target_interface_type="SWD"
-      c_preprocessor_definitions="ISP4520_EU;REGION_EU868;SOFT_SE;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;BLE_STACK_SUPPORT_REQD;CONFIG_GPIO_AS_PINRESET;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52;NRF52832_XXAA;NRF52_PAN_74;NRF_SD_BLE_API_VERSION=7;S132;SOFTDEVICE_PRESENT"
-      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
-      debug_additional_load_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/hex/s132_nrf52_7.0.1_softdevice.hex"
-      debug_register_definition_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/nrf52.svd"
-      debug_start_from_entry_point_symbol="No"
-      debug_target_connection="J-Link"
-      gcc_debugging_level="Level 3"
-      gcc_entry_point="Reset_Handler"
-      linker_output_format="hex"
-      linker_printf_fmt_level="long"
-      linker_printf_width_precision_supported="Yes"
-      linker_scanf_fmt_level="long"
-      linker_section_placement_file="flash_placement.xml"
-      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002bd0;RAM_SIZE=0xd430"
-      linker_section_placements_segments="FLASH RX 0x0 0x80000;RAM RWX 0x20000000 0x10000"
-      macros="CMSIS_CONFIG_TOOL=../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
-      project_directory=""
-      project_type="Executable" />
-    <folder Name="Segger Startup Files">
-      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
-    </folder>
-    <folder Name="nRF_Log">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
-    </folder>
-    <folder Name="nRF_Libraries">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
-    </folder>
-    <folder Name="None">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Drivers">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
-    </folder>
-    <folder Name="Application">
-      <file file_name="../main.c" />
-      <file file_name="../config/sdk_config.h" />
-      <file file_name="../../common/Commissioning.h" />
-      <file file_name="../../common/NvmDataMgmt.c" />
-    </folder>
-    <folder Name="nRF_Segger_RTT">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
-    </folder>
-    <folder Name="nRF_BLE">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/auth_status_tracker.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_advdata.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising/ble_advertising.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_params.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_state.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_srv_common.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatt_cache_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatts_cache_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/id_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt/nrf_ble_gatt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr/nrf_ble_qwr.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_data_storage.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_database.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_id.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager_handler.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/pm_buffer.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_dispatcher.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_manager.c" />
-    </folder>
-    <folder Name="UTF8/UTF16 converter">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
-    </folder>
-    <folder Name="nRF_SoftDevice">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_ble.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_soc.c" />
-    </folder>
-    <folder Name="LoRa\boards\isp4520e-eu">
-      <file file_name="../../../../lora/boards/ISP4520E-EU/board.c" />
-      <file file_name="../../../../lora/boards/ISP4520E-EU/gpio-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520E-EU/rtc-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520E-EU/spi-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520E-EU/sx126x-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520E-EU/eeprom-board.c" />
-    </folder>
-    <folder Name="LoRa\boards\mcu">
-      <file file_name="../../../../lora/boards/mcu/utilities.c" />
-    </folder>
-    <folder Name="LoRa\radio">
-      <file file_name="../../../../lora/radio/sx126x/radio.c" />
-      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
-    </folder>
-    <folder Name="LoRa\system">
-      <file file_name="../../../../lora/system/delay.c" />
-      <file file_name="../../../../lora/system/systime.c" />
-      <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/nvmm.c" />
-    </folder>
-    <folder Name="nRF_BLE_Services">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
-    </folder>
-    <folder Name="LoRa\mac">
-      <file file_name="../../../../lora/mac/LoRaMac.c" />
-      <file file_name="../../../../lora/mac/LoRaMacAdr.c" />
-      <file file_name="../../../../lora/mac/LoRaMacClassB.c" />
-      <file file_name="../../../../lora/mac/LoRaMacCommands.c" />
-      <file file_name="../../../../lora/mac/LoRaMacConfirmQueue.c" />
-      <file file_name="../../../../lora/mac/LoRaMacCrypto.c" />
-      <file file_name="../../../../lora/mac/LoRaMacParser.c" />
-      <file file_name="../../../../lora/mac/LoRaMacSerializer.c" />
-      <file file_name="../../../../lora/mac/region/Region.c" />
-      <file file_name="../../../../lora/mac/region/RegionCommon.c" />
-      <file file_name="../../../../lora/mac/region/RegionEU868.c" />
-    </folder>
-    <folder Name="at_lib">
-      <file file_name="../at_lib/at_hal_transport.c" />
-      <file file_name="../at_lib/at_manager.c" />
-      <file file_name="../at_lib/at_phy_uart.c" />
-    </folder>
-    <folder Name="LmHandler">
-      <file file_name="../../common/LmHandler/LmHandler.c" />
-      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
-    </folder>
-    <folder Name="LoRa\peripherals">
-      <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/lora_cmac.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/se-identity.h" />
-      <file file_name="../../../../lora/peripherals/soft-se/soft-se-hal.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
-    </folder>
-  </project>
-  <configuration
-    Name="Release"
-    c_preprocessor_definitions="NDEBUG"
-    gcc_optimization_level="Optimize For Size" />
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG; DEBUG_NRF"
     gcc_optimization_level="None" />
-  <project Name="at-commands_ISP4520-US">
-    <configuration
-      Name="Common"
-      arm_architecture="v7EM"
-      arm_core_type="Cortex-M4"
-      arm_endian="Little"
-      arm_fp_abi="Hard"
-      arm_fpu_type="FPv4-SP-D16"
-      arm_linker_heap_size="8192"
-      arm_linker_process_stack_size="0"
-      arm_linker_stack_size="8192"
-      arm_linker_treat_warnings_as_errors="No"
-      arm_simulator_memory_simulation_parameter="RWX 00000000,00100000,FFFFFFFF;RWX 20000000,00010000,CDCDCDCD"
-      arm_target_device_name="nRF52832_xxAA"
-      arm_target_interface_type="SWD"
-      c_preprocessor_definitions="ISP4520_US;REGION_US915;SOFT_SE;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;CONFIG_GPIO_AS_PINRESET;BLE_STACK_SUPPORT_REQD;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52;NRF52832_XXAA;NRF52_PAN_74;NRF_SD_BLE_API_VERSION=7;S132;SOFTDEVICE_PRESENT"
-      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
-      debug_additional_load_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/hex/s132_nrf52_7.0.1_softdevice.hex"
-      debug_register_definition_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/nrf52.svd"
-      debug_start_from_entry_point_symbol="No"
-      debug_target_connection="J-Link"
-      gcc_debugging_level="Level 3"
-      gcc_entry_point="Reset_Handler"
-      linker_output_format="hex"
-      linker_printf_fmt_level="long"
-      linker_printf_width_precision_supported="Yes"
-      linker_scanf_fmt_level="long"
-      linker_section_placement_file="flash_placement.xml"
-      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002bd0;RAM_SIZE=0xd430"
-      linker_section_placements_segments="FLASH RX 0x0 0x80000;RAM RWX 0x20000000 0x10000"
-      macros="CMSIS_CONFIG_TOOL=../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
-      project_directory=""
-      project_type="Executable" />
-    <folder Name="Segger Startup Files">
-      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
-    </folder>
-    <folder Name="nRF_Log">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
-    </folder>
-    <folder Name="nRF_Libraries">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
-    </folder>
-    <folder Name="None">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
-    </folder>
-    <folder Name="nRF_Drivers">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
-    </folder>
-    <folder Name="Application">
-      <file file_name="../config/sdk_config.h" />
-      <file file_name="../main.c" />
-      <file file_name="../../common/Commissioning.h" />
-      <file file_name="../../common/NvmDataMgmt.c" />
-    </folder>
-    <folder Name="nRF_Segger_RTT">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
-    </folder>
-    <folder Name="nRF_BLE">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/auth_status_tracker.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_advdata.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising/ble_advertising.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_params.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_state.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_srv_common.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatt_cache_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatts_cache_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/id_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt/nrf_ble_gatt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr/nrf_ble_qwr.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_data_storage.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_database.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_id.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager_handler.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/pm_buffer.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_dispatcher.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_manager.c" />
-    </folder>
-    <folder Name="UTF8/UTF16 converter">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
-    </folder>
-    <folder Name="nRF_SoftDevice">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_ble.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_soc.c" />
-    </folder>
-    <folder Name="LoRa\boards\isp4520b-us">
-      <file file_name="../../../../lora/boards/ISP4520B-US/board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-US/gpio-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-US/rtc-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-US/spi-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-US/sx126x-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-US/eeprom-board.c" />
-    </folder>
-    <folder Name="LoRa\boards\mcu">
-      <file file_name="../../../../lora/boards/mcu/utilities.c" />
-    </folder>
-    <folder Name="LoRa\radio">
-      <file file_name="../../../../lora/radio/sx126x/radio.c" />
-      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
-    </folder>
-    <folder Name="LoRa\system">
-      <file file_name="../../../../lora/system/delay.c" />
-      <file file_name="../../../../lora/system/systime.c" />
-      <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/nvmm.c" />
-    </folder>
-    <folder Name="nRF_BLE_Services">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
-    </folder>
-    <folder Name="LoRa\mac">
-      <file file_name="../../../../lora/mac/LoRaMac.c" />
-      <file file_name="../../../../lora/mac/LoRaMacAdr.c" />
-      <file file_name="../../../../lora/mac/LoRaMacClassB.c" />
-      <file file_name="../../../../lora/mac/LoRaMacCommands.c" />
-      <file file_name="../../../../lora/mac/LoRaMacConfirmQueue.c" />
-      <file file_name="../../../../lora/mac/LoRaMacCrypto.c" />
-      <file file_name="../../../../lora/mac/LoRaMacParser.c" />
-      <file file_name="../../../../lora/mac/LoRaMacSerializer.c" />
-      <file file_name="../../../../lora/mac/region/Region.c" />
-      <file file_name="../../../../lora/mac/region/RegionCommon.c" />
-      <file file_name="../../../../lora/mac/region/RegionUS915.c" />
-      <file file_name="../../../../lora/mac/region/RegionBaseUS.c" />
-    </folder>
-    <folder Name="at_lib">
-      <file file_name="../at_lib/at_hal_transport.c" />
-      <file file_name="../at_lib/at_manager.c" />
-      <file file_name="../at_lib/at_phy_uart.c" />
-    </folder>
-    <folder Name="LmHandler">
-      <file file_name="../../common/LmHandler/LmHandler.c" />
-      <file file_name="../../common/LmHandler/LmHandler.h" />
-      <file file_name="../../common/LmHandler/LmHandlerTypes.h" />
-      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
-    </folder>
-    <folder Name="LoRa\peripherals">
-      <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/lora_cmac.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/se-identity.h" />
-      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
-      <file file_name="../../../../lora/peripherals/soft-se/soft-se-hal.c" />
-    </folder>
-  </project>
+  <configuration
+    Name="Release"
+    c_preprocessor_definitions="NDEBUG"
+    gcc_optimization_level="Optimize For Size" />
   <project Name="at-commands_ISP4520-AS">
     <configuration
+      LIBRARY_IO_TYPE="RTT"
       Name="Common"
       arm_architecture="v7EM"
       arm_core_type="Cortex-M4"
@@ -407,7 +25,7 @@
       arm_target_device_name="nRF52832_xxAA"
       arm_target_interface_type="SWD"
       c_preprocessor_definitions="ISP4520_AS;REGION_AS923_DEFAULT_CHANNEL_PLAN = CHANNEL_PLAN_GROUP_AS923_1_JP;REGION_AS923;SOFT_SE;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;CONFIG_GPIO_AS_PINRESET;BLE_STACK_SUPPORT_REQD;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52;NRF52832_XXAA;NRF52_PAN_74;NRF_SD_BLE_API_VERSION=7;S132;SOFTDEVICE_PRESENT"
-      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
+      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../../../;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
       debug_additional_load_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/hex/s132_nrf52_7.0.1_softdevice.hex"
       debug_register_definition_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/nrf52.svd"
       debug_start_from_entry_point_symbol="No"
@@ -424,74 +42,75 @@
       macros="CMSIS_CONFIG_TOOL=../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
       project_directory=""
       project_type="Executable" />
-    <folder Name="Segger Startup Files">
-      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
+    <folder Name="Application">
+      <file file_name="../../common/Commissioning.h" />
+      <file file_name="../../common/NvmDataMgmt.c" />
+      <file file_name="../main.c" />
     </folder>
-    <folder Name="nRF_Log">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
+    <folder Name="LmHandler">
+      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
+      <file file_name="../../common/LmHandler/LmHandler.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
     </folder>
-    <folder Name="nRF_Libraries">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
+    <folder Name="LoRa\boards\isp4520b-as">
+      <file file_name="../../../../lora/boards/ISP4520B-AS/board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/eeprom-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/gpio-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/rtc-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/spi-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-AS/sx126x-board.c" />
+    </folder>
+    <folder Name="LoRa\boards\mcu">
+      <file file_name="../../../../lora/boards/mcu/utilities.c" />
+    </folder>
+    <folder Name="LoRa\mac">
+      <file file_name="../../../../lora/mac/LoRaMac.c" />
+      <file file_name="../../../../lora/mac/LoRaMacAdr.c" />
+      <file file_name="../../../../lora/mac/LoRaMacClassB.c" />
+      <file file_name="../../../../lora/mac/LoRaMacCommands.c" />
+      <file file_name="../../../../lora/mac/LoRaMacConfirmQueue.c" />
+      <file file_name="../../../../lora/mac/LoRaMacCrypto.c" />
+      <file file_name="../../../../lora/mac/LoRaMacParser.c" />
+      <file file_name="../../../../lora/mac/LoRaMacSerializer.c" />
+      <file file_name="../../../../lora/mac/region/Region.c" />
+      <file file_name="../../../../lora/mac/region/RegionAS923.c" />
+      <file file_name="../../../../lora/mac/region/RegionCommon.c" />
+    </folder>
+    <folder Name="LoRa\peripherals">
+      <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/lora_cmac.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/se-identity.h" />
+      <file file_name="../../../../lora/peripherals/soft-se/soft-se-hal.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
+    </folder>
+    <folder Name="LoRa\radio">
+      <file file_name="../../../../lora/radio/sx126x/radio.c" />
+      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
+    </folder>
+    <folder Name="LoRa\system">
+      <file file_name="../../../../lora/system/delay.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
+      <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/timer.c" />
     </folder>
     <folder Name="None">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
     </folder>
-    <folder Name="nRF_Drivers">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
+    <folder Name="Segger Startup Files">
+      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
     </folder>
-    <folder Name="Application">
-      <file file_name="../main.c" />
-      <file file_name="../../common/Commissioning.h" />
-      <file file_name="../../common/NvmDataMgmt.c" />
+    <folder Name="UTF8/UTF16 converter">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
     </folder>
-    <folder Name="nRF_Segger_RTT">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c" />
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
+    <folder Name="at_lib">
+      <file file_name="../at_lib/at_hal_transport.c" />
+      <file file_name="../at_lib/at_manager.c" />
+      <file file_name="../at_lib/at_phy_uart.c" />
     </folder>
     <folder Name="nRF_BLE">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/auth_status_tracker.c" />
@@ -514,37 +133,131 @@
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_dispatcher.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_manager.c" />
     </folder>
-    <folder Name="UTF8/UTF16 converter">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
+    <folder Name="nRF_BLE_Services">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
+    </folder>
+    <folder Name="nRF_Drivers">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
+    </folder>
+    <folder Name="nRF_Libraries">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
+    </folder>
+    <folder Name="nRF_Log">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
+    </folder>
+    <folder Name="nRF_Segger_RTT">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
     </folder>
     <folder Name="nRF_SoftDevice">
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_ble.c" />
       <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_soc.c" />
     </folder>
-    <folder Name="LoRa\boards\isp4520b-as">
-      <file file_name="../../../../lora/boards/ISP4520B-AS/spi-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-AS/board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-AS/gpio-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-AS/rtc-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-AS/sx126x-board.c" />
-      <file file_name="../../../../lora/boards/ISP4520B-AS/eeprom-board.c" />
+  </project>
+  <project Name="at-commands_ISP4520-EU">
+    <configuration
+      LIBRARY_IO_TYPE="RTT"
+      Name="Common"
+      arm_architecture="v7EM"
+      arm_core_type="Cortex-M4"
+      arm_endian="Little"
+      arm_fp_abi="Hard"
+      arm_fpu_type="FPv4-SP-D16"
+      arm_linker_heap_size="8192"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="8192"
+      arm_linker_treat_warnings_as_errors="No"
+      arm_simulator_memory_simulation_parameter="RWX 00000000,00100000,FFFFFFFF;RWX 20000000,00010000,CDCDCDCD"
+      arm_target_device_name="nRF52832_xxAA"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="ISP4520_EU;REGION_EU868;SOFT_SE;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;BLE_STACK_SUPPORT_REQD;CONFIG_GPIO_AS_PINRESET;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52;NRF52832_XXAA;NRF52_PAN_74;NRF_SD_BLE_API_VERSION=7;S132;SOFTDEVICE_PRESENT"
+      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../../../;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
+      debug_additional_load_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/hex/s132_nrf52_7.0.1_softdevice.hex"
+      debug_register_definition_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/nrf52.svd"
+      debug_start_from_entry_point_symbol="No"
+      debug_target_connection="J-Link"
+      gcc_debugging_level="Level 3"
+      gcc_entry_point="Reset_Handler"
+      linker_output_format="hex"
+      linker_printf_fmt_level="long"
+      linker_printf_width_precision_supported="Yes"
+      linker_scanf_fmt_level="long"
+      linker_section_placement_file="flash_placement.xml"
+      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002bd0;RAM_SIZE=0xd430"
+      linker_section_placements_segments="FLASH RX 0x0 0x80000;RAM RWX 0x20000000 0x10000"
+      macros="CMSIS_CONFIG_TOOL=../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
+      project_directory=""
+      project_type="Executable" />
+    <folder Name="Application">
+      <file file_name="../../common/Commissioning.h" />
+      <file file_name="../../common/NvmDataMgmt.c" />
+      <file file_name="../main.c" />
+      <file file_name="../config/sdk_config.h" />
+    </folder>
+    <folder Name="LmHandler">
+      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
+      <file file_name="../../common/LmHandler/LmHandler.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
+    </folder>
+    <folder Name="LoRa\boards\isp4520e-eu">
+      <file file_name="../../../../lora/boards/ISP4520E-EU/board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/eeprom-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/gpio-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/rtc-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/spi-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520E-EU/sx126x-board.c" />
     </folder>
     <folder Name="LoRa\boards\mcu">
       <file file_name="../../../../lora/boards/mcu/utilities.c" />
-    </folder>
-    <folder Name="LoRa\radio">
-      <file file_name="../../../../lora/radio/sx126x/radio.c" />
-      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
-    </folder>
-    <folder Name="LoRa\system">
-      <file file_name="../../../../lora/system/delay.c" />
-      <file file_name="../../../../lora/system/systime.c" />
-      <file file_name="../../../../lora/system/timer.c" />
-      <file file_name="../../../../lora/system/nvmm.c" />
-    </folder>
-    <folder Name="nRF_BLE_Services">
-      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
     </folder>
     <folder Name="LoRa\mac">
       <file file_name="../../../../lora/mac/LoRaMac.c" />
@@ -557,27 +270,323 @@
       <file file_name="../../../../lora/mac/LoRaMacSerializer.c" />
       <file file_name="../../../../lora/mac/region/Region.c" />
       <file file_name="../../../../lora/mac/region/RegionCommon.c" />
-      <file file_name="../../../../lora/mac/region/RegionAS923.c" />
-    </folder>
-    <folder Name="at_lib">
-      <file file_name="../at_lib/at_phy_uart.c" />
-      <file file_name="../at_lib/at_manager.c" />
-      <file file_name="../at_lib/at_hal_transport.c" />
-    </folder>
-    <folder Name="LmHandler">
-      <file file_name="../../common/LmHandler/LmHandler.c" />
-      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
-      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
+      <file file_name="../../../../lora/mac/region/RegionEU868.c" />
     </folder>
     <folder Name="LoRa\peripherals">
       <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />
       <file file_name="../../../../lora/peripherals/soft-se/lora_cmac.c" />
       <file file_name="../../../../lora/peripherals/soft-se/se-identity.h" />
-      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
       <file file_name="../../../../lora/peripherals/soft-se/soft-se-hal.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
+    </folder>
+    <folder Name="LoRa\radio">
+      <file file_name="../../../../lora/radio/sx126x/radio.c" />
+      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
+    </folder>
+    <folder Name="LoRa\system">
+      <file file_name="../../../../lora/system/delay.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
+      <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/timer.c" />
+    </folder>
+    <folder Name="None">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
+    </folder>
+    <folder Name="Segger Startup Files">
+      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
+    </folder>
+    <folder Name="UTF8/UTF16 converter">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
+    </folder>
+    <folder Name="at_lib">
+      <file file_name="../at_lib/at_hal_transport.c" />
+      <file file_name="../at_lib/at_manager.c" />
+      <file file_name="../at_lib/at_phy_uart.c" />
+    </folder>
+    <folder Name="nRF_BLE">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/auth_status_tracker.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_advdata.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising/ble_advertising.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_params.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_state.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_srv_common.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatt_cache_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatts_cache_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/id_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt/nrf_ble_gatt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr/nrf_ble_qwr.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_data_storage.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_database.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_id.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager_handler.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/pm_buffer.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_dispatcher.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_manager.c" />
+    </folder>
+    <folder Name="nRF_BLE_Services">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
+    </folder>
+    <folder Name="nRF_Drivers">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
+    </folder>
+    <folder Name="nRF_Libraries">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
+    </folder>
+    <folder Name="nRF_Log">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
+    </folder>
+    <folder Name="nRF_Segger_RTT">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
+    </folder>
+    <folder Name="nRF_SoftDevice">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_ble.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_soc.c" />
+    </folder>
+  </project>
+  <project Name="at-commands_ISP4520-US">
+    <configuration
+      LIBRARY_IO_TYPE="RTT"
+      Name="Common"
+      arm_architecture="v7EM"
+      arm_core_type="Cortex-M4"
+      arm_endian="Little"
+      arm_fp_abi="Hard"
+      arm_fpu_type="FPv4-SP-D16"
+      arm_linker_heap_size="8192"
+      arm_linker_process_stack_size="0"
+      arm_linker_stack_size="8192"
+      arm_linker_treat_warnings_as_errors="No"
+      arm_simulator_memory_simulation_parameter="RWX 00000000,00100000,FFFFFFFF;RWX 20000000,00010000,CDCDCDCD"
+      arm_target_device_name="nRF52832_xxAA"
+      arm_target_interface_type="SWD"
+      c_preprocessor_definitions="ISP4520_US;REGION_US915;SOFT_SE;APP_TIMER_V2;APP_TIMER_V2_RTC1_ENABLED;CONFIG_GPIO_AS_PINRESET;BLE_STACK_SUPPORT_REQD;FLOAT_ABI_HARD;INITIALIZE_USER_SECTIONS;NO_VTOR_CONFIG;NRF52;NRF52832_XXAA;NRF52_PAN_74;NRF_SD_BLE_API_VERSION=7;S132;SOFTDEVICE_PRESENT"
+      c_user_include_directories="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_dtm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_racp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ancs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ans_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_bas_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_cts_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_gls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hids;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hrs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_hts;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_ias_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lbs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_lls;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_nus_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_rscs_c;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_tps;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bootloader/ble_dfu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/bsp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/cli;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc32;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crypto;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/csense_drv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/delay;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ecc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_task_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/gpiote;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hci;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/led_softblink;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/low_power_pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mem_manager;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mpu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/mutex;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/queue;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sdcard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/slip;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/spi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/stack_guard;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/svc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_mngr;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/twi_sensor;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/audio;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/cdc/acm;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/generic;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/kbd;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/hid/mouse;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/usbd/class/msc;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ac_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/ble_oob_advdata_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/conn_hand_parser/le_oob_rec_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ac_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_oob_advdata;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ble_pair_msg;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/ep_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/hs_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/connection_handover/le_oob_rec;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/generic/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/launchapp;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/message;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/parser/record;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/text;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/ndef/uri;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/platform;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t2t_parser;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_lib;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/apdu;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/cc_file;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/hl_detection_procedure;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/nfc/t4t_parser/tlv;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/headers/nrf52;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/toolchain/cmsis/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/include;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/hal;../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk;../config;../../../../lora/boards;../../../../lora/boards/mcu;../../../../lora/system;../../../../lora/peripherals/soft-se;../../../../lora/radio;../../../../lora/mac;../../../../lora/mac/region;../../../../lora/radio/sx126x;../../../../;../../common;../../common/lmhandler;../../common/lmhandler/packages;../at_lib;.."
+      debug_additional_load_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/s132/hex/s132_nrf52_7.0.1_softdevice.hex"
+      debug_register_definition_file="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/nrf52.svd"
+      debug_start_from_entry_point_symbol="No"
+      debug_target_connection="J-Link"
+      gcc_debugging_level="Level 3"
+      gcc_entry_point="Reset_Handler"
+      linker_output_format="hex"
+      linker_printf_fmt_level="long"
+      linker_printf_width_precision_supported="Yes"
+      linker_scanf_fmt_level="long"
+      linker_section_placement_file="flash_placement.xml"
+      linker_section_placement_macros="FLASH_PH_START=0x0 ;FLASH_PH_SIZE=0x80000;RAM_PH_START=0x20000000;RAM_PH_SIZE=0x10000;FLASH_START=0x26000;FLASH_SIZE=0x5a000;RAM_START=0x20002bd0;RAM_SIZE=0xd430"
+      linker_section_placements_segments="FLASH RX 0x0 0x80000;RAM RWX 0x20000000 0x10000"
+      macros="CMSIS_CONFIG_TOOL=../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar"
+      project_directory=""
+      project_type="Executable" />
+    <folder Name="Application">
+      <file file_name="../../common/Commissioning.h" />
+      <file file_name="../../common/NvmDataMgmt.c" />
+      <file file_name="../main.c" />
+      <file file_name="../config/sdk_config.h" />
+    </folder>
+    <folder Name="LmHandler">
+      <file file_name="../../common/LmHandler/packages/FragDecoder.c" />
+      <file file_name="../../common/LmHandler/LmHandler.c" />
+      <file file_name="../../common/LmHandler/LmHandler.h" />
+      <file file_name="../../common/LmHandler/LmHandlerTypes.h" />
+      <file file_name="../../common/LmHandler/packages/LmhpClockSync.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpCompliance.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpFragmentation.c" />
+      <file file_name="../../common/LmHandler/packages/LmhpRemoteMcastSetup.c" />
+    </folder>
+    <folder Name="LoRa\boards\isp4520b-us">
+      <file file_name="../../../../lora/boards/ISP4520B-US/board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/eeprom-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/gpio-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/rtc-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/spi-board.c" />
+      <file file_name="../../../../lora/boards/ISP4520B-US/sx126x-board.c" />
+    </folder>
+    <folder Name="LoRa\boards\mcu">
+      <file file_name="../../../../lora/boards/mcu/utilities.c" />
+    </folder>
+    <folder Name="LoRa\mac">
+      <file file_name="../../../../lora/mac/LoRaMac.c" />
+      <file file_name="../../../../lora/mac/LoRaMacAdr.c" />
+      <file file_name="../../../../lora/mac/LoRaMacClassB.c" />
+      <file file_name="../../../../lora/mac/LoRaMacCommands.c" />
+      <file file_name="../../../../lora/mac/LoRaMacConfirmQueue.c" />
+      <file file_name="../../../../lora/mac/LoRaMacCrypto.c" />
+      <file file_name="../../../../lora/mac/LoRaMacParser.c" />
+      <file file_name="../../../../lora/mac/LoRaMacSerializer.c" />
+      <file file_name="../../../../lora/mac/region/Region.c" />
+      <file file_name="../../../../lora/mac/region/RegionBaseUS.c" />
+      <file file_name="../../../../lora/mac/region/RegionCommon.c" />
+      <file file_name="../../../../lora/mac/region/RegionUS915.c" />
+    </folder>
+    <folder Name="LoRa\peripherals">
+      <file file_name="../../../../lora/peripherals/soft-se/lora_aes.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/lora_cmac.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/se-identity.h" />
+      <file file_name="../../../../lora/peripherals/soft-se/soft-se-hal.c" />
+      <file file_name="../../../../lora/peripherals/soft-se/soft-se.c" />
+    </folder>
+    <folder Name="LoRa\radio">
+      <file file_name="../../../../lora/radio/sx126x/radio.c" />
+      <file file_name="../../../../lora/radio/sx126x/sx126x.c" />
+    </folder>
+    <folder Name="LoRa\system">
+      <file file_name="../../../../lora/system/delay.c" />
+      <file file_name="../../../../lora/system/nvmm.c" />
+      <file file_name="../../../../lora/system/systime.c" />
+      <file file_name="../../../../lora/system/timer.c" />
+    </folder>
+    <folder Name="None">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf52.s" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/ses_startup_nrf_common.s" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/mdk/system_nrf52.c" />
+    </folder>
+    <folder Name="Segger Startup Files">
+      <file file_name="$(StudioDir)/source/thumb_crt0.s" />
+    </folder>
+    <folder Name="UTF8/UTF16 converter">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/utf_converter/utf.c" />
+    </folder>
+    <folder Name="at_lib">
+      <file file_name="../at_lib/at_hal_transport.c" />
+      <file file_name="../at_lib/at_manager.c" />
+      <file file_name="../at_lib/at_phy_uart.c" />
+    </folder>
+    <folder Name="nRF_BLE">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/auth_status_tracker.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_advdata.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_advertising/ble_advertising.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_params.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_conn_state.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/common/ble_srv_common.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatt_cache_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/gatts_cache_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/id_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_gatt/nrf_ble_gatt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/nrf_ble_qwr/nrf_ble_qwr.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_data_storage.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_database.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_id.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/peer_manager_handler.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/pm_buffer.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_dispatcher.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/peer_manager/security_manager.c" />
+    </folder>
+    <folder Name="nRF_BLE_Services">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/ble/ble_services/ble_dis/ble_dis.c" />
+    </folder>
+    <folder Name="nRF_Drivers">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/integration/nrfx/legacy/nrf_drv_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/soc/nrfx_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_clock.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_gpiote.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/prs/nrfx_prs.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_spi.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/modules/nrfx/drivers/src/nrfx_uarte.c" />
+    </folder>
+    <folder Name="nRF_Libraries">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/button/app_button.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_handler_gcc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_error_weak.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fifo/app_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/scheduler/app_scheduler.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/app_timer2.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/uart/app_uart_fifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/app_util_platform.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/crc16/crc16.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/timer/drv_rtc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fds/fds.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/hardfault/hardfault_implementation.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/util/nrf_assert.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_fifo/nrf_atfifo.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic_flags/nrf_atflags.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/atomic/nrf_atomic.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/balloc/nrf_balloc.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/fprintf/nrf_fprintf_format.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/fstorage/nrf_fstorage_sd.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/memobj/nrf_memobj.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/pwr_mgmt/nrf_pwr_mgmt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/ringbuf/nrf_ringbuf.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/experimental_section_vars/nrf_section_iter.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sortlist/nrf_sortlist.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/strerror/nrf_strerror.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/sensorsim/sensorsim.c" />
+    </folder>
+    <folder Name="nRF_Log">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_rtt.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_serial.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_backend_uart.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_default_backends.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_frontend.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/libraries/log/src/nrf_log_str_formatter.c" />
+    </folder>
+    <folder Name="nRF_Segger_RTT">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_Syscalls_SES.c">
+        <configuration Name="Debug" build_exclude_from_build="Yes" />
+      </file>
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/external/segger_rtt/SEGGER_RTT_printf.c" />
+    </folder>
+    <folder Name="nRF_SoftDevice">
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_ble.c" />
+      <file file_name="../../../../nordic_sdk/nRF5_SDK_16.0.0_98a08e2/components/softdevice/common/nrf_sdh_soc.c" />
     </folder>
   </project>
 </solution>

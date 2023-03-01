@@ -57,6 +57,7 @@
 
 #include "at_manager.h"
 #include "board.h"
+#include "version.h"
 
 // Timer & scheduler
 #define APP_TIMER_PRESCALER         0                                           ///<  Value of the RTC1 PRESCALER register.
@@ -405,14 +406,14 @@ static void services_init(void)
     ret_code_t err_code;
     ble_dis_init_t dis_init;
 
-    char hw[2];
-    hw[0] = BoardGetRevision();
-    hw[1] = '\0';
+    char hw_rev[2];
+    hw_rev[0] = BoardGetRevision();
+    hw_rev[1] = '\0';
 
     memset(&dis_init, 0, sizeof(ble_dis_init_t));
     ble_srv_ascii_to_utf8(&dis_init.manufact_name_str,   (char*)MANUFACTURER_NAME);
     ble_srv_ascii_to_utf8(&dis_init.fw_rev_str,          (char*)FW_VERSION_STR);
-    ble_srv_ascii_to_utf8(&dis_init.hw_rev_str,          (char*)hw);
+    ble_srv_ascii_to_utf8(&dis_init.hw_rev_str,          (char*)hw_rev);
 
     dis_init.dis_char_rd_sec = SEC_OPEN;
 
