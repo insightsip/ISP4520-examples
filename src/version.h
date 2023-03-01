@@ -19,7 +19,7 @@
 #ifndef __VERSION_H__
 #define __VERSION_H__
 
-#define FW_VERSION_STR "3.1.10.0"
-#define FW_VERSION 0x0300A000 // 3.1.10.0
+#define FW_VERSION_STR "3.1.11.0"
+#define FW_VERSION 0x0300B000 // 3.1.11.0
 
 #endif
