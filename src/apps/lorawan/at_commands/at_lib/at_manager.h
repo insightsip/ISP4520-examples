@@ -35,6 +35,7 @@ typedef enum
     AT_ERROR_BUSY,
     AT_ERROR_NOT_JOINED,
     AT_ERROR_DUTY_CYCLE,
+    AT_ERROR_NO_CHANNEL_FOUND,
     AT_ERROR_OTHER,
 } at_error_code_t;
 

@@ -89,6 +89,10 @@ do                                                          \
     {                                                       \
         at_error = AT_ERROR_DUTY_CYCLE;                     \
     }                                                       \
+    else if (loramac_error == LORAMAC_STATUS_NO_CHANNEL_FOUND)  \
+    {                                                       \
+        at_error = AT_ERROR_NO_CHANNEL_FOUND;                     \
+    }                                                       \
     else                                                    \
     {                                                       \
         at_error = AT_ERROR_OTHER;                          \
@@ -229,6 +233,7 @@ static const uint8_t *at_error_description[] =
     "ERROR_BUSY\r\n",            /* AT_BUSY_ERROR_BUSY */
     "ERROR_NOT_JOINED\r\n",      /* AT_ERROR_NOT_JOINED */
     "ERROR_DUTY_CYCLE\r\n",      /* AT_ERROR_DUTY_CYCLE */
+    "ERROR_NO_CHANNEL\r\n",      /* AT_ERROR_NO_CHANNEL_FOUND */
     "ERROR\r\n",                 /* AT_MAX */
 };
 
@@ -1192,7 +1197,6 @@ at_error_code_t at_adr_read (const uint8_t *param)
 at_error_code_t at_class_set (const uint8_t *param)
 {
     LmHandlerErrorStatus_t lm_err_code;
-    at_error_code_t at_error;
     uint8_t class_param;
     DeviceClass_t new_class;
 
@@ -1244,6 +1248,7 @@ at_error_code_t at_class_test (const uint8_t *param)
 at_error_code_t at_dr_set (const uint8_t *param)
 {
     uint8_t dr;
+    at_error_code_t at_err_code;
 
     if (sscanf(param, "%u", &dr) != 1)
     {
@@ -1254,6 +1259,13 @@ at_error_code_t at_dr_set (const uint8_t *param)
     {
         return AT_ERROR_PARAM;
     }
+
+    LoRaMacStatus_t status;
+    mibReq.Type = MIB_CHANNELS_DATARATE;
+    mibReq.Param.ChannelsDatarate = dr;
+    status = LoRaMacMibSetRequestConfirm(&mibReq);	
+    CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
+    AT_VERIFY_SUCCESS(at_err_code);
 
     LmHandlerParams.TxDatarate = dr;
 
@@ -1857,38 +1869,10 @@ static void at_conn_hal_transport_event_handle (at_hal_transport_evt_t event)
     }
 }
 
-
-/**@brief Function for handling event from the LMH layer
- *
- * @param[in] type  event type 
- * @param[in] data  event data
- */
-//static void lmh_evt_handler(lmh_evt_type_t type, void *data)
-//{
-//    switch(type)
-//    {
-
-//        case LHM_EVT_RX_ACK:
-//        {
-//            uint8_t m_tx_buffer[10] = "+RXACK\r\n";
-//            at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
-
-//            m_lora_ack_received = true;
-//            NRF_LOG_INFO("Ack received");
-//        } 
-//        break;
-
-
-
-//        default:
-//            break;
-//    }
-//}
-
 /**
  * @brief  List of all supported AT Commands
  */
-static at_command_t at_commands[] =
+static const at_command_t at_commands[] =
 {
     AT_COMMAND_DEF (AT_RESET,       at_reset,               at_error_not_supported, at_error_not_supported),
     AT_COMMAND_DEF (AT_ECHO,        at_echo_set,            at_echo_read,           at_error_not_supported),
@@ -1953,7 +1937,8 @@ uint32_t at_manager_execute()
         }
 
         // Verify that command starts with AT
-        if ((m_rx_buffer[0] != 'A') || (m_rx_buffer[1] != 'T'))
+        if (strncmp(m_rx_buffer, "AT", 2))
+        //if ((m_rx_buffer[0] != 'A') || (m_rx_buffer[1] != 'T'))
         {
             err_code = AT_ERROR_UNKNOWN_CMD;
         }
@@ -1993,7 +1978,7 @@ uint32_t at_manager_execute()
                                 err_code = current_at_command->test(p_data+1);
                             }
                             else if (p_data[1] != '\r' && p_data[1] != '\n')
-                            {
+                            { 
                                 err_code = current_at_command->set(p_data+1);
                             }
                         }
