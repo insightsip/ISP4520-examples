@@ -1314,6 +1314,7 @@ at_error_code_t at_joindly1_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
+    delay =  mibReq.Param.JoinAcceptDelay1;
     sprintf(m_tx_buffer, "%s: %u\r\n", AT_JOINDLY1, delay);
     at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
@@ -1354,6 +1355,7 @@ at_error_code_t at_joindly2_read(const uint8_t *param)
     CONVERT_LORAMAC_TO_AT_ERROR(status, at_err_code);
     AT_VERIFY_SUCCESS(at_err_code);
 
+    delay =  mibReq.Param.JoinAcceptDelay2;
     sprintf(m_tx_buffer, "%s: %u\r\n", AT_JOINDLY2, delay);
     at_hal_transport_tx_pkt_send(m_tx_buffer, strlen(m_tx_buffer));
 
