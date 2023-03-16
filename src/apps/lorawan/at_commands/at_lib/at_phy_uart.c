@@ -46,7 +46,7 @@ static at_phy_evt_t m_at_phy_rx_event;
 void uart_event_handler (app_uart_evt_t * p_event)
 {
     at_phy_evt_t evt;
-    static uint8_t index = 0;
+    static uint16_t index = 0;
     uint32_t       err_code;
 
     switch (p_event->evt_type)
@@ -62,7 +62,7 @@ void uart_event_handler (app_uart_evt_t * p_event)
                 evt.evt_params.rx_pkt_received.num_of_bytes = index;
                 evt.evt_params.rx_pkt_received.p_buffer = m_rx_buffer;
                 m_at_phy_event_handler(evt);
-
+                memset(m_rx_buffer, 0, sizeof(m_rx_buffer));
                 index = 0;
             }
             break;

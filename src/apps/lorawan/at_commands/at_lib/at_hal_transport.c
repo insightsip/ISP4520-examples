@@ -26,9 +26,6 @@
 #include "at_phy.h"
 #include "at_hal_transport.h"
 
-#define AT_HAL_TRANSPORT_TX_MAX_PKT_SIZE    (384UL)
-#define AT_HAL_TRANSPORT_RX_MAX_PKT_SIZE    (384UL)
-
 /**
  * @brief States of the RX state machine.
  */

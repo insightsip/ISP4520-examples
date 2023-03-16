@@ -152,8 +152,8 @@ static int8_t LastSnr = 0;
 static bool m_at_command_ready = false;
 static bool m_lora_ack_received = false;
 static bool m_otaa = false;
-uint8_t m_rx_buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE+MAX_AT_PREFIX_SIZE] = {0};
-uint8_t m_tx_buffer[LORAWAN_APP_DATA_BUFFER_MAX_SIZE+MAX_AT_PREFIX_SIZE] = {0};
+uint8_t m_rx_buffer[512] = {0};
+uint8_t m_tx_buffer[512] = {0};
 static uint8_t m_echo = 0;
 
 static LmHandlerCallbacks_t LmHandlerCallbacks =
@@ -1087,9 +1087,7 @@ at_error_code_t at_send_set(const uint8_t *param)
     uint8_t buffersize = strlen(param);
     uint8_t *p_data = (uint8_t*)param;
     uint32_t is_confirmed;
-    uint32_t port;
-  
-    memcpy(buffer, param, buffersize); 
+    uint32_t port; 
 
     // Check if there is a confirmed/unconfirmed mode and application port
     if (sscanf(param, "%u,%u,", &is_confirmed, &port) != 2)
@@ -1120,6 +1118,8 @@ at_error_code_t at_send_set(const uint8_t *param)
     {
         buffersize = LORAWAN_APP_DATA_BUFFER_MAX_SIZE;
     }
+
+    memcpy(buffer, param, buffersize); 
 
     memcpy(TxAppData.Buffer, (uint8_t *)p_data, buffersize);
     TxAppData.BufferSize = buffersize;
