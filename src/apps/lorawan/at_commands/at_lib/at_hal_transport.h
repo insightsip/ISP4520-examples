@@ -1,8 +1,6 @@
- /******************************************************************************
+/******************************************************************************
  * @file    at_hal_transport.h
  * @author  Insight SiP
- * @version V1.0.0
- * @date    15-may-2019
  * @brief  hal transport upper level
  *
  *
@@ -23,23 +21,20 @@
 #ifndef AT_HAL_TRANSPORT_H__
 #define AT_HAL_TRANSPORT_H__
 
-
 #include <stdint.h>
 
 /**@brief AT HAL Transport layer event types. */
-typedef enum
-{
-    AT_HAL_TRANSP_EVT_TX_PKT_SENT = 0,     /**< An event indicating that TX packet has been transmitted. */
-    AT_HAL_TRANSP_EVT_RX_PKT_RECEIVING,    /**< An event indicating that RX packet is being scheduled to receive or to drop. */
-    AT_HAL_TRANSP_EVT_RX_PKT_RECEIVED,     /**< An event indicating that RX packet is ready for read. */
-    AT_HAL_TRANSP_EVT_RX_PKT_DROPPED,      /**< An event indicating that RX packet was dropped because it was longer than available buffer. */
-    AT_HAL_TRANSP_EVT_PHY_ERROR,           /**< An event indicating error on PHY layer. */
-    AT_HAL_TRANSP_EVT_TYPE_MAX             /**< Enumeration upper bound. */
+typedef enum {
+    AT_HAL_TRANSP_EVT_TX_PKT_SENT = 0,  /**< An event indicating that TX packet has been transmitted. */
+    AT_HAL_TRANSP_EVT_RX_PKT_RECEIVING, /**< An event indicating that RX packet is being scheduled to receive or to drop. */
+    AT_HAL_TRANSP_EVT_RX_PKT_RECEIVED,  /**< An event indicating that RX packet is ready for read. */
+    AT_HAL_TRANSP_EVT_RX_PKT_DROPPED,   /**< An event indicating that RX packet was dropped because it was longer than available buffer. */
+    AT_HAL_TRANSP_EVT_PHY_ERROR,        /**< An event indicating error on PHY layer. */
+    AT_HAL_TRANSP_EVT_TYPE_MAX          /**< Enumeration upper bound. */
 } at_hal_transport_evt_type_t;
 
 /**@brief Serialization PHY layer error types. */
-typedef enum
-{
+typedef enum {
     AT_HAL_TRANSP_PHY_ERROR_RX_OVERFLOW = 0, /**< An error indicating that more information has been transmitted than the PHY module could handle. */
     AT_HAL_TRANSP_PHY_ERROR_TX_OVERREAD,     /**< An error indicating that the PHY module was forced to transmit more information than possessed. */
     AT_HAL_TRANSP_PHY_ERROR_HW_ERROR,        /**< An error indicating a hardware error in the PHY module. */
@@ -50,17 +45,16 @@ typedef enum
  */
 typedef struct
 {
-    uint8_t * p_buffer;         /**< Pointer to a buffer containing a packet to read. */
-    uint16_t  num_of_bytes;     /**< Length of a received packet in octets. */
+    uint8_t *p_buffer;     /**< Pointer to a buffer containing a packet to read. */
+    uint16_t num_of_bytes; /**< Length of a received packet in octets. */
 } at_hal_transport_evt_rx_pkt_received_params_t;
-
 
 /**@brief Struct containing parameters of event of type @ref AT_HAL_TRANSP_EVT_PHY_ERROR. */
 typedef struct
 {
-    at_hal_transport_phy_error_type_t error_type;   /**< Type of the PHY error. */
-    uint32_t hw_error_code;                         /**< Hardware error code - specific for a microcontroller. Parameter
-                                                        is valid only for the PHY error of type @ref AT_HAL_TRANSP_PHY_ERROR_HW_ERROR. */
+    at_hal_transport_phy_error_type_t error_type; /**< Type of the PHY error. */
+    uint32_t hw_error_code;                       /**< Hardware error code - specific for a microcontroller. Parameter
+                                                      is valid only for the PHY error of type @ref AT_HAL_TRANSP_PHY_ERROR_HW_ERROR. */
 } at_hal_transport_evt_phy_error_params_t;
 
 /**@brief Struct containing events from the  HAL Transport layer.
@@ -69,21 +63,19 @@ typedef struct
  */
 typedef struct
 {
-    at_hal_transport_evt_type_t evt_type;   /**< Type of event. */
-    union    /**< Union alternative identified by evt_type in the enclosing struct. */
+    at_hal_transport_evt_type_t evt_type; /**< Type of event. */
+    union                                 /**< Union alternative identified by evt_type in the enclosing struct. */
     {
-        at_hal_transport_evt_rx_pkt_received_params_t  rx_pkt_received; /**< Parameters of event of type @ref AT_HAL_TRANSP_EVT_RX_PKT_RECEIVED. */
-        at_hal_transport_evt_phy_error_params_t        phy_error;       /**< Parameters of event of type @ref AT_HAL_TRANSP_EVT_PHY_ERROR. */
+        at_hal_transport_evt_rx_pkt_received_params_t rx_pkt_received; /**< Parameters of event of type @ref AT_HAL_TRANSP_EVT_RX_PKT_RECEIVED. */
+        at_hal_transport_evt_phy_error_params_t phy_error;             /**< Parameters of event of type @ref AT_HAL_TRANSP_EVT_PHY_ERROR. */
     } evt_params;
 } at_hal_transport_evt_t;
-
 
 /**@brief Generic callback function type to be used by all  HAL Transport layer events.
  *
  * @param[in] event     HAL Transport layer event.
  */
 typedef void (*at_hal_transport_events_handler_t)(at_hal_transport_evt_t event);
-
 
 /**@brief Function for opening and initializing the HAL Transport layer.
  *
@@ -135,6 +127,6 @@ void ser_hal_transport_close(void);
  *                                  allocated by @ref ser_hal_transport_tx_pkt_alloc function.
  * @retval NRF_ERROR_INTERNAL       Operation failure. Internal error ocurred.
  */
-uint32_t at_hal_transport_tx_pkt_send (const uint8_t * p_buffer, uint16_t num_of_bytes);
+uint32_t at_hal_transport_tx_pkt_send(const uint8_t *p_buffer, uint16_t num_of_bytes);
 
 #endif

@@ -45,6 +45,12 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2023-03-14, v3.1.12
+
+- Fix a buffer issue when sending AT commands with a size larger than 256
+- Fix issue with AT+JOINDLY1? and AT+JOINDLY2? commands
+- Add new error code "no channel found"
+
 ### 2023-03-01, v3.1.11
 
 - Add ISP4580 project
