@@ -109,9 +109,9 @@ static void tx_lora_periodic_handler (void * unused)
     // Read data
     temperature_reg = NRF_TEMP->TEMP;
 
-    // Temperature in °C (0.25° steps)
+    // Temperature in C (0.25 steps)
     temperature = temperature_reg * 0.25;
-    NRF_LOG_INFO("Local temperature = "NRF_LOG_FLOAT_MARKER " °C", NRF_LOG_FLOAT(temperature));
+    NRF_LOG_INFO("Local temperature = "NRF_LOG_FLOAT_MARKER " C", NRF_LOG_FLOAT(temperature));
 
     // Send temperature_reg via LoRa
     buffer[0] = 'T';
@@ -187,6 +187,7 @@ int main(void)
     RadioEvents.TxTimeout   = OnRadioTxTimeout;
     RadioEvents.TxDone      = OnRadioTxdone;
     Radio.Init(&RadioEvents);
+    Radio.SetChannel(RF_FREQUENCY);
     Radio.SetTxConfig(MODEM_LORA, TX_OUTPUT_POWER, 0, LORA_BANDWIDTH,
                       LORA_SPREADING_FACTOR, LORA_CODINGRATE,
                       LORA_PREAMBLE_LENGTH, LORA_FIX_LENGTH_PAYLOAD_ON,
@@ -195,8 +196,6 @@ int main(void)
     // Start timer
     app_timer_start(lora_tx_timer_id, APP_TIMER_TICKS(10000), NULL); // Every 10sec
     tx_lora_periodic_handler(NULL);
-
-    Radio.Sleep();
 
     // Enter main loop.
     for (;;)

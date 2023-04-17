@@ -45,6 +45,10 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
+### 2023-04-17, v3.1.13
+
+- Add missing RF frequency configuration in "TX temperature" & "RX temperature" example 
+
 ### 2023-03-14, v3.1.12
 
 - Fix a buffer issue when sending AT commands with a size larger than 256
