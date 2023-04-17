@@ -158,6 +158,7 @@ int main(void)
     RadioEvents.RxError     = OnRadioRxError;
     RadioEvents.RxTimeout   = OnRadioRxTimeout;
     Radio.Init(&RadioEvents);
+    Radio.SetChannel(RF_FREQUENCY);
     Radio.SetRxConfig(MODEM_LORA, LORA_BANDWIDTH, LORA_SPREADING_FACTOR,
                       LORA_CODINGRATE, 0, LORA_PREAMBLE_LENGTH,
                       LORA_SYMBOL_TIMEOUT, LORA_FIX_LENGTH_PAYLOAD_ON,
