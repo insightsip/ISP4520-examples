@@ -45,10 +45,13 @@ The gateways used with the pre-certification tool are the Semtech Picocell SX130
 
 ## Changelog
 
-### 2023-07-19, v3.1.13
+### 2023-07-19, v3.1.14
 
-- Add missing RF frequency configuration in "TX temperature" & "RX temperature" example 
 - Change PA configuration
+
+### 2023-04-17, v3.1.13
+
+- Add missing RF frequency configuration in "TX temperature" & "RX temperature" example
 
 ### 2023-03-14, v3.1.12
 
