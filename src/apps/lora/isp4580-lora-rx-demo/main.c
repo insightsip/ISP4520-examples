@@ -21,7 +21,6 @@
 #include <stdint.h>
 #include <string.h>
 
-// nRF
 #include "app_error.h"
 #include "app_scheduler.h"
 #include "app_timer.h"
@@ -35,7 +34,6 @@
 #include "nrf_sdh_ble.h"
 #include "nrf_serial.h"
 
-// BLE
 #include "ble.h"
 #include "ble_advertising.h"
 #include "ble_conn_params.h"
@@ -44,18 +42,15 @@
 #include "ble_env.h"
 #include "ble_motion.h"
 
-// LoRa
 #include "board.h"
 #include "radio.h"
+#include "version.h"
 
-// logs
 #include "nrf_log.h"
 #include "nrf_log_ctrl.h"
 #include "nrf_log_default_backends.h"
 
-#define FW_VERSION "3.1.8.1"
 #define HW_REVISION "C"
-#define FIRMWARE_VERSION 0x03010800                               // 3.1.8.0
 #define SCHED_MAX_EVENT_DATA_SIZE APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE 60                                       /**< Maximum number of events in the scheduler queue. */
 #define APP_TX_DUTYCYCLE 10000                                    /**< Data transmission duty cycle in ms. */
