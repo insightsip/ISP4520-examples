@@ -59,7 +59,6 @@
 #include "nrf_log_default_backends.h"
 
 #define HW_REVISION "C"
-#define FIRMWARE_VERSION 0x03010800                               // 3.1.8.0
 #define SCHED_MAX_EVENT_DATA_SIZE APP_TIMER_SCHED_EVENT_DATA_SIZE /**< Maximum size of scheduler events. */
 #define SCHED_QUEUE_SIZE 60                                       /**< Maximum number of events in the scheduler queue. */
 #define APP_TX_DUTYCYCLE 10000                                    /**< Data transmission duty cycle in ms. */
