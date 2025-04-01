@@ -533,7 +533,7 @@ static void services_init(void) {
 
     // Initialize Device Information Service.
     memset(&dis_init, 0, sizeof(dis_init));
-    ble_srv_ascii_to_utf8(&dis_init.fw_rev_str, (char *)FW_VERSION);
+    ble_srv_ascii_to_utf8(&dis_init.fw_rev_str, (char *)FW_VERSION_STR);
     ble_srv_ascii_to_utf8(&dis_init.hw_rev_str, (char *)HW_REVISION);
     dis_init.dis_char_rd_sec = SEC_OPEN;
     err_code = ble_dis_init(&dis_init);
